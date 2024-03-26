@@ -1,0 +1,153 @@
+﻿body {
+    height: 100%;
+    background-color: #e5e5e5;
+}
+
+#rightMenu {
+    background-color: #e5e5e5;
+    z-index: 10;
+    margin: 10px 10px 0px 10px;
+    border-radius: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: black;
+    height: 97%;
+    width: 0px;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    -webkit-box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.4);
+    -moz-box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.4);
+    box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.4);
+}
+
+.rightMenuButton2 {
+    position: relative;
+    left: 5%;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #f0f0f0;
+    color: #5555FF;
+    font-size: 12pt;
+    width: 90%;
+    height: 45px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    transition: all 0.05s ease-in-out;
+}
+    .rightMenuButton2:hover {
+        background-color: #9C9CFF;
+        color: #f0f0f0;
+    }
+
+    .rightMenuButton2:active {
+        background-color: #4a47d0;
+        color: #f0f0f0;
+        transform: scale(0.95);
+    }
+
+.miniprofile-name-text {
+    position: relative;
+    top: -10px;
+    font-weight: bold;
+}
+
+#userPrem {
+    position: relative;
+    top: -20px;
+}
+
+#userSurname {
+    position: relative;
+    top: -20px;
+    margin-left: 0px;
+}
+
+/*#region start*/
+/*user profile*/
+#userMiniProfileInfo {
+    margin-left: 15px;
+}
+
+#userExitProfile {
+    position: relative;
+    left: 20px;
+    top: -20px;
+    /*background-color: green;*/
+    width: 55px;
+    height: 50px;
+    border: 0px solid;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#rmUpSector {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-auto-rows: minmax(100px, auto);
+}
+
+#miniProfileImg {
+    grid-row: 1;
+    grid-column: 1;
+    position: relative;
+    background-color: white;
+    left: 60%;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    margin-left: 10px;
+    margin-top: 10px
+}
+
+#closeMenuButton {
+    grid-row: 1;
+    grid-column: 2;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    color: #5555FF;
+    font-size: 15pt;
+    left: 70%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3.0px);
+    -webkit-backdrop-filter: blur(3.0px);
+    border: 1px solid rgba(255, 255, 255, 0.44);
+    transition: all 5ms ease-in-out;
+    -webkit-box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.2);
+    box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.2);
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 10px
+}
+
+    #closeMenuButton:hover {
+        background: rgba(255, 255, 255, 0);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(3.5px);
+        -webkit-backdrop-filter: blur(3.5px);
+        border: 1px solid rgba(255, 255, 255, 0.44);
+    }
+
+    #closeMenuButton:active {
+        transform: scale(0.85);
+    }
+
+.buttons-container {
+    height: auto;
+}
+
+.menu-buttons {
+    height: 50%;
+    overflow-y: scroll;
+}
+
+    .menu-buttons::-webkit-scrollbar {
+        width: 0;
+    }
+/*#endregion end*/

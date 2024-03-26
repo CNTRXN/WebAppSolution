@@ -1,0 +1,88 @@
+﻿@using WebApp.Models.DTO
+@using WebApp.Models.EquipData;
+@using WebApp.Models.UserData;
+@using WebApp.Settings;
+@using WebApp.Models;
+@using System.Collections;
+@model UserDTO;
+
+@{
+    Layout = "_Main";
+    ViewData["Title"] = "Главная страница";
+
+    var userModel = Model;//ViewData["UserModel"] as UserDTO;
+
+    var userIsAuth = Context.User.Identity != null && Context.User.Identity.IsAuthenticated;
+}
+
+@* @section RightMenu {
+    <div id="rmMiniProfile">
+        <div>
+            <div id="rmUpSector">
+                @{
+                    if (userIsAuth)
+                    {
+                        <img class="hidden-elem" id="miniProfileImg" />
+                    }
+                }
+
+                <button id="closeMenuButton">≡</button>
+            </div>
+            @{
+                if (userIsAuth)
+                {
+                    <div class="hidden-elem" id="userMiniProfileInfo">
+                        
+                        <div>
+                            <p class="miniprofile-name-text" id="userName">@userModel?.Name</p>
+                            <p class="miniprofile-name-text" id="userSurname">@userModel?.Surname</p>
+                        </div>
+                        <p id="userPrem">@userModel?.PermissionName</p>
+                    </div>
+
+                    <div class="hidden-elem buttons-container">
+                        <button class="rightMenuButton2" id="rmEditProfile">Редактировать</button>
+                        <button class="rightMenuButton2" id="rmExitProfile" action="/logout">Выйти</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="hidden-elem buttons-container">
+                        <button class="rightMenuButton2" id="rmExitProfile" onclick="window.location = '@Url.Action("AuthAndReg","Account")'">Войти</button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <hr class="hidden-elem" />
+    <div class="hidden-elem menu-buttons">
+        <div class="buttons-container" id="unstableButtons">
+            <button class="rightMenuButton2">Заявки</button>
+            <button class="rightMenuButton2" onclick="window.location = '@Url.Action("CabList","Data")'">Кабинеты</button>
+            <button class="rightMenuButton2"></button>
+            <button class="rightMenuButton2"></button>
+        </div>
+        <hr />
+        <div class="buttons-container" id="constantButtons">
+            <button class="rightMenuButton2" onclick="window.location = '@Url.Action("About","Info")'">About</button>
+            <button class="rightMenuButton2" onclick="window.location = '@Url.Action("Login","Account")'">LoginPage</button>
+            <button class="rightMenuButton2" onclick="window.location = '@Url.Action("Registration","Account")'">Registration</button>
+            <button class="rightMenuButton2" onclick="window.location = '@Url.Action("CabInfo","Data")'" disabled>Cabinet Info</button>
+            <button class="rightMenuButton" />
+            <button class="rightMenuButton" />
+            <button class="rightMenuButton" />
+            <button class="rightMenuButton" />
+            <button class="rightMenuButton" />
+            <button class="rightMenuButton" />
+            <button class="rightMenuButton" />
+            <button class="rightMenuButton" />
+            <button class="rightMenuButton" />
+            <button class="rightMenuButton" />
+            <button class="rightMenuButton" />
+        </div>
+    </div>
+
+    <template id="defButton">
+        <button id="rightMenuButton" />
+    </template>
+} *@

@@ -1,0 +1,20 @@
+﻿.defaultButton {
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #f0f0f0;
+    color: #5555FF;
+    -webkit-box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.3);
+    -moz-box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.3);
+    box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.3);
+}
+
+    .defaultButton:hover {
+        background-color: #9C9CFF;
+        color: #f0f0f0;
+    }
+
+    .defaultButton:active {
+        background-color: #4a47d0;
+        color: #f0f0f0;
+    }

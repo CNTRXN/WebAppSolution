@@ -1,0 +1,81 @@
+﻿@using WebApp.Models.DTO
+@model UserDTO; 
+
+@{
+    var userModel = Model;//ViewData["UserModel"] as UserDTO;
+
+    var userIsAuth = Context.User.Identity != null && Context.User.Identity.IsAuthenticated && userModel != null;
+}
+
+<div id="rightMenu">
+    <div id="rmMiniProfile">
+        <div>
+            <div id="rmUpSector">
+                @{
+                    if (userIsAuth)
+                    {
+                        <img class="hidden-elem" id="miniProfileImg" />
+                    }
+                }
+                <button id="closeMenuButton">≡</button>
+            </div>
+            @{
+                if (userIsAuth)
+                {
+                    <div class="hidden-elem" id="userMiniProfileInfo">
+
+                        <div>
+                            <p class="miniprofile-name-text" id="userName">@userModel?.Name</p>
+                            <p class="miniprofile-name-text" id="userSurname">@userModel?.Surname</p>
+                        </div>
+                        <p id="userPrem">@userModel?.PermissionName</p>
+                    </div>
+
+                    <div class="hidden-elem buttons-container">
+                        <button class="rightMenuButton2" id="rmEditProfile">Редактировать</button>
+                        <button class="rightMenuButton2" id="rmExitProfile" onclick="window.location = '../logout'">Выйти</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="hidden-elem buttons-container">
+                        <button class="rightMenuButton2" id="rmEnterProfile" onclick="window.location = '../auth'">Войти</button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <hr class="hidden-elem" />
+    <div class="hidden-elem menu-buttons">
+        <div class="buttons-container" id="unstableButtons">
+            <button class="rightMenuButton2" onclick="window.location = '/'">Главная</button>
+            @{
+                if (userIsAuth)
+                {
+                    if (Context.User.IsInRole("Пользователь"))
+                    {
+                        <button class="rightMenuButton2">Заявки</button>
+                        <button class="rightMenuButton2" onclick="window.location = '../cabinets'">Кабинеты</button>
+                    }
+                }
+            }
+        </div>
+        <hr />
+        <div class="buttons-container" id="constantButtons">
+            <button class="rightMenuButton2" onclick="window.location = '@Url.Action("About","Info")'">About</button>
+            <button class="rightMenuButton2" onclick="window.location = '@Url.Action("Login","Account")'">LoginPage</button>
+            <button class="rightMenuButton2" onclick="window.location = '@Url.Action("Registration","Account")'">Registration</button>
+            <button class="rightMenuButton2" onclick="window.location = '@Url.Action("CabInfo","Data")'" disabled>Cabinet Info</button>
+        </div>
+    </div>
+
+    <template id="defButton">
+        <button id="rightMenuButton" />
+    </template>
+</div>
+
+@section RMScripts
+{
+    <link href="~/css/RightMenu.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/RightMenu.js" type="text/javascript"></script>
+}

@@ -1,0 +1,70 @@
+﻿@using WebApp.Models;
+
+@{
+    Layout = "_AuthAndReg";
+
+    //var result = (Model.IsStartModel) ? null : ViewData["AuthAndReg_Model"] as AuthAndRegResult;
+
+    var error = TempData["errorMessage"] as string;
+    var succesful = TempData["succesfulMessage"] as string;
+}
+
+@section LogAndRegForm 
+{
+    @{
+        if (!string.IsNullOrEmpty(error))
+        {
+            <script>
+                alert('@error');
+            </script>
+        }
+        else if (!string.IsNullOrEmpty(succesful))
+        {
+            <script>
+                alert('@succesful');
+            </script>
+        }
+    }
+    <div id="log-reg-form">
+        <div id="log-reg-form-buttons">
+            <button id="to-sign-in">Вход</button>
+            <button id="to-sign-up">Регистрация</button>
+
+            <div id="button-background"></div>
+        </div>
+        <div id="log-reg-content">
+            <div id="log-reg-forms">
+                <form id="login" method="post" action="/login">
+                    <div>
+                        <p>Логин</p>
+                        <input type="text" name="Login"/>
+                        <p>Пароль</p>
+                        <input type="text" name="Password" />
+                    </div>
+
+                    <input type="submit" value="Войти" />
+                </form>
+                <form id="reg" method="post" action="/registration">
+                    <div>
+                        <p>Имя*</p>
+                        <input type="text" name="Name" />
+                        <p>Фамилия*</p>
+                        <input type="text" name="Surname" />
+                        <p>Отчество</p>
+                        <input type="text" name="Patronymic" />
+                        <p>Дата рождения*</p>
+                        <input type="date" name="Birthday" />
+                        <p>Логин*</p>
+                        <input type="text" name="Login" />
+                        <p>Пароль*</p>
+                        <input type="text" name="Password" />
+                        <p>Повторите пароль*</p>
+                        <input type="text" name="rpassword" />
+                    </div>
+
+                    <input type="submit" value="Зарегистрироваться" />
+                </form>
+            </div>
+        </div>
+    </div>
+}

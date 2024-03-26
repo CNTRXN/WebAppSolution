@@ -1,0 +1,55 @@
+﻿#errorContainer {
+    display: grid;
+    grid-template-rows: 60% 20% 20%;
+    grid-template-columns: 1fr;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    user-select: none;
+    position: fixed;
+    height: 500px;
+    left: 10%;
+    top: 10%
+}
+
+    #errorContainer > #errorCode {
+        grid-row: 1;
+        font-size: 175pt;
+        margin: 0;
+    }
+
+
+    #errorContainer > #errorDesc {
+        grid-row: 2;
+        font-size: 40pt;
+        margin: 0;
+    }
+
+    #errorContainer > button {
+        grid-row: 3;
+        margin: 0;
+        width: 500px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 18pt;
+        cursor: pointer;
+        border-radius: 5px;
+        border: none;
+        background-color: #f0f0f0;
+        color: #5555FF;
+        -webkit-box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.3);
+        -moz-box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.3);
+        box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.3);
+        transition: all 0.05s ease-in-out;
+    }
+
+        #errorContainer > button:hover {
+            background-color: #9C9CFF;
+            color: #f0f0f0;
+        }
+
+        #errorContainer > button:active {
+            background-color: #4a47d0;
+            color: #f0f0f0;
+            transform: scale(0.95);
+        }

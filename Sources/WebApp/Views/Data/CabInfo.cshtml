@@ -1,0 +1,150 @@
+﻿@using WebApp.Models.EquipData;
+@using WebApp.Models.UserData;
+@using WebApp.Settings;
+@using WebApp.Models;
+@using System.Collections;
+
+@model CabInfoPage;
+
+@{
+    Layout = "_CabInfo";
+
+    var tableData = ViewData["TableData"];
+
+    TranslateMetadata<IMetaData> equipmentMeta = new();
+    equipmentMeta.Assign<Equipment>();
+
+}
+
+@section CabInfo {
+    <div id="cab-info-container" data-id="@Model.Cabinet.Id">
+        <div id="main-cab-info">
+            <div id="cab-text-info">
+                <p id="num">@Model.Cabinet.Num</p>
+                <p id="planNum">@Model.Cabinet.PlanNum</p>
+                <p id="group">@Model.Cabinet.Group</p>
+                <p id="floor">@Model.Cabinet.Floor</p>
+                <p id="height">@Model.Cabinet.Height</p>
+                <p id="length">@Model.Cabinet.Length</p>
+                <p id="width">@Model.Cabinet.Width</p>
+                <p id="squareFloor">@Model.Cabinet.SquareFloor</p>
+                <p id="squereWall1">@Model.Cabinet.SquareWall_1</p>
+                <p id="squereWall2">@Model.Cabinet.SquareWall_2</p>
+            </div>
+            <div id="cab-info-buttons">
+                <button class="defaultButton" title="edit-cab-info" id="cab-info-edit" onclick="switchEditMode()">
+                    ✎
+                </button>
+            </div>
+        </div>
+
+        <div id="cab-photos">
+            <img class="skeleton" />
+            <img class="skeleton" />
+            <img class="skeleton" />
+            <img class="skeleton" />
+            @* <img title="img-1" />
+            <img title="img-2" />
+            <img title="img-3" /> *@      
+        </div>
+
+        <div id="cab-select-info"></div>
+
+        <div id="table-data-view">
+            <div id="main-table">
+                <div id="table-meta-data">
+                    <div id="tableTitleContainer">
+                        <p id="tableTitle">
+                            @equipmentMeta.TableName
+                        </p>
+                        <form method="post" action="/equip-search">
+                            <input type="search" id="search-data" name="searchField" placeholder="Поиск..." value="@Model.SearchQuery"/>
+                        </form>
+                    </div>
+                    <div id="tableHeader">
+                        @{
+                            int i = 0;
+
+                            int itemHeaderWidth = (int)(100 / equipmentMeta.PropsCount);
+
+                            foreach (var item in equipmentMeta.PropName)
+                            {
+                                    <button class="table-header"
+                                            id="table-header-@i"
+                                            style="width: @itemHeaderWidth%">
+                                        @item.Value
+                                    </button>
+                                i++;
+                            }
+
+                            i = 0;
+                        }
+                    </div>
+                </div>
+                <div id="tableContainer">
+                    @{
+                        DrawTable();
+
+                        void DrawTable()
+                        {
+                            int j = 0;
+                            int h = 0;
+
+                            foreach (var eqiup in Model.Equipments)
+                            {
+                                var id = h + 1;
+                                
+                                <div class="tableItem" id="table-item-@h" data-id="@id">
+                                @{
+                                    foreach (var prop in eqiup.GetType().GetProperties())
+                                    {
+                                        <p class="table-prop-name"
+                                           id="table-item-@prop.Name"
+                                           style="width: @itemHeaderWidth%">
+                                           @prop.GetValue(eqiup, null)
+                                        </p>
+                                           
+                                        j++;
+                                    }
+                                }
+                                </div>
+                                
+                                j = 0;
+                                h++;
+                            }
+
+                            h = 0;
+                        }
+                    }
+                </div>
+                <div id="table-usings">
+                    <button class="defaultButton" id="add-button">
+                        +
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="show-image-list">
+        <div id="black-screen-img-list"></div>
+        <div id="image-list-form">
+            <div id="image-list-meta">
+                <p id="image-list-meta-name">
+                    Фотографии
+                </p>
+                <button id="image-list-close" class="defaultButton" onclick="closeImageForm()">
+                    X
+                </button>
+            </div>
+            <div id="image-list">
+            </div>
+        </div>
+    </div>
+
+    <template id="show-image-form-button">
+        <button class="defaultButton" type="button" title="show-more-photos" onclick="openImageForm(@Model.Cabinet.Id)">
+            +
+        </button>
+    </template>
+}

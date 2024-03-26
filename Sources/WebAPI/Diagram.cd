@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WebAPI.Controllers.AccountController">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Controllers.CabinetController">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAJAAAAAAgAAAAAAAAAAAAAAAAAAQAAIA=</HashCode>
+      <FileName>Controllers\CabinetController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Controllers.EncryptingController">
+    <Position X="3.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\EncryptingController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Controllers.EquipmentController">
+    <Position X="9" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAIAAAAAgBAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\EquipmentController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Controllers.FileController">
+    <Position X="3.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAABIAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Controllers\FileController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Controllers.PermissionController">
+    <Position X="10.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAEAAABAAAAAAAAAAAAAAAAAAQAAAAAAAAAIg=</HashCode>
+      <FileName>Controllers\PermissionController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Controllers.UserController">
+    <Position X="12.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAIAAAABAAEAAAAAAAAAAAAAAAgAAAAAAEAAAA=</HashCode>
+      <FileName>Controllers\UserController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.DTO.CabinetDTO">
+    <Position X="12.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAkAABAAAAAgAAAAAAEBAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>DataContext\DTO\CabinetDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.DTO.EquipmentDTO">
+    <Position X="10.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>DataContext\DTO\EquipmentDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.DTO.NewUserDTO">
+    <Position X="7.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAEAAAAAAAQABAAIAAACAAAQAAAAAAA=</HashCode>
+      <FileName>DataContext\DTO\NewUserDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.DTO.PermissionDTO">
+    <Position X="12.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataContext\DTO\PermissionDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.DTO.UserDTO">
+    <Position X="10.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAAAAAACAAAAAAAQABAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataContext\DTO\UserDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.Models.AccountStat">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAEAAAAAAAAgAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataContext\Models\AccountStat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.Models.CabEquipment">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAAAAAAAAAAAAAAAASACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataContext\Models\CabEquipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.Models.Cabinet">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IABDAkAABAAAAAgQAAAAAEBAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>DataContext\Models\Cabinet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.Models.CabPhoto">
+    <Position X="3.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAgAAABAAAAAICACAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>DataContext\Models\CabPhoto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.Models.Equipment">
+    <Position X="7.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACABAAAAAgAAAAAAAAAAQAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>DataContext\Models\Equipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.Models.EquipmentType">
+    <Position X="12.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataContext\Models\EquipmentType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.Models.Permission">
+    <Position X="9" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataContext\Models\Permission.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.Models.Request">
+    <Position X="5.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAggEAAAEAAAACACBAAAAEAAgAAAAAEAAA=</HashCode>
+      <FileName>DataContext\Models\Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.Models.User">
+    <Position X="9" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAAAAAAAAAAAEAAQABAAoAAACAAAQAAAAAAA=</HashCode>
+      <FileName>DataContext\Models\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.DataContext.DB_Context">
+    <Position X="7.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAgQAACCAAAAAAEEAAAAAAEAAAABAAAgA=</HashCode>
+      <FileName>DataContext\DB_Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.EncryptingData.EncData">
+    <Position X="10.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABACAAAAAAAAAAA=</HashCode>
+      <FileName>EncryptingData\EncData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.EncryptingData.Encrypting">
+    <Position X="12.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAQAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EncryptingData\Encrypting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Migrations.DB">
+    <Position X="5.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAI=</HashCode>
+      <FileName>Migrations\20240323092804_DB.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Migrations.DB_ContextModelSnapshot">
+    <Position X="9" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Migrations\DB_ContextModelSnapshot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Models.FileUploadModel">
+    <Position X="5.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEEAAAAAAAAAJAAAA=</HashCode>
+      <FileName>Models\FileUploadModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Other.EqualEntity">
+    <Position X="5.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Other\EqualEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebAPI.Program">
+    <Position X="3.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="WebAPI.Controllers.TargetType">
+    <Position X="7.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Controllers\FileController.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WebAPI.Controllers.FileType">
+    <Position X="5.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\FileController.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

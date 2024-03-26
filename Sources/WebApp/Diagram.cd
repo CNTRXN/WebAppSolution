@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WebApp.Attributes.AlternativeName">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\AlternativeName.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Controllers.AccountController">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAIAAAAAAAAAAAAAAAAAAAAAQEAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Controllers.DataController">
+    <Position X="11.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAgAAQAAAAAAAAAAAAAAAAAAAIAEAAAAIAAAA=</HashCode>
+      <FileName>Controllers\DataController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Controllers.ErrorController">
+    <Position X="8" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\ErrorController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Controllers.InfoController">
+    <Position X="13.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\InfoController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Controllers.MainPageController">
+    <Position X="6.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Controllers\MainPageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.DTO.CabinetDTO">
+    <Position X="6.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACAkAABAAAAAgAAAAAAEBAAAAAIAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\DTO\CabinetDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.DTO.CabInfoDTO">
+    <Position X="8" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DTO\CabInfoDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.DTO.NewUserDTO">
+    <Position X="8" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAEAAAAAAAQABAAIAAACAAAQAAAAAAA=</HashCode>
+      <FileName>Models\DTO\NewUserDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.DTO.UserDTO">
+    <Position X="9.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAAAAAACAAAAAAAQABAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DTO\UserDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.DTO.UserRegDTO">
+    <Position X="11.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAQABAAIAAACAAAQAAAAAAA=</HashCode>
+      <FileName>Models\DTO\UserRegDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.EquipData.Cabinet" BaseTypeListCollapsed="true">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IABCAkAABAAAAAgQAAAAAEBAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\EquipData\Cabinet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WebApp.Models.EquipData.Equipment" BaseTypeListCollapsed="true">
+    <Position X="13.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Models\EquipData\Equipment.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WebApp.Models.EquipData.EquipmentType">
+    <Position X="6.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\EquipData\EquipmentType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.UserData.Permission">
+    <Position X="9.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\UserData\Permission.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.UserData.Request">
+    <Position X="13.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACQAAAAAAgAEAAAEAAAAAAABAAAAAAAgAAAAAEAAA=</HashCode>
+      <FileName>Models\UserData\Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.UserData.User">
+    <Position X="8" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAAAAAAAAAAAEAAQABAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\UserData\Users.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.AuthAndRegResult">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\AuthAndRegResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.CabInfoPage">
+    <Position X="9.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Models\CabInfoPage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.ErrorMessage">
+    <Position X="9.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAA=</HashCode>
+      <FileName>Models\ErrorMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Models.ErrorViewModel">
+    <Position X="11.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ErrorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Settings.AppStatics">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Settings\AppStatics.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Settings.TranslateMetadata&lt;T&gt;">
+    <Position X="6.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQQQAAAIAQAAAAAAAAAAAAAAAAAAQAEAQAAAAA=</HashCode>
+      <FileName>Settings\TranslateMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApp.Program">
+    <Position X="11.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="WebApp.Models.IMetaData">
+    <Position X="9.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IMetaData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="WebApp.Models.SendFormStatus">
+    <Position X="9.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAEAQAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Models\AuthAndRegResult.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

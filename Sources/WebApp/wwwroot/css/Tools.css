@@ -1,0 +1,28 @@
+﻿.hidden-elem {
+    visibility: hidden;
+}
+
+.center-element-horizontal {
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    margin-right: -50%;
+    transform: translate(-50%, 0%);
+}
+
+.center-element-vertical {
+    position: relative;
+    top: 50%;
+    margin: 0;
+    margin-bottom: -50%;
+    transform: translate(0%, -50%);
+}
+
+.center-element-vertical-n-horizontal {
+    position: relative;
+    left: 50%;
+    top: 100px;
+    margin-right: -50%;
+    margin-bottom: -50%;
+    transform: translate(-50%, 0%);
+}

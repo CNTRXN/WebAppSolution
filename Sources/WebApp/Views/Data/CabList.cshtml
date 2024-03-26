@@ -1,0 +1,50 @@
+﻿@using WebApp.Models
+@using WebApp.Models.EquipData
+@using WebApp.Settings
+@model List<Cabinet>;
+
+@{
+    Layout = "_CabList";
+
+    TranslateMetadata<IMetaData> meta = new();
+    meta.Assign<Cabinet>();
+}
+
+@section CabTable {
+    <table>
+        <tr>
+            @meta.TableName
+        </tr>
+        <tr>
+            @{
+                foreach (var header in meta.PropName)
+                {
+                    <th>@header.Value</th>
+                }
+                <th></th>
+            }
+        </tr>
+            @{
+                foreach(var cabinet in Model)
+                {
+                    <tr>
+                        <td>@cabinet.Id</td>
+                        <td>@cabinet.Num</td>
+                        <td>@cabinet.PlanNum</td>
+                        <td>@cabinet.ResponsiblePerson</td>
+                        <td>@cabinet.Group</td>
+                        <td>@cabinet.Floor</td>
+                        <td>@cabinet.Height</td>
+                        <td>@cabinet.Length</td>
+                        <td>@cabinet.Width</td>
+                        <td>@cabinet.SquareFloor</td>
+                        <td>@cabinet.SquareWall_1</td>
+                        <td>@cabinet.SquareWall_2</td>
+                        <td>
+                            <button onclick="window.location = '../cabinets/cabientId=@cabinet.Id'">Перейти</button>
+                        </td>
+                    </tr>
+                }    
+            }      
+    </table>
+}
