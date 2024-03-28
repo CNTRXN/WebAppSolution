@@ -5,9 +5,9 @@ namespace WebAPI.Services
 {
     public interface ICabinetService
     {
-        Task<IEnumerable<Cabinet>> GetCabinets();
+        Task<IEnumerable<CabinetDTO>> GetCabinets();
         Task<Cabinet?> GetCabinet(int id);
-        Task<Cabinet?> AddCabinet(CabinetDTO cabinet);
+        Task<Cabinet?> AddCabinet(NewCabinetDTO newCabinet);
         Task<bool> DeleteCabinet(int id);
     }
 }

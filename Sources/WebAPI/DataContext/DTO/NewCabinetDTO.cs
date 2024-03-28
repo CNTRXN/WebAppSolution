@@ -1,11 +1,10 @@
 ﻿namespace WebAPI.DataContext.DTO
 {
-    public class CabinetDTO
+    public class NewCabinetDTO
     {
-        public int Id { get; set; }
         public int Num { get; set; }//Номер кабиента
         public int PlanNum { get; set; }//Номер кабинета по плану
-        public UserDTO? ResponsiblePerson { get; set; }
+        public int ResponsiblePersonId { get; set; }//Заведующий кабинетом
         public int Group { get; set; }//
         public int Floor { get; set; }//Этаж
         public double Height { get; set; }//Высота

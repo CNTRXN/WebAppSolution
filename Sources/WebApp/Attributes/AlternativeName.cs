@@ -13,7 +13,7 @@ namespace WebApp.Attributes
 
         public AlternativeName() 
         {
-            
+            Name = string.Empty;
         }
 
         public AlternativeName(string name) 
@@ -21,9 +21,9 @@ namespace WebApp.Attributes
             Name = name;
         }
 
-        public AlternativeName(string name, string lang)
+        /*public AlternativeName(string name, string lang)
         {
             Name = name;
-        }
+        }*/
     }
 }

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using WebApp.Models;
+using WebApp.Models.DTO;
 using WebApp.Models.EquipData;
 using WebApp.Settings;
 
@@ -37,7 +36,7 @@ namespace WebApp.Controllers
         [Authorize(Roles = "Пользователь")]
         public async Task<IActionResult> CabList()
         {
-            var cabs = await apiHttpClient.GetFromJsonAsync<List<Cabinet>>("api/Cabinet/all");
+            var cabs = await apiHttpClient.GetFromJsonAsync<List<CabinetDTO>>("api/Cabinet/all");
 
             return View(cabs);
         }

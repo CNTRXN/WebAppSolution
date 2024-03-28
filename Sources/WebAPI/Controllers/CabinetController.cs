@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
 
         //Добавление нового кабинета
         [HttpPost("new")]
-        public async Task<IActionResult> AddNewCabinet([FromBody] CabinetDTO newCabinet) 
+        public async Task<IActionResult> AddNewCabinet([FromBody] NewCabinetDTO newCabinet) 
         {
             var cabinet = await _cabinetService.AddCabinet(newCabinet);
 

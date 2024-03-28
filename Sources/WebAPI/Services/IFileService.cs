@@ -2,6 +2,6 @@
 {
     public interface IFileService
     {
-        Task<IEnumerable<string>> GetImages(int cabId);
+        Task<IEnumerable<string>> GetFiles(int cabId);
     }
 }

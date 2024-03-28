@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.DataContext;
 using WebAPI.DataContext.DTO;
 using WebAPI.DataContext.Models;
-using WebAPI.EncryptingData;
 using WebAPI.Services;
 
 namespace WebAPI.Controllers

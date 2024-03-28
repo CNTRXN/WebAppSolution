@@ -49,6 +49,7 @@ namespace WebApp.Settings
 
         private void Translate() 
         {
+            //Имя таблицы
             Type?.GetCustomAttributes(true).ToList().ForEach(attr => 
             {
                 if (attr is AlternativeName name)
@@ -56,24 +57,86 @@ namespace WebApp.Settings
             });
             TableName ??= Type?.Name;
 
+            //Значения
             Type?.GetProperties().ToList().ForEach(prop => 
             {
                 bool isHaveAttr = false;
 
-                prop.GetCustomAttributes(true).ToList().ForEach(attr => 
-                {
-                    if (attr is AlternativeName name) 
-                    {
-                        PropName.Add(name.Name, name.Name);
-                        isHaveAttr = true;
-                    }  
-                });
+                var propertyAttrs = prop.GetCustomAttributes(true).ToList();
 
+                foreach (var attr in propertyAttrs) 
+                {
+                    //Если есть аттрибут InclusionInHeader:
+                    //Include - будет в шапке
+                    //NotInclude - не будет в шапке
+                    if (attr is InclusionInHeader inclusion)
+                    {
+                        if (inclusion.HeaderInclusion == HeaderInclusion.NotInclude)
+                        {   
+                            if (PropName.Any(pn => pn.Key == prop.Name))
+                                PropName.Remove(prop.Name);
+
+                            isHaveAttr = true;
+
+                            break;
+                        }
+                    }
+
+                    //Если есть атрибут AlternativeName, то ИМЯ по значению атрибута
+                    if (attr is AlternativeName name)
+                    {
+                        PropName.Add(prop.Name, name.Name);
+                        isHaveAttr = true;
+                    }
+                }
+
+                //Если нет атрибута AlternativeName, то ИМЯ по названию свойства
                 if (!isHaveAttr)
                     PropName.Add(prop.Name, prop.Name);
 
                 isHaveAttr = false;
             });
+        }
+
+        public Dictionary<string, TableValueResult>? GetValues<ConT>(ConT convObj, bool withoutCheck = false) 
+        {
+            if(!withoutCheck)
+                if (convObj?.GetType() != Type)
+                    return null;
+
+            var properties = convObj?.GetType()
+                .GetProperties()
+                .ToList();
+
+            Dictionary<string, TableValueResult> includedValues = [];
+
+            foreach (var prop in properties ?? []) 
+            {
+                var propertyAttrs = prop.GetCustomAttributes(true).ToList();
+
+                bool include = true;
+
+                foreach (var attr in propertyAttrs)
+                {
+                    if (attr is InclusionInHeader inclusion)
+                    {
+                        if (inclusion.HeaderInclusion == HeaderInclusion.NotInclude)
+                        {
+                            include = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (include)
+                    includedValues.Add(prop.Name, new() 
+                    {
+                        IsClass = prop.PropertyType.IsClass,
+                        Reference = prop.GetValue(convObj)
+                    });
+            }
+
+            return includedValues;
         }
 
         public void Assign<B>()

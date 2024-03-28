@@ -1,13 +1,15 @@
 ﻿@using WebApp.Models
 @using WebApp.Models.EquipData
-@using WebApp.Settings
-@model List<Cabinet>;
+@using WebApp.Settings;
+@using WebApp.Models.DTO;
+
+@model List<CabinetDTO>;
 
 @{
     Layout = "_CabList";
 
     TranslateMetadata<IMetaData> meta = new();
-    meta.Assign<Cabinet>();
+    meta.Assign<CabinetDTO>();
 }
 
 @section CabTable {
@@ -24,27 +26,41 @@
                 <th></th>
             }
         </tr>
-            @{
-                foreach(var cabinet in Model)
-                {
-                    <tr>
-                        <td>@cabinet.Id</td>
-                        <td>@cabinet.Num</td>
-                        <td>@cabinet.PlanNum</td>
-                        <td>@cabinet.ResponsiblePerson</td>
-                        <td>@cabinet.Group</td>
-                        <td>@cabinet.Floor</td>
-                        <td>@cabinet.Height</td>
-                        <td>@cabinet.Length</td>
-                        <td>@cabinet.Width</td>
-                        <td>@cabinet.SquareFloor</td>
-                        <td>@cabinet.SquareWall_1</td>
-                        <td>@cabinet.SquareWall_2</td>
-                        <td>
-                            <button onclick="window.location = '../cabinets/cabientId=@cabinet.Id'">Перейти</button>
-                        </td>
-                    </tr>
-                }    
-            }      
+        @{
+            foreach(var cabinet in Model)
+            {
+                <tr>
+                    @{
+                        if (meta.GetValues(cabinet) is Dictionary<string, TableValueResult> values)
+                        {
+                            foreach (var value in values)
+                            {
+                                if (!value.Value.IsClass)
+                                {
+                                    <td>@value.Value.Reference</td>
+                                }
+                                else
+                                {
+                                    <td>
+                                    @{
+                                        if (meta.GetValues(value.Value.Reference, true) is Dictionary<string, TableValueResult> subValues)
+                                        {
+                                            foreach (var subValue in subValues)
+                                            {
+                                                <p>@subValue.Value.Reference</p>
+                                            }
+                                        }
+                                    }
+                                    </td>
+                                }
+                            }
+                        }
+                    }
+                    <td>
+                        <button onclick="window.location = '../cabinets/cabientId=@cabinet.Id'">Перейти</button>
+                    </td>
+                </tr>
+            }   
+        }      
     </table>
 }
