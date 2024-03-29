@@ -20,6 +20,12 @@ namespace WebAPI.Tests
             _userRepoMock = new Mock<IUserService>();
         }
 
+        [TearDown]
+        public void TearDown() 
+        {
+            _controller.Dispose();
+        }
+
         [Test]
         public async Task GetUser_Return_OK() 
         {
