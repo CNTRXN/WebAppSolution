@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using WebApp.Attributes;
 using WebApp.Models;
 
@@ -99,7 +98,7 @@ namespace WebApp.Settings
             });
         }
 
-        public TableValueResult? GetValues<ConT>(ConT convObj, bool withoutCheck = false) 
+        public Dictionary<string, TableValueResult>? GetValues<ConT>(ConT convObj, bool withoutCheck = false) 
         {
             if(!withoutCheck)
                 if (convObj?.GetType() != Type)
@@ -109,7 +108,7 @@ namespace WebApp.Settings
                 .GetProperties()
                 .ToList();
 
-            TableValueResult includedValues = new();
+            Dictionary<string, TableValueResult> includedValues = [];
 
             foreach (var prop in properties ?? []) 
             {
@@ -130,30 +129,14 @@ namespace WebApp.Settings
                 }
 
                 if (include)
-                    includedValues[prop.Name] = prop.GetValue(convObj);
+                    includedValues.Add(prop.Name, new() 
+                    {
+                        IsClass = prop.PropertyType.IsClass,
+                        Reference = prop.GetValue(convObj)
+                    });
             }
 
             return includedValues;
-        }
-
-        public bool HasAttribute<AttrT>(string name) 
-            where AttrT : Attribute 
-        {
-            var property = Type?
-                .GetProperty(name);
-
-            if (property != null) 
-            {
-                var propertyAttrs = property.GetCustomAttributes(true).ToList();
-
-                foreach (var attr in propertyAttrs)
-                {
-                    if (attr is AttrT)
-                        return true;
-                }
-            }
-
-            return false;   
         }
 
         public void Assign<B>()

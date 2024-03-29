@@ -2,7 +2,6 @@
 @using WebApp.Models.EquipData
 @using WebApp.Settings;
 @using WebApp.Models.DTO;
-@using WebApp.Attributes;
 
 @model List<CabinetDTO>;
 
@@ -30,33 +29,31 @@
         @{
             foreach(var cabinet in Model)
             {
-                //var cabId = meta.HasAttribute<InclusionInHeader>(nameof(cabinet.Id));
-                var values = meta.GetValues(cabinet);
-
                 <tr>
                     @{
-                        if (values != null)
+                        if (meta.GetValues(cabinet) is Dictionary<string, TableValueResult> values)
                         {
-                            <td>@values[nameof(cabinet.Id)]</td>
-                            <td>@values[nameof(cabinet.Num)]</td>
-                            <td>@values[nameof(cabinet.PlanNum)]</td>
-                            var resp = values[nameof(cabinet.ResponsiblePerson)] as UserDTO;
-                            if (resp != null)
+                            foreach (var value in values)
                             {
-                                <td>
-                                    <p>@resp.Surname</p>
-                                    <p>@resp.Name</p>
-                                    <p>@resp.Patronymic</p>
-                                </td>
+                                if (!value.Value.IsClass)
+                                {
+                                    <td>@value.Value.Reference</td>
+                                }
+                                else
+                                {
+                                    <td>
+                                    @{
+                                        if (meta.GetValues(value.Value.Reference, true) is Dictionary<string, TableValueResult> subValues)
+                                        {
+                                            foreach (var subValue in subValues)
+                                            {
+                                                <p>@subValue.Value.Reference</p>
+                                            }
+                                        }
+                                    }
+                                    </td>
+                                }
                             }
-                            <td>@values[nameof(cabinet.Group)]</td>
-                            <td>@values[nameof(cabinet.Floor)]</td>
-                            <td>@values[nameof(cabinet.Height)]</td>
-                            <td>@values[nameof(cabinet.Length)]</td>
-                            <td>@values[nameof(cabinet.Width)]</td>
-                            <td>@values[nameof(cabinet.SquareFloor)]</td>
-                            <td>@values[nameof(cabinet.SquareWall_1)]</td>
-                            <td>@values[nameof(cabinet.SquareWall_2)]</td>
                         }
                     }
                     <td>

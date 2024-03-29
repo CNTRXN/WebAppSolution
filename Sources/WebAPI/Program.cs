@@ -19,8 +19,8 @@ namespace WebAPI
             //sql
             builder.Services.AddDbContext<DB_Context>(options =>
             {
-                options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db_College"));
-                //options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db_Home"));
+                //options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db_College"));
+                options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres_Db_Home"));
             });
 
             builder.Services.AddControllers();
