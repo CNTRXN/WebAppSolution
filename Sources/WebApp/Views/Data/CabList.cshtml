@@ -37,11 +37,22 @@
                     @{
                         if (values != null)
                         {
-                            <td>@values[nameof(cabinet.Id)]</td>
-                            <td>@values[nameof(cabinet.Num)]</td>
-                            <td>@values[nameof(cabinet.PlanNum)]</td>
-                            var resp = values[nameof(cabinet.ResponsiblePerson)] as UserDTO;
-                            if (resp != null)
+                            if (values[nameof(cabinet.Id)] is int cabId)
+                            {
+                                <td>@cabId</td>
+                            }
+
+                            if (values[nameof(cabinet.Num)] is int cabNum)
+                            {
+                                <td>@cabNum</td>
+                            }
+
+                            if (values[nameof(cabinet.PlanNum)] is int cabPlanNum)
+                            {
+                                <td>@cabPlanNum</td>
+                            }
+
+                            if (values[nameof(cabinet.ResponsiblePerson)] is UserDTO resp)
                             {
                                 <td>
                                     <p>@resp.Surname</p>
@@ -49,14 +60,46 @@
                                     <p>@resp.Patronymic</p>
                                 </td>
                             }
-                            <td>@values[nameof(cabinet.Group)]</td>
-                            <td>@values[nameof(cabinet.Floor)]</td>
-                            <td>@values[nameof(cabinet.Height)]</td>
-                            <td>@values[nameof(cabinet.Length)]</td>
-                            <td>@values[nameof(cabinet.Width)]</td>
-                            <td>@values[nameof(cabinet.SquareFloor)]</td>
-                            <td>@values[nameof(cabinet.SquareWall_1)]</td>
-                            <td>@values[nameof(cabinet.SquareWall_2)]</td>
+
+                            if (values[nameof(cabinet.Group)] is int group)
+                            {
+                                <td>@group</td>
+                            }
+
+                            if (values[nameof(cabinet.Floor)] is int floor)
+                            {
+                                <td>@floor</td>
+                            }
+
+                            if (values[nameof(cabinet.Height)] is double height)
+                            {
+                                <td>@height</td>
+                            }
+
+                            if (values[nameof(cabinet.Length)] is double length)
+                            {
+                                <td>@length</td>
+                            }
+
+                            if (values[nameof(cabinet.Width)] is double width)
+                            {
+                                <td>@width</td>
+                            }
+
+                            if (values[nameof(cabinet.SquareFloor)] is double squareFloor)
+                            {
+                                <td>@squareFloor</td>
+                            }
+
+                            if (values[nameof(cabinet.SquareWall_1)] is double squareWall_1)
+                            {
+                                <td>@squareWall_1</td>
+                            }
+
+                            if (values[nameof(cabinet.SquareWall_2)] is double squareWall_2)
+                            {
+                                <td>@squareWall_2</td>
+                            }
                         }
                     }
                     <td>
