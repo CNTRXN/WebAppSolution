@@ -1,0 +1,106 @@
+.profile {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 80px 75px 75px 1fr;
+
+    border-radius: 20px;
+
+    position: relative;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 700px;
+    height: 1000px;
+    background-color: #f2f2f2;
+}
+
+#profileHeader {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column: 1;
+
+    position: relative;
+    background-color: black;
+    border-radius: 20px 20px 0px 0px;
+    z-index: -1;
+}
+
+#profileAvatar {
+    grid-row-start: 2;
+    grid-row-end: 4;
+    grid-column: 1;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+
+    /*position: absolute;
+    width: 150px;
+    height: 150px;
+    background-color: grey;
+    margin-left: 40%;
+    margin-right: 40%;
+    margin-top: -75px;
+    border-radius: 50%;
+    z-index: 1;*/
+}
+
+#profileAvatar > #profile_image {
+    width: 150px;
+    height: 150px;
+
+    grid-column: 2;
+    
+    background-color: gray;
+
+    border-radius: 10px;
+    outline: none;
+    border: none;
+
+    position: relative;
+    left: 50%;
+    margin: 0;
+    margin-right: -50%;
+    transform: translate(-50%, 0%);
+}
+
+#profileContent {
+    grid-row: 4;
+
+    display: grid;
+    grid-template-rows: 200px 1fr;
+}
+
+.separator 
+{
+    
+}
+
+.profileUserNSP_PERM
+{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+    display: grid;
+    grid-row: 1;
+    grid-template-rows: 80px 50px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+#profileUserNSP {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.profileUserNSPText 
+{  
+    text-align: center;
+    margin: 0;
+}
+
+.profileUserNSPText_Prim 
+{
+    grid-row: 2;
+    grid-column: 2;
+
+    text-align: center;
+    font-weight: bold;
+}

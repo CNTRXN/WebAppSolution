@@ -134,5 +134,27 @@ namespace WebApp.Controllers
 
             return View("LogAndReg");
         }
+
+        [HttpGet("profile={id}")]
+        public async Task<IActionResult> Profile([FromRoute] int id) 
+        {
+            var user = new UserDTO();
+
+            try
+            {
+                var result = await apiHttpClient.GetFromJsonAsync<UserDTO>("get/id=" + id);
+
+                if (result != null) 
+                {
+                    user = result;
+                }
+            }
+            catch 
+            {
+                return BadRequest();
+            }
+
+            return View(user);
+        }
     }
 }

@@ -1,0 +1,28 @@
+﻿@using WebApp.Models.DTO;
+@model UserDTO;
+
+@{
+    Layout = "_Profile";
+}
+
+@section ProfileContent{
+    <div class="profile center-element-horizontal">
+        <div id="profileHeader"></div>
+        <div id="profileAvatar">
+            <img id="profile_image" />
+        </div>
+
+
+        <div id="profileContent">
+            <div class="profileUserNSP_PERM">
+                <div id="profileUserNSP">
+                    <p class="profileUserNSPText" id="profile_userSurname">@Model.Surname</p>
+                    <p class="profileUserNSPText" id="profile_userName">@Model.Name</p>
+                    <p class="profileUserNSPText" id="profile_userPatronymic">@Model.Patronymic</p>
+                </div>
+
+                <p class="profileUserNSPText_Prim" id="profile_userPrimission">@Model.PermissionName</p>
+            </div>
+        </div>
+    </div>
+}

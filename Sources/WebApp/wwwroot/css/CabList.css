@@ -41,7 +41,7 @@ td {
 }
 
     td > button {
-        height: 40px;
+        min-height: 40px;
         margin-top: 5px;
         cursor: pointer;
         border: none;
