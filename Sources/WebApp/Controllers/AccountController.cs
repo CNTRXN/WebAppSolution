@@ -45,7 +45,7 @@ namespace WebApp.Controllers
                         var claims = new List<Claim>()
                             {
                                 new(ClaimTypes.Name, Login),
-                                new(ClaimTypes.Role, AppStatics.User.PermissionName ?? "Пользователь")
+                                new(ClaimTypes.Role, AppStatics.User.PermissionName ?? "User")
                             };
 
                         ClaimsIdentity identity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);

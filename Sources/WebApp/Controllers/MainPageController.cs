@@ -11,12 +11,12 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Main() 
         {
-            if (HttpContext.Request.Cookies.ContainsKey("state-id")) 
+            /*if (HttpContext.Request.Cookies.ContainsKey("state-id")) 
             {
                 var stateId = HttpContext.Request.Cookies["state-id"];
 
                 Console.WriteLine(stateId);
-            }
+            }*/
 
             if (AppStatics.User is UserDTO user) 
             {

@@ -1,8 +1,11 @@
 ﻿@using WebApp.Models.DTO;
+@using WebApp.Settings;
 @model UserDTO;
 
 @{
     Layout = "_Profile";
+
+    bool isCurrentUser = (AppStatics.User is UserDTO user && user.Id == Model.Id) && (Context.User.Identity != null && Context.User.Identity.IsAuthenticated);
 }
 
 @section ProfileContent{
@@ -12,6 +15,13 @@
             <img id="profile_image" />
         </div>
 
+
+        @{
+            if(isCurrentUser)
+            {
+                <p>Is Current User</p>
+            }
+        }
 
         <div id="profileContent">
             <div class="profileUserNSP_PERM">

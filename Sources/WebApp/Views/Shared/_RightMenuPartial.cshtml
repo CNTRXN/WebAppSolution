@@ -52,7 +52,7 @@
             @{
                 if (userIsAuth)
                 {
-                    if (Context.User.IsInRole("Пользователь"))
+                    if (Context.User.IsInRole("User"))
                     {
                         <button class="rightMenuButton2">Заявки</button>
                         <button class="rightMenuButton2" onclick="window.location = '../cabinets'">Кабинеты</button>
@@ -73,9 +73,3 @@
         <button id="rightMenuButton" />
     </template>
 </div>
-
-@section RMScripts
-{
-    <link href="~/css/RightMenu.css" rel="stylesheet" type="text/css" />
-    <script src="~/js/RightMenu.js" type="text/javascript"></script>
-}

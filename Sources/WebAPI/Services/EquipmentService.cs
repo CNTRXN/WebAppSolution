@@ -42,6 +42,23 @@ namespace WebAPI.Services
             return i;
         }
 
+        public async Task<bool> AddNewEquipmentType(string typeName)
+        {
+            var equipTypeIsExist = await _context.EquipmentTypes.AnyAsync(e => e.Name == typeName);
+
+            if (equipTypeIsExist)
+                return false;
+
+            await _context.EquipmentTypes.AddAsync(new EquipmentType() 
+            {
+                Name = typeName
+            });
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public Task<bool> DeleteEquipment(int id)
         {
             throw new NotImplementedException();

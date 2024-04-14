@@ -231,9 +231,9 @@ namespace WebAPI.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Пользователь" },
-                    { 2, "Мастер" },
-                    { 3, "Администратор" }
+                    { 1, "User" },
+                    { 2, "Master" },
+                    { 3, "Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -241,46 +241,46 @@ namespace WebAPI.Migrations
                 columns: new[] { "Id", "Birthday", "Login", "Name", "Password", "Patronymic", "PermissionId", "Surname" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1993, 9, 4, 0, 0, 0, 0, DateTimeKind.Utc), "login_1", "Name-1", "password_1", "Patronymic1", 2, "Surname-1" },
-                    { 2, new DateTime(2000, 6, 15, 0, 0, 0, 0, DateTimeKind.Utc), "login_2", "Name-2", "password_2", null, 1, "Surname-2" },
-                    { 3, new DateTime(2004, 8, 13, 0, 0, 0, 0, DateTimeKind.Utc), "login_3", "Name-3", "password_3", "Patronymic3", 1, "Surname-3" },
-                    { 4, new DateTime(1992, 3, 21, 0, 0, 0, 0, DateTimeKind.Utc), "login_4", "Name-4", "password_4", "Patronymic4", 2, "Surname-4" },
-                    { 5, new DateTime(1997, 1, 26, 0, 0, 0, 0, DateTimeKind.Utc), "login_5", "Name-5", "password_5", "Patronymic5", 1, "Surname-5" },
-                    { 6, new DateTime(1992, 2, 19, 0, 0, 0, 0, DateTimeKind.Utc), "login_6", "Name-6", "password_6", "Patronymic6", 1, "Surname-6" },
-                    { 7, new DateTime(1998, 11, 26, 0, 0, 0, 0, DateTimeKind.Utc), "login_7", "Name-7", "password_7", "Patronymic7", 2, "Surname-7" },
-                    { 8, new DateTime(2003, 11, 18, 0, 0, 0, 0, DateTimeKind.Utc), "login_8", "Name-8", "password_8", null, 2, "Surname-8" },
-                    { 9, new DateTime(1991, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc), "login_9", "Name-9", "password_9", "Patronymic9", 1, "Surname-9" }
+                    { 1, new DateTime(1994, 3, 18, 0, 0, 0, 0, DateTimeKind.Utc), "login_1", "Name-1", "password_1", "Patronymic1", 1, "Surname-1" },
+                    { 2, new DateTime(1993, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc), "login_2", "Name-2", "password_2", null, 1, "Surname-2" },
+                    { 3, new DateTime(1995, 3, 27, 0, 0, 0, 0, DateTimeKind.Utc), "login_3", "Name-3", "password_3", "Patronymic3", 2, "Surname-3" },
+                    { 4, new DateTime(1995, 11, 19, 0, 0, 0, 0, DateTimeKind.Utc), "login_4", "Name-4", "password_4", "Patronymic4", 1, "Surname-4" },
+                    { 5, new DateTime(2004, 11, 3, 0, 0, 0, 0, DateTimeKind.Utc), "login_5", "Name-5", "password_5", null, 2, "Surname-5" },
+                    { 6, new DateTime(2000, 7, 17, 0, 0, 0, 0, DateTimeKind.Utc), "login_6", "Name-6", "password_6", null, 2, "Surname-6" },
+                    { 7, new DateTime(1990, 9, 4, 0, 0, 0, 0, DateTimeKind.Utc), "login_7", "Name-7", "password_7", "Patronymic7", 1, "Surname-7" },
+                    { 8, new DateTime(1995, 11, 19, 0, 0, 0, 0, DateTimeKind.Utc), "login_8", "Name-8", "password_8", "Patronymic8", 2, "Surname-8" },
+                    { 9, new DateTime(1997, 9, 11, 0, 0, 0, 0, DateTimeKind.Utc), "login_9", "Name-9", "password_9", null, 2, "Surname-9" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AccountStats",
                 columns: new[] { "Id", "ExpirationKeyDate", "SignInKey", "UserId" },
-                values: new object[] { 1, new DateTime(2024, 3, 25, 0, 0, 0, 0, DateTimeKind.Utc), "f4ba7aaa-1590-4919-912c-c9ef5dd6ee25", 1 });
+                values: new object[] { 1, new DateTime(2024, 3, 25, 0, 0, 0, 0, DateTimeKind.Utc), "ebf54d3b-e3bf-4093-af54-d74fd8cf0e7b", 1 });
 
             migrationBuilder.InsertData(
                 table: "Кабинеты",
                 columns: new[] { "Id", "Floor", "Group", "Height", "Length", "Num", "PlanNum", "ResponsiblePersonId", "Width" },
                 values: new object[,]
                 {
-                    { 1, 2, 3472, 296.0, 343.0, 347237, 12088, 5, 263.0 },
-                    { 2, 2, 1189, 122.0, 252.0, 118939, 16838, 7, 478.0 },
-                    { 3, 1, 3541, 468.0, 395.0, 354138, 26409, 3, 238.0 },
-                    { 4, 1, 1513, 461.0, 303.0, 151310, 28390, 5, 481.0 },
-                    { 5, 2, 1489, 442.0, 267.0, 148910, 29773, 4, 168.0 },
-                    { 6, 0, 1535, 103.0, 231.0, 153530, 29928, 3, 437.0 },
-                    { 7, 0, 1126, 430.0, 286.0, 112645, 35884, 4, 394.0 },
-                    { 8, 1, 2801, 373.0, 353.0, 280120, 13202, 7, 115.0 },
-                    { 9, 1, 1566, 358.0, 301.0, 156629, 39296, 3, 275.0 },
-                    { 10, 1, 1152, 335.0, 300.0, 115247, 36829, 3, 350.0 },
-                    { 11, 0, 3361, 394.0, 351.0, 336114, 36726, 2, 131.0 },
-                    { 12, 1, 3620, 457.0, 175.0, 362035, 25020, 6, 349.0 },
-                    { 13, 2, 2626, 110.0, 226.0, 262643, 18753, 7, 121.0 },
-                    { 14, 0, 2576, 224.0, 170.0, 257614, 30775, 1, 232.0 },
-                    { 15, 0, 1636, 109.0, 185.0, 163634, 18169, 2, 162.0 },
-                    { 16, 0, 3277, 133.0, 498.0, 327738, 12443, 7, 493.0 },
-                    { 17, 0, 2842, 222.0, 119.0, 284231, 32178, 6, 467.0 },
-                    { 18, 1, 1331, 495.0, 356.0, 133146, 25833, 4, 325.0 },
-                    { 19, 1, 1547, 117.0, 453.0, 154732, 39553, 6, 395.0 }
+                    { 1, 2, 1767, 107.0, 295.0, 176737, 20936, 5, 314.0 },
+                    { 2, 0, 1748, 229.0, 232.0, 174811, 11862, 4, 198.0 },
+                    { 3, 0, 3828, 175.0, 353.0, 382822, 23170, 3, 195.0 },
+                    { 4, 0, 1722, 215.0, 278.0, 172223, 30791, 7, 418.0 },
+                    { 5, 0, 3949, 428.0, 456.0, 394917, 20097, 7, 193.0 },
+                    { 6, 1, 3999, 395.0, 423.0, 399948, 33820, 7, 107.0 },
+                    { 7, 0, 1263, 497.0, 410.0, 126344, 11984, 3, 170.0 },
+                    { 8, 2, 1826, 373.0, 284.0, 182617, 35537, 5, 342.0 },
+                    { 9, 1, 1145, 460.0, 332.0, 114535, 14601, 2, 132.0 },
+                    { 10, 2, 3510, 468.0, 403.0, 351028, 33685, 4, 191.0 },
+                    { 11, 2, 2691, 102.0, 406.0, 269131, 10630, 3, 159.0 },
+                    { 12, 2, 1119, 308.0, 111.0, 111921, 23146, 5, 263.0 },
+                    { 13, 1, 3193, 220.0, 156.0, 319340, 13960, 8, 171.0 },
+                    { 14, 0, 1433, 345.0, 195.0, 143344, 18394, 7, 268.0 },
+                    { 15, 1, 3982, 431.0, 287.0, 398247, 17852, 5, 436.0 },
+                    { 16, 0, 2515, 167.0, 349.0, 251528, 13832, 6, 139.0 },
+                    { 17, 2, 2026, 109.0, 407.0, 202636, 31463, 6, 120.0 },
+                    { 18, 1, 1890, 486.0, 489.0, 189030, 24290, 6, 235.0 },
+                    { 19, 1, 3349, 218.0, 366.0, 334946, 37591, 3, 211.0 }
                 });
 
             migrationBuilder.CreateIndex(

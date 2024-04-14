@@ -10,7 +10,7 @@ namespace WebApp.Controllers
     public class DataController : Controller
     {
         readonly List<Equipment> tableData = [];
-        Cabinet? _cabinet;
+        //Cabinet? _cabinet;
 
         private HttpClient apiHttpClient = new() 
         {
@@ -33,7 +33,7 @@ namespace WebApp.Controllers
         }
         //Action для загрузки страницы кабинетов
         [HttpGet("cabinets")]
-        [Authorize(Roles = "Пользователь")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> CabList()
         {
             var cabs = await apiHttpClient.GetFromJsonAsync<List<CabinetDTO>>("api/Cabinet/all");
@@ -43,46 +43,51 @@ namespace WebApp.Controllers
 
         //Action для загрузки страницы оборудования кабинета
         [HttpGet("cabinets/cabientId={id}")]
-        [Authorize(Roles = "Пользователь")]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> CabInfo([FromRoute] int id)
         {
-            _cabinet = await apiHttpClient.GetFromJsonAsync<Cabinet>($"api/Cabinet/get/id={id}");
+            //Cabinet? cabinet = await apiHttpClient.GetFromJsonAsync<Cabinet>($"api/Cabinet/get/id={id}");
 
             //Сделать запрос к списку оборудования
 
-            return View(new CabInfoPage()
-            {
-                Equipments = tableData,
-                Cabinet = _cabinet ?? new()
-            });
+            return View(GetCabinetInfo(id));
         }
 
         //Action для поиска оборудования в кабинете
-        [HttpPost("equip-search")]
-        [Authorize(Roles = "Пользователь")]
-        public async Task<ActionResult> SearchEquipment(string searchField)
+        [HttpPost("equip-search-{id}")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult> SearchEquipment(string searchField, [FromRoute] int id)
         {
-            Equipment[] copy = new Equipment[tableData.Count];
+            var cabinetInfo = await GetCabinetInfo(id);
+
+            /*Equipment[] copy = new Equipment[tableData.Count];
             tableData.CopyTo(copy, 0);
 
             var searched = copy.ToList();
 
-            searchField ??= string.Empty;
+            searchField ??= string.Empty;*/
 
             if (searchField.Length > 0)
             {
-                searched = searched.Where(c =>
+                cabinetInfo.Equipments = cabinetInfo.Equipments.Where(c =>
                     c.Name.Contains(searchField) ||
                     c.Description.Contains(searchField)
                 ).ToList();
             }
 
-            return View(new CabInfoPage()
+            return View(cabinetInfo);
+        }
+
+        private async Task<CabInfoPage> GetCabinetInfo(int cabId) 
+        {
+            Cabinet? cabinet = await apiHttpClient.GetFromJsonAsync<Cabinet>($"api/Cabinet/get/id={cabId}");
+
+
+
+            return new CabInfoPage()
             {
-                Equipments = searched,
-                SearchQuery = searchField,
-                Cabinet = _cabinet ?? new()
-            });
+                Cabinet = cabinet ?? new()
+            };
         }
     }
 }

@@ -54,15 +54,15 @@ namespace WebAPI.DataContext
                 List<Permission> permissions = [
                     new Permission()
                     {
-                        Name = "Пользователь"
+                        Name = "User"
                     },
                     new Permission()
                     {
-                        Name = "Мастер"
+                        Name = "Master"
                     },
                     new Permission()
                     {
-                        Name = "Администратор"
+                        Name = "Admin"
                     }
                 ];
 

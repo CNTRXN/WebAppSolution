@@ -67,6 +67,7 @@ namespace WebApp
             {
                 await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 AppStatics.User = null;
+
                 return Results.Redirect("/");
             });
 
