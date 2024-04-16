@@ -1,4 +1,4 @@
-﻿@using WebApp.Models.EquipData;
+﻿@using WebApp.Models.DTO;
 @using WebApp.Models.UserData;
 @using WebApp.Settings;
 @using WebApp.Models;
@@ -12,7 +12,7 @@
     var tableData = ViewData["TableData"];
 
     TranslateMetadata<IMetaData> equipmentMeta = new();
-    equipmentMeta.Assign<Equipment>();
+    equipmentMeta.Assign<EquipmentDTO>();
 
 }
 
@@ -48,9 +48,16 @@
             <img title="img-3" /> *@      
         </div>
 
-        <div id="cab-select-info"></div>
+        <div id="cab-select-info">
+            <div id="cab-select-info-buttons">
+                <button class="cab-select-info-button defaultButton">Оборудование</button>
+                <button class="cab-select-info-button defaultButton"></button>
+                <button class="cab-select-info-button defaultButton"></button>
+                <button class="cab-select-info-button defaultButton"></button>
+            </div>
+        </div>
 
-        <div id="table-data-view">
+       @*  <div id="table-data-view">
             <div id="main-table">
                 <div id="table-meta-data">
                     <div id="tableTitleContainer">
@@ -58,7 +65,7 @@
                             @equipmentMeta.TableName
                         </p>
                         <form method="post" action="/equip-search">
-                            <input type="search" id="search-data" name="searchField" placeholder="Поиск..." value="@Model.SearchQuery"/>
+                            <input type="search" id="search-data" name="searchField" placeholder="Поиск..." value="@Model.SearchQuery" />
                         </form>
                     </div>
                     <div id="tableHeader">
@@ -69,11 +76,11 @@
 
                             foreach (var item in equipmentMeta.PropName)
                             {
-                                    <button class="table-header"
-                                            id="table-header-@i"
-                                            style="width: @itemHeaderWidth%">
-                                        @item.Value
-                                    </button>
+                                <button class="table-header"
+                                        id="table-header-@i"
+                                        style="width: @itemHeaderWidth%">
+                                    @item.Value
+                                </button>
                                 i++;
                             }
 
@@ -93,22 +100,22 @@
                             foreach (var eqiup in Model.Equipments)
                             {
                                 var id = h + 1;
-                                
+
                                 <div class="tableItem" id="table-item-@h" data-id="@id">
-                                @{
-                                    foreach (var prop in eqiup.GetType().GetProperties())
-                                    {
-                                        <p class="table-prop-name"
-                                           id="table-item-@prop.Name"
-                                           style="width: @itemHeaderWidth%">
-                                           @prop.GetValue(eqiup, null)
-                                        </p>
-                                           
-                                        j++;
+                                    @{
+                                        foreach (var prop in eqiup.GetType().GetProperties())
+                                        {
+                                            <p class="table-prop-name"
+                                               id="table-item-@prop.Name"
+                                               style="width: @itemHeaderWidth%">
+                                                @prop.GetValue(eqiup, null)
+                                            </p>
+
+                                            j++;
+                                        }
                                     }
-                                }
                                 </div>
-                                
+
                                 j = 0;
                                 h++;
                             }
@@ -123,7 +130,13 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> *@
+
+        <!--test-->
+        @{
+            DrawTable();
+        }
+
     </div>
 
     <div id="show-image-list">
@@ -147,4 +160,84 @@
             +
         </button>
     </template>
+}
+
+@{
+    void DrawTable()
+    {
+        <div id="table-data-view">
+            <div id="main-table">
+                <div id="table-meta-data">
+                    <div id="tableTitleContainer">
+                        <p id="tableTitle">
+                            @equipmentMeta.TableName
+                        </p>
+                        <form method="post" action="/equip-search">
+                            <input type="search" id="search-data" name="searchField" placeholder="Поиск..." value="@Model.SearchQuery" />
+                        </form>
+                    </div>
+                    <div id="tableHeader">
+                        @{
+                            int i = 0;
+
+                            int itemHeaderWidth = (int)(100 / equipmentMeta.PropsCount);
+
+                            foreach (var item in equipmentMeta.PropName)
+                            {
+                                <button class="table-header"
+                                        id="table-header-@i"
+                                        style="width: @itemHeaderWidth%">
+                                    @item.Value
+                                </button>
+                                i++;
+                            }
+
+                            i = 0;
+                        }
+                    </div>
+                </div>
+                <div id="tableContainer">
+                    @{
+                        DrawTable();
+
+                        void DrawTable()
+                        {
+                            int j = 0;
+                            int h = 0;
+
+                            foreach (var eqiup in Model.Equipments)
+                            {
+                                var id = h + 1;
+
+                                <div class="tableItem" id="table-item-@h" data-id="@id">
+                                    @{
+                                        foreach (var prop in eqiup.GetType().GetProperties())
+                                        {
+                                            <p class="table-prop-name"
+                                               id="table-item-@prop.Name"
+                                               style="width: @itemHeaderWidth%">
+                                                @prop.GetValue(eqiup, null)
+                                            </p>
+
+                                            j++;
+                                        }
+                                    }
+                                </div>
+
+                                j = 0;
+                                h++;
+                            }
+
+                            h = 0;
+                        }
+                    }
+                </div>
+                <div id="table-usings">
+                    <button class="defaultButton" id="add-button">
+                        +
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
 }

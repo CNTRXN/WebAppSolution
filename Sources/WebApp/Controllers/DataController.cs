@@ -50,7 +50,7 @@ namespace WebApp.Controllers
 
             //Сделать запрос к списку оборудования
 
-            return View(GetCabinetInfo(id));
+            return View(await GetCabinetInfo(id));
         }
 
         //Action для поиска оборудования в кабинете
@@ -82,11 +82,12 @@ namespace WebApp.Controllers
         {
             Cabinet? cabinet = await apiHttpClient.GetFromJsonAsync<Cabinet>($"api/Cabinet/get/id={cabId}");
 
-
+            List<EquipmentDTO>? equipment = await apiHttpClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}");
 
             return new CabInfoPage()
             {
-                Cabinet = cabinet ?? new()
+                Cabinet = cabinet ?? new(),
+                Equipments = equipment ?? []
             };
         }
     }
