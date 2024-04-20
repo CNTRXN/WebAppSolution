@@ -1,0 +1,101 @@
+﻿@using WebApp.Models.DTO;
+@using WebApp.Models.UserData;
+@using WebApp.Settings;
+@using WebApp.Models;
+@using WebApp.Models.EquipData;
+@using System.Collections;
+
+@model CabInfoPage;
+
+@{
+    TranslateMetadata<IMetaData> equipmentMeta = new();
+
+
+    switch (Model.SelectedList)
+    {
+        case "Equipment":
+            equipmentMeta.Assign<EquipmentDTO>();
+            break;
+        case "TestData":
+            equipmentMeta.Assign<TestData>();
+            break;
+    }
+}
+
+<div id="table-meta-data">
+    <div id="tableTitleContainer">
+        <p id="tableTitle">
+            @equipmentMeta.TableName
+        </p>
+        <form method="post" @* action="/equip-search-@Model.Cabinet.Id" *@>
+            <input type="search" id="search-data" name="searchField" placeholder="Поиск..." value="@Model.SearchQuery" />
+        </form>
+    </div>
+    <div id="tableHeader">
+        @{
+            int i = 0;
+
+            int itemHeaderWidth = (int)(100 / equipmentMeta.PropsCount);
+
+            foreach (var item in equipmentMeta.PropName)
+            {
+                <button class="table-header"
+                        id="table-header-@i"
+                        style="width: @itemHeaderWidth%">
+                    @item.Value
+                </button>
+                i++;
+            }
+
+            i = 0;
+        }
+    </div>
+</div>
+<div id="tableContainer">
+    @{
+        DrawTable();
+
+        void DrawTable()
+        {
+            int j = 0;
+            int h = 0;
+
+            List<dynamic> currentList = Model.SelectedList switch
+            {
+                "Equipment" => Model.Equipments.Cast<dynamic>().ToList(),
+                "TestData" => Model.Equipments.Cast<dynamic>().ToList(),
+                _ => []
+            };
+
+            foreach (var eqiup in currentList)
+            {
+                var id = h + 1;
+
+                <div class="tableItem" id="table-item-@h" data-id="@id">
+                    @{
+                        foreach (var prop in eqiup.GetType().GetProperties())
+                        {
+                            <p class="table-prop-name"
+                               id="table-item-@prop.Name"
+                               style="width: @itemHeaderWidth%">
+                                @prop.GetValue(eqiup, null)
+                            </p>
+
+                            j++;
+                        }
+                    }
+                </div>
+
+                j = 0;
+                h++;
+            }
+
+            h = 0;
+        }
+    }
+</div>
+<div id="table-usings">
+    <button class="defaultButton" id="add-button">
+        +
+    </button>
+</div>

@@ -14,10 +14,11 @@
     TranslateMetadata<IMetaData> equipmentMeta = new();
     equipmentMeta.Assign<EquipmentDTO>();
 
+    Context.Response.Cookies.Append("cabid", Model.Cabinet.Id.ToString());
 }
 
 @section CabInfo {
-    <div id="cab-info-container" data-id="@Model.Cabinet.Id">
+    <div id="cab-info-container">
         <div id="main-cab-info">
             <div id="cab-text-info">
                 <p id="num">@Model.Cabinet.Num</p>
@@ -32,7 +33,7 @@
                 <p id="squereWall2">@Model.Cabinet.SquareWall_2</p>
             </div>
             <div id="cab-info-buttons">
-                <button class="defaultButton" title="edit-cab-info" id="cab-info-edit" onclick="switchEditMode()">
+                <button class="defaultButton" title="edit-cab-info" id="cab-info-edit">
                     ✎
                 </button>
             </div>
@@ -50,194 +51,43 @@
 
         <div id="cab-select-info">
             <div id="cab-select-info-buttons">
-                <button class="cab-select-info-button defaultButton">Оборудование</button>
-                <button class="cab-select-info-button defaultButton"></button>
-                <button class="cab-select-info-button defaultButton"></button>
-                <button class="cab-select-info-button defaultButton"></button>
+                <button class="cab-select-info-button" id="to-equipments">Оборудование</button>
+                <button class="cab-select-info-button" id="to-test-table">Test1</button>
+                <button class="cab-select-info-button">Test2</button>
+                <button class="cab-select-info-button">Test3</button>
+
+                <div id="cab-select-info-button-bg"></div>
             </div>
         </div>
 
-       @*  <div id="table-data-view">
-            <div id="main-table">
-                <div id="table-meta-data">
-                    <div id="tableTitleContainer">
-                        <p id="tableTitle">
-                            @equipmentMeta.TableName
-                        </p>
-                        <form method="post" action="/equip-search">
-                            <input type="search" id="search-data" name="searchField" placeholder="Поиск..." value="@Model.SearchQuery" />
-                        </form>
-                    </div>
-                    <div id="tableHeader">
-                        @{
-                            int i = 0;
-
-                            int itemHeaderWidth = (int)(100 / equipmentMeta.PropsCount);
-
-                            foreach (var item in equipmentMeta.PropName)
-                            {
-                                <button class="table-header"
-                                        id="table-header-@i"
-                                        style="width: @itemHeaderWidth%">
-                                    @item.Value
-                                </button>
-                                i++;
-                            }
-
-                            i = 0;
-                        }
-                    </div>
-                </div>
-                <div id="tableContainer">
-                    @{
-                        DrawTable();
-
-                        void DrawTable()
-                        {
-                            int j = 0;
-                            int h = 0;
-
-                            foreach (var eqiup in Model.Equipments)
-                            {
-                                var id = h + 1;
-
-                                <div class="tableItem" id="table-item-@h" data-id="@id">
-                                    @{
-                                        foreach (var prop in eqiup.GetType().GetProperties())
-                                        {
-                                            <p class="table-prop-name"
-                                               id="table-item-@prop.Name"
-                                               style="width: @itemHeaderWidth%">
-                                                @prop.GetValue(eqiup, null)
-                                            </p>
-
-                                            j++;
-                                        }
-                                    }
-                                </div>
-
-                                j = 0;
-                                h++;
-                            }
-
-                            h = 0;
-                        }
-                    }
-                </div>
-                <div id="table-usings">
-                    <button class="defaultButton" id="add-button">
-                        +
-                    </button>
-                </div>
-            </div>
-        </div> *@
-
         <!--test-->
-        @{
-            DrawTable();
-        }
+        <div id="table-data-view">
+            <div id="main-table">
+                @* @await Html.PartialAsync("_TableTemplatePartial", Model) *@
+            </div>
+        </div>
 
     </div>
 
-    <div id="show-image-list">
+    @* <div id="show-image-list">
         <div id="black-screen-img-list"></div>
         <div id="image-list-form">
             <div id="image-list-meta">
                 <p id="image-list-meta-name">
                     Фотографии
                 </p>
-                <button id="image-list-close" class="defaultButton" onclick="closeImageForm()">
+                <button id="image-list-close" class="defaultButton">
                     X
                 </button>
             </div>
             <div id="image-list">
             </div>
         </div>
-    </div>
+    </div> *@
 
     <template id="show-image-form-button">
-        <button class="defaultButton" type="button" title="show-more-photos" onclick="openImageForm(@Model.Cabinet.Id)">
+        <button class="defaultButton" type="button" id="open-image-form" title="show-more-photos">
             +
         </button>
     </template>
-}
-
-@{
-    void DrawTable()
-    {
-        <div id="table-data-view">
-            <div id="main-table">
-                <div id="table-meta-data">
-                    <div id="tableTitleContainer">
-                        <p id="tableTitle">
-                            @equipmentMeta.TableName
-                        </p>
-                        <form method="post" action="/equip-search">
-                            <input type="search" id="search-data" name="searchField" placeholder="Поиск..." value="@Model.SearchQuery" />
-                        </form>
-                    </div>
-                    <div id="tableHeader">
-                        @{
-                            int i = 0;
-
-                            int itemHeaderWidth = (int)(100 / equipmentMeta.PropsCount);
-
-                            foreach (var item in equipmentMeta.PropName)
-                            {
-                                <button class="table-header"
-                                        id="table-header-@i"
-                                        style="width: @itemHeaderWidth%">
-                                    @item.Value
-                                </button>
-                                i++;
-                            }
-
-                            i = 0;
-                        }
-                    </div>
-                </div>
-                <div id="tableContainer">
-                    @{
-                        DrawTable();
-
-                        void DrawTable()
-                        {
-                            int j = 0;
-                            int h = 0;
-
-                            foreach (var eqiup in Model.Equipments)
-                            {
-                                var id = h + 1;
-
-                                <div class="tableItem" id="table-item-@h" data-id="@id">
-                                    @{
-                                        foreach (var prop in eqiup.GetType().GetProperties())
-                                        {
-                                            <p class="table-prop-name"
-                                               id="table-item-@prop.Name"
-                                               style="width: @itemHeaderWidth%">
-                                                @prop.GetValue(eqiup, null)
-                                            </p>
-
-                                            j++;
-                                        }
-                                    }
-                                </div>
-
-                                j = 0;
-                                h++;
-                            }
-
-                            h = 0;
-                        }
-                    }
-                </div>
-                <div id="table-usings">
-                    <button class="defaultButton" id="add-button">
-                        +
-                    </button>
-                </div>
-            </div>
-        </div>
-    }
 }

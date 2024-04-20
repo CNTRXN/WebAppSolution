@@ -12,7 +12,7 @@ namespace WebApp.Controllers
         readonly List<Equipment> tableData = [];
         //Cabinet? _cabinet;
 
-        private HttpClient apiHttpClient = new() 
+        private HttpClient apiHttpClient = new()
         {
             BaseAddress = new Uri(AppStatics.ApiUrl)
         };
@@ -34,7 +34,7 @@ namespace WebApp.Controllers
         //Action для загрузки страницы кабинетов
         [HttpGet("cabinets")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> CabList()
+        public async Task<ActionResult> CabList()
         {
             var cabs = await apiHttpClient.GetFromJsonAsync<List<CabinetDTO>>("api/Cabinet/all");
 
@@ -59,6 +59,7 @@ namespace WebApp.Controllers
         public async Task<ActionResult> SearchEquipment(string searchField, [FromRoute] int id)
         {
             var cabinetInfo = await GetCabinetInfo(id);
+            cabinetInfo.SelectedList = "Equipment";
 
             /*Equipment[] copy = new Equipment[tableData.Count];
             tableData.CopyTo(copy, 0);
@@ -69,25 +70,68 @@ namespace WebApp.Controllers
 
             if (searchField.Length > 0)
             {
-                cabinetInfo.Equipments = cabinetInfo.Equipments.Where(c =>
-                    c.Name.Contains(searchField) ||
-                    c.Description.Contains(searchField)
-                ).ToList();
+                if (cabinetInfo.SelectedList == "Equipment")
+                    cabinetInfo.Equipments = cabinetInfo.Equipments.Where(c =>
+                        c.Name.Contains(searchField) ||
+                        c.Description.Contains(searchField)
+                    ).ToList();
             }
 
-            return View(cabinetInfo);
+            return PartialView("_TableTemplatePartial", cabinetInfo);
+        }
+
+        [HttpGet("show-equipments")]
+        public async Task<ActionResult> ShowEquipments([FromHeader] int cabId)
+        {
+            List<EquipmentDTO>? equipment = await apiHttpClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}");
+
+            return PartialView("_TableTemplatePartial", new CabInfoPage()
+            {
+                Equipments = equipment.Cast<dynamic>().ToList() ?? [],
+                SelectedList = "Equipment"
+            });
+        }
+
+        [HttpGet("show-test")]
+        public async Task<ActionResult> ShowTestTable() 
+        {
+            var testTable = new List<TestData>() 
+            {
+                new()
+                {
+                    Id = 1,
+                    Request = 2343,
+                    From = new
+                    {
+                        Name = "TestName"
+                    }
+                }
+            };
+
+            return PartialView("_TableTemplatePartial", new CabInfoPage()
+            {
+                Equipments = testTable.Cast<dynamic>().ToList() ?? [],
+                SelectedList = "TestData"
+            });
+        }
+
+        [HttpGet("open-image-form")]
+        public async Task<ActionResult> ShowCabinetsPhoto([FromHeader] int cabId) 
+        {
+            List<string>? imageHref = await apiHttpClient.GetFromJsonAsync<List<string>>($"api/File/images/cabId={cabId}");
+
+            return PartialView("_CabinetImageFormPartial", imageHref);
         }
 
         private async Task<CabInfoPage> GetCabinetInfo(int cabId) 
         {
             Cabinet? cabinet = await apiHttpClient.GetFromJsonAsync<Cabinet>($"api/Cabinet/get/id={cabId}");
-
-            List<EquipmentDTO>? equipment = await apiHttpClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}");
+            //List<EquipmentDTO>? equipment = await apiHttpClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}");
 
             return new CabInfoPage()
             {
                 Cabinet = cabinet ?? new(),
-                Equipments = equipment ?? []
+                //Equipments = equipment.Cast<dynamic>().ToList()
             };
         }
     }

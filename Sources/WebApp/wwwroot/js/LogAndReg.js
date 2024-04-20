@@ -35,11 +35,11 @@ $(window).on("load", () => {
                 left: "-=" + min_width,
                 width: "-=" + (max_width - min_width),
             }, anim_time, () => {
-
+                $("#to-sign-up").css("color", "#5555FF");
+                $("#to-sign-in").css("color", "white");
             });
 
-            $("#to-sign-up").css("color", "#5555FF");
-            $("#to-sign-in").css("color", "white");
+            
 
             $("#log-reg-forms").animate({
                 left: "+=" + 450,
@@ -59,11 +59,10 @@ $(window).on("load", () => {
                 left: "+=" + min_width,
                 width: "+=" + (max_width - min_width)
             }, anim_time, () => {
-
+                $("#to-sign-in").css("color", "#5555FF");
+                $("#to-sign-up").css("color", "white");
             });
-
-            $("#to-sign-in").css("color", "#5555FF");
-            $("#to-sign-up").css("color", "white");
+            
 
             $("#log-reg-forms").animate({
                 left: "-=" + 450,

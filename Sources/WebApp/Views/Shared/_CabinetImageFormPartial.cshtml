@@ -1,0 +1,23 @@
+﻿@model List<string>
+
+<div id="show-image-list">
+    <div id="black-screen-img-list"></div>
+    <div id="image-list-form">
+        <div id="image-list-meta">
+            <p id="image-list-meta-name">
+                Фотографии
+            </p>
+            <button id="image-list-close" class="defaultButton">
+                X
+            </button>
+        </div>
+        <div id="image-list">
+            @{
+                foreach (var href in Model)
+                {
+                    <img src="@href"/>
+                }
+            }
+        </div>
+    </div>
+</div>

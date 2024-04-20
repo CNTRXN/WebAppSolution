@@ -4,6 +4,8 @@
 @{
     var userModel = Model;//ViewData["UserModel"] as UserDTO;
 
+
+
     var userIsAuth = Context.User.Identity != null && Context.User.Identity.IsAuthenticated && userModel != null;
 }
 
