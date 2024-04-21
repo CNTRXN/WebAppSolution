@@ -302,7 +302,7 @@ var GetFormImages = function(id, type) {
                     $('body').append(response);
 
                     $("#image-list-close").on("click", function () {
-                        closeImageForm();
+                        $("#show-image-list").remove();
                     });
                 },
                 error: (error) => {
@@ -312,66 +312,7 @@ var GetFormImages = function(id, type) {
             break;
     }
 
-    /*$.ajax({
-        type: "GET",
-        url: "http://localhost:5215/api/File/images/cabId=" + id,
-        dataType: "json",
-        headers: {
-            "Access-Control-Allow-Origin": "true"
-        },
-        success: function (data) {
-            if (type == imageType.page) {
-
-            }
-
-            if (type == imageType.form) {
-                $.ajax({
-                    type: "GET",
-                    url: "/open-image-form",
-                    dataType: "html",
-                    headers: {
-                        "Access-Control-Allow-Origin": "true",
-                        "cabId": id
-                    },
-                    success: (response) => {
-                        document.appendChild(response);
-                        imageForm.style.visibility = "visible"
-                    },
-                    error: (error) => {
-
-                    }
-                });
-            }
-        },
-        error: function (xhr, status, error) {
-            img.forEach(item => {
-                imagePageList.removeChild(item);
-            });
-
-            if (type == imageType.page) {
-                imagePageList.appendChild(showFormButton);
-            }
-
-            if (type == imageType.form) {
-                imageForm.style.visibility = "visible"
-            }
-
-            console.error(error);
-        }
-    });*/
-
     console.clear();
-}
-
-function closeImageForm() {
-    document.getElementById('show-image-list').remove();
-    /*const imageList = document.getElementById('image-list');
-
-    imageList.childNodes.forEach(child => {
-        imageList.removeChild(child);
-    });
-
-    imageForm.style.visibility = "hidden";*/
 }
 
 function getCookie() {

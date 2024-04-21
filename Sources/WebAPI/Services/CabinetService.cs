@@ -131,7 +131,7 @@ namespace WebAPI.Services
             return true;
         }
 
-        public async Task<Cabinet?> GetCabinet(int id)
+        public async Task<CabinetDTO?> GetCabinet(int id)
         {
             var cabinet = await _context.Cabinets
                 .FirstOrDefaultAsync(c => c.Id == id);
@@ -139,7 +139,32 @@ namespace WebAPI.Services
             if (cabinet == null)
                 return null;
 
-            return cabinet;
+            CabinetDTO retCab = new()
+            {
+                Id = cabinet.Id,
+                Floor = cabinet.Floor,
+                Group = cabinet.Group,
+                Height = cabinet.Height,
+                Length = cabinet.Length,
+                Num = cabinet.Num,
+                PlanNum = cabinet.PlanNum,
+                Width = cabinet.Width,
+                ResponsiblePerson = await _context.Users
+                    .Where(u => u.Id == cabinet.ResponsiblePersonId)
+                    .Select(u => new UserDTO()
+                    {
+                        Id = u.Id,
+                        Name= u.Name,
+                        Patronymic = u.Patronymic,
+                        Surname = u.Surname,
+                        Birthday = u.Birthday,
+                        PermissionName = _context.Permissions
+                            .Where(p => p.Id == u.PermissionId)
+                            .Select(p => p.Name).First(),
+                    }).FirstOrDefaultAsync()
+            };
+
+            return retCab;
         }
 
         public async Task<IEnumerable<EquipmentDTO>> GetCabinetEquipments(int cabId)

@@ -41,7 +41,7 @@ namespace WebApp.Controllers
             return View(cabs);
         }
 
-        //Action для загрузки страницы оборудования кабинета
+        //Action для загрузки страницы с информацией об кабинете
         [HttpGet("cabinets/cabientId={id}")]
         [Authorize(Roles = "User")]
         public async Task<ActionResult> CabInfo([FromRoute] int id)
@@ -87,7 +87,7 @@ namespace WebApp.Controllers
 
             return PartialView("_TableTemplatePartial", new CabInfoPage()
             {
-                Equipments = equipment.Cast<dynamic>().ToList() ?? [],
+                Equipments = equipment?.Cast<dynamic>().ToList() ?? [],
                 SelectedList = "Equipment"
             });
         }
@@ -123,9 +123,10 @@ namespace WebApp.Controllers
             return PartialView("_CabinetImageFormPartial", imageHref);
         }
 
+
         private async Task<CabInfoPage> GetCabinetInfo(int cabId) 
         {
-            Cabinet? cabinet = await apiHttpClient.GetFromJsonAsync<Cabinet>($"api/Cabinet/get/id={cabId}");
+            var cabinet = await apiHttpClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/get/id={cabId}");
             //List<EquipmentDTO>? equipment = await apiHttpClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}");
 
             return new CabInfoPage()

@@ -14,23 +14,37 @@
     TranslateMetadata<IMetaData> equipmentMeta = new();
     equipmentMeta.Assign<EquipmentDTO>();
 
-    Context.Response.Cookies.Append("cabid", Model.Cabinet.Id.ToString());
+    var cabinet = Model.Cabinet;
+    var respPerson = cabinet.ResponsiblePerson;
+
+    Context.Response.Cookies.Append("cabid", cabinet.Id.ToString());
 }
 
 @section CabInfo {
     <div id="cab-info-container">
         <div id="main-cab-info">
             <div id="cab-text-info">
-                <p id="num">@Model.Cabinet.Num</p>
-                <p id="planNum">@Model.Cabinet.PlanNum</p>
-                <p id="group">@Model.Cabinet.Group</p>
-                <p id="floor">@Model.Cabinet.Floor</p>
-                <p id="height">@Model.Cabinet.Height</p>
-                <p id="length">@Model.Cabinet.Length</p>
-                <p id="width">@Model.Cabinet.Width</p>
-                <p id="squareFloor">@Model.Cabinet.SquareFloor</p>
-                <p id="squereWall1">@Model.Cabinet.SquareWall_1</p>
-                <p id="squereWall2">@Model.Cabinet.SquareWall_2</p>
+                <p id="num">@cabinet.Num</p>
+                <p id="planNum">@cabinet.PlanNum</p>
+                <p id="group">@cabinet.Group</p>
+                <p id="floor">@cabinet.Floor</p>
+                <p id="height">@cabinet.Height</p>
+                <p id="length">@cabinet.Length</p>
+                <p id="width">@cabinet.Width</p>
+                <p id="squareFloor">@cabinet.SquareFloor</p>
+                <p id="squereWall1">@cabinet.SquareWall_1</p>
+                <p id="squereWall2">@cabinet.SquareWall_2</p>
+                <button class="defaultButton" id="toProfile" onclick="window.location = '../profile=@respPerson?.Id'">
+                    <span>
+                        @{
+                            if (respPerson != null)
+                            {
+                                var respFullName = respPerson.Surname + " " + respPerson.Name + " " + respPerson.Patronymic;
+                                @respFullName
+                            }
+                        }
+                    </span>
+                </button>
             </div>
             <div id="cab-info-buttons">
                 <button class="defaultButton" title="edit-cab-info" id="cab-info-edit">

@@ -48,6 +48,7 @@
     grid-column: 3;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, 1fr);
 }
 
     #cab-text-info > p {
@@ -55,6 +56,12 @@
         text-align: center;
         font-size: 14pt;
     }
+
+#toProfile {
+    grid-row: 6;
+    grid-column: 1;
+    grid-column-end: 3;
+}
 
 #cab-info-buttons {
     grid-row: 2;
