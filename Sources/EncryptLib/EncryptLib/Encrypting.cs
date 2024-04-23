@@ -8,7 +8,7 @@ namespace EncryptLib
         private const string _key = "somesecretkey123456";
 
         //Сделать шифрацию
-        public async static Task<byte[]> Encrypt(string clearText, string password, string key = _key)
+        public async static Task<byte[]> Encrypt(string clearText, string password = "cntrxndabest", string key = _key)
         {
             byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
 
@@ -36,7 +36,7 @@ namespace EncryptLib
             //return clearText;
         }
 
-        public async static Task<string> Decrypt(byte[] cipherText, string password, string key = _key)
+        public async static Task<string> Decrypt(byte[] cipherText, string password = "cntrxndabest", string key = _key)
         {
             var decoded = Encoding.ASCII.GetString(cipherText);
             //var decoded = cipherText;

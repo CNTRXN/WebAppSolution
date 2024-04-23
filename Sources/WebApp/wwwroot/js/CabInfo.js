@@ -56,6 +56,8 @@ $(window).on("load", () => {
 
     $(buttons[currentIndex - 1]).css("color", "white");
 
+    showEquipments();
+
     $.each(buttons, function () {
         $(this).on("click", function () {
             var newIndex = Array.from(buttons).indexOf(this) + 1;
@@ -98,23 +100,7 @@ $(window).on("load", () => {
     
 
     $("#to-equipments").on("click", function () {
-
-        $.ajax({
-            url: '/show-equipments',
-            type: 'GET',
-            dataType: "html",
-            headers: {
-                "Access-Control-Allow-Origin": "true",
-                "cabId": parseInt(cookie.cabid)
-            },
-            success: function (response) {
-                // При успешном получении ответа, обновляем содержимое контейнера с partial view
-                $("#main-table").html(response);
-            },
-            error: function () {
-                console.log('error load');
-            }
-        });
+        showEquipments();
     });
 
     $("#to-test-table").on("click", function () {
@@ -135,9 +121,24 @@ $(window).on("load", () => {
         });
     });
 
-    
-
-    
+    function showEquipments() {
+        $.ajax({
+            url: '/show-equipments',
+            type: 'GET',
+            dataType: "html",
+            headers: {
+                "Access-Control-Allow-Origin": "true",
+                "cabId": parseInt(cookie.cabid)
+            },
+            success: function (response) {
+                // При успешном получении ответа, обновляем содержимое контейнера с partial view
+                $("#main-table").html(response);
+            },
+            error: function () {
+                console.log('error load');
+            }
+        });
+    }
 });
 
 function switchEditMode() {

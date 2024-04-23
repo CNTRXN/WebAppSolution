@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.DataContext.Models
 {
-    [Table("Права")]
+    [Table("Права доступа")]
     public class Permission
     {
         [Key]

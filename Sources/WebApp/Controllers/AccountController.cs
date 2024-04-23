@@ -8,6 +8,7 @@ using WebApp.Settings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using EncryptLib;
 
 namespace WebApp.Controllers
 {
@@ -27,8 +28,11 @@ namespace WebApp.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Authorization(string Login, string Password) 
         {
-            apiHttpClient.DefaultRequestHeaders.Add("login", Login);
-            apiHttpClient.DefaultRequestHeaders.Add("password", Password);
+            var tempLogin = await Encrypting.Encrypt(Login);
+            var tempPassword = await Encrypting.Encrypt(Password);
+
+            apiHttpClient.DefaultRequestHeaders.Add("login", Convert.ToBase64String(tempLogin));
+            apiHttpClient.DefaultRequestHeaders.Add("password", Convert.ToBase64String(tempPassword));
 
             string errorMessage = string.Empty;
 

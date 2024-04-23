@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPI.DataContext.Models
 {
-    [Table("Оборудоввание")]
+    [Table("Оборудование")]
     public class Equipment
     {
         [Key]

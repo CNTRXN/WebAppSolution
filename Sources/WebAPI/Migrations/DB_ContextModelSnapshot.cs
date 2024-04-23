@@ -54,7 +54,7 @@ namespace WebAPI.Migrations
                         {
                             Id = 1,
                             ExpirationKeyDate = new DateTime(2024, 3, 25, 0, 0, 0, 0, DateTimeKind.Utc),
-                            SignInKey = "ebf54d3b-e3bf-4093-af54-d74fd8cf0e7b",
+                            SignInKey = "cc02ca31-7c33-447e-9177-a78e4ae040e3",
                             UserId = 1
                         });
                 });
@@ -162,230 +162,230 @@ namespace WebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Floor = 2,
-                            Group = 1767,
-                            Height = 107.0,
-                            Length = 295.0,
-                            Num = 176737,
-                            PlanNum = 20936,
-                            ResponsiblePersonId = 5,
-                            Width = 314.0
+                            Floor = 1,
+                            Group = 2423,
+                            Height = 108.0,
+                            Length = 172.0,
+                            Num = 216942,
+                            PlanNum = 19614,
+                            ResponsiblePersonId = 7,
+                            Width = 387.0
                         },
                         new
                         {
                             Id = 2,
-                            Floor = 0,
-                            Group = 1748,
-                            Height = 229.0,
-                            Length = 232.0,
-                            Num = 174811,
-                            PlanNum = 11862,
-                            ResponsiblePersonId = 4,
-                            Width = 198.0
+                            Floor = 1,
+                            Group = 3884,
+                            Height = 162.0,
+                            Length = 484.0,
+                            Num = 388427,
+                            PlanNum = 23843,
+                            ResponsiblePersonId = 1,
+                            Width = 330.0
                         },
                         new
                         {
                             Id = 3,
-                            Floor = 0,
-                            Group = 3828,
-                            Height = 175.0,
-                            Length = 353.0,
-                            Num = 382822,
-                            PlanNum = 23170,
-                            ResponsiblePersonId = 3,
-                            Width = 195.0
+                            Floor = 1,
+                            Group = 3374,
+                            Height = 281.0,
+                            Length = 360.0,
+                            Num = 337420,
+                            PlanNum = 10371,
+                            ResponsiblePersonId = 7,
+                            Width = 328.0
                         },
                         new
                         {
                             Id = 4,
                             Floor = 0,
-                            Group = 1722,
-                            Height = 215.0,
-                            Length = 278.0,
-                            Num = 172223,
-                            PlanNum = 30791,
-                            ResponsiblePersonId = 7,
-                            Width = 418.0
+                            Group = 2081,
+                            Height = 488.0,
+                            Length = 293.0,
+                            Num = 208125,
+                            PlanNum = 38595,
+                            ResponsiblePersonId = 8,
+                            Width = 247.0
                         },
                         new
                         {
                             Id = 5,
                             Floor = 0,
-                            Group = 3949,
-                            Height = 428.0,
-                            Length = 456.0,
-                            Num = 394917,
-                            PlanNum = 20097,
-                            ResponsiblePersonId = 7,
-                            Width = 193.0
+                            Group = 1778,
+                            Height = 237.0,
+                            Length = 231.0,
+                            Num = 177821,
+                            PlanNum = 27827,
+                            ResponsiblePersonId = 4,
+                            Width = 311.0
                         },
                         new
                         {
                             Id = 6,
-                            Floor = 1,
-                            Group = 3999,
-                            Height = 395.0,
-                            Length = 423.0,
-                            Num = 399948,
-                            PlanNum = 33820,
-                            ResponsiblePersonId = 7,
-                            Width = 107.0
-                        },
-                        new
-                        {
-                            Id = 7,
                             Floor = 0,
-                            Group = 1263,
-                            Height = 497.0,
-                            Length = 410.0,
-                            Num = 126344,
-                            PlanNum = 11984,
-                            ResponsiblePersonId = 3,
-                            Width = 170.0
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Floor = 2,
-                            Group = 1826,
-                            Height = 373.0,
-                            Length = 284.0,
-                            Num = 182617,
-                            PlanNum = 35537,
-                            ResponsiblePersonId = 5,
+                            Group = 2765,
+                            Height = 125.0,
+                            Length = 276.0,
+                            Num = 276526,
+                            PlanNum = 21421,
+                            ResponsiblePersonId = 8,
                             Width = 342.0
                         },
                         new
                         {
+                            Id = 7,
+                            Floor = 2,
+                            Group = 2663,
+                            Height = 196.0,
+                            Length = 137.0,
+                            Num = 266342,
+                            PlanNum = 12036,
+                            ResponsiblePersonId = 6,
+                            Width = 371.0
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Floor = 0,
+                            Group = 2500,
+                            Height = 198.0,
+                            Length = 208.0,
+                            Num = 250036,
+                            PlanNum = 11580,
+                            ResponsiblePersonId = 3,
+                            Width = 285.0
+                        },
+                        new
+                        {
                             Id = 9,
-                            Floor = 1,
-                            Group = 1145,
-                            Height = 460.0,
-                            Length = 332.0,
-                            Num = 114535,
-                            PlanNum = 14601,
-                            ResponsiblePersonId = 2,
-                            Width = 132.0
+                            Floor = 2,
+                            Group = 3406,
+                            Height = 175.0,
+                            Length = 439.0,
+                            Num = 340648,
+                            PlanNum = 28929,
+                            ResponsiblePersonId = 5,
+                            Width = 103.0
                         },
                         new
                         {
                             Id = 10,
-                            Floor = 2,
-                            Group = 3510,
-                            Height = 468.0,
-                            Length = 403.0,
-                            Num = 351028,
-                            PlanNum = 33685,
-                            ResponsiblePersonId = 4,
-                            Width = 191.0
+                            Floor = 0,
+                            Group = 2492,
+                            Height = 485.0,
+                            Length = 272.0,
+                            Num = 249230,
+                            PlanNum = 12616,
+                            ResponsiblePersonId = 8,
+                            Width = 317.0
                         },
                         new
                         {
                             Id = 11,
-                            Floor = 2,
-                            Group = 2691,
-                            Height = 102.0,
-                            Length = 406.0,
-                            Num = 269131,
-                            PlanNum = 10630,
-                            ResponsiblePersonId = 3,
-                            Width = 159.0
+                            Floor = 1,
+                            Group = 3572,
+                            Height = 317.0,
+                            Length = 466.0,
+                            Num = 357219,
+                            PlanNum = 14735,
+                            ResponsiblePersonId = 6,
+                            Width = 202.0
                         },
                         new
                         {
                             Id = 12,
-                            Floor = 2,
-                            Group = 1119,
-                            Height = 308.0,
-                            Length = 111.0,
-                            Num = 111921,
-                            PlanNum = 23146,
+                            Floor = 0,
+                            Group = 2509,
+                            Height = 291.0,
+                            Length = 367.0,
+                            Num = 250947,
+                            PlanNum = 21029,
                             ResponsiblePersonId = 5,
-                            Width = 263.0
+                            Width = 270.0
                         },
                         new
                         {
                             Id = 13,
                             Floor = 1,
-                            Group = 3193,
-                            Height = 220.0,
-                            Length = 156.0,
-                            Num = 319340,
-                            PlanNum = 13960,
+                            Group = 2398,
+                            Height = 427.0,
+                            Length = 312.0,
+                            Num = 239824,
+                            PlanNum = 14719,
                             ResponsiblePersonId = 8,
-                            Width = 171.0
+                            Width = 178.0
                         },
                         new
                         {
                             Id = 14,
                             Floor = 0,
-                            Group = 1433,
-                            Height = 345.0,
-                            Length = 195.0,
-                            Num = 143344,
-                            PlanNum = 18394,
-                            ResponsiblePersonId = 7,
-                            Width = 268.0
+                            Group = 2346,
+                            Height = 241.0,
+                            Length = 107.0,
+                            Num = 234623,
+                            PlanNum = 27697,
+                            ResponsiblePersonId = 3,
+                            Width = 247.0
                         },
                         new
                         {
                             Id = 15,
                             Floor = 1,
-                            Group = 3982,
-                            Height = 431.0,
-                            Length = 287.0,
-                            Num = 398247,
-                            PlanNum = 17852,
-                            ResponsiblePersonId = 5,
-                            Width = 436.0
+                            Group = 1656,
+                            Height = 290.0,
+                            Length = 398.0,
+                            Num = 165630,
+                            PlanNum = 33875,
+                            ResponsiblePersonId = 3,
+                            Width = 498.0
                         },
                         new
                         {
                             Id = 16,
-                            Floor = 0,
-                            Group = 2515,
-                            Height = 167.0,
-                            Length = 349.0,
-                            Num = 251528,
-                            PlanNum = 13832,
+                            Floor = 2,
+                            Group = 1747,
+                            Height = 448.0,
+                            Length = 413.0,
+                            Num = 174739,
+                            PlanNum = 35518,
                             ResponsiblePersonId = 6,
-                            Width = 139.0
+                            Width = 188.0
                         },
                         new
                         {
                             Id = 17,
                             Floor = 2,
-                            Group = 2026,
-                            Height = 109.0,
-                            Length = 407.0,
-                            Num = 202636,
-                            PlanNum = 31463,
-                            ResponsiblePersonId = 6,
-                            Width = 120.0
+                            Group = 3502,
+                            Height = 188.0,
+                            Length = 297.0,
+                            Num = 350228,
+                            PlanNum = 36765,
+                            ResponsiblePersonId = 7,
+                            Width = 331.0
                         },
                         new
                         {
                             Id = 18,
                             Floor = 1,
-                            Group = 1890,
-                            Height = 486.0,
-                            Length = 489.0,
-                            Num = 189030,
-                            PlanNum = 24290,
-                            ResponsiblePersonId = 6,
-                            Width = 235.0
+                            Group = 2518,
+                            Height = 148.0,
+                            Length = 225.0,
+                            Num = 251849,
+                            PlanNum = 11370,
+                            ResponsiblePersonId = 1,
+                            Width = 365.0
                         },
                         new
                         {
                             Id = 19,
-                            Floor = 1,
-                            Group = 3349,
-                            Height = 218.0,
-                            Length = 366.0,
-                            Num = 334946,
-                            PlanNum = 37591,
-                            ResponsiblePersonId = 3,
-                            Width = 211.0
+                            Floor = 0,
+                            Group = 1015,
+                            Height = 140.0,
+                            Length = 116.0,
+                            Num = 101539,
+                            PlanNum = 34516,
+                            ResponsiblePersonId = 4,
+                            Width = 217.0
                         });
                 });
 
@@ -415,7 +415,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Оборудоввание");
+                    b.ToTable("Оборудование");
                 });
 
             modelBuilder.Entity("WebAPI.DataContext.Models.EquipmentType", b =>
@@ -449,7 +449,7 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Права");
+                    b.ToTable("Права доступа");
 
                     b.HasData(
                         new
@@ -557,18 +557,17 @@ namespace WebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Birthday = new DateTime(1994, 3, 18, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(1992, 7, 16, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_1",
                             Name = "Name-1",
                             Password = "password_1",
-                            Patronymic = "Patronymic1",
-                            PermissionId = 1,
+                            PermissionId = 2,
                             Surname = "Surname-1"
                         },
                         new
                         {
                             Id = 2,
-                            Birthday = new DateTime(1993, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(1991, 4, 9, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_2",
                             Name = "Name-2",
                             Password = "password_2",
@@ -578,18 +577,18 @@ namespace WebAPI.Migrations
                         new
                         {
                             Id = 3,
-                            Birthday = new DateTime(1995, 3, 27, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(1994, 8, 22, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_3",
                             Name = "Name-3",
                             Password = "password_3",
                             Patronymic = "Patronymic3",
-                            PermissionId = 2,
+                            PermissionId = 1,
                             Surname = "Surname-3"
                         },
                         new
                         {
                             Id = 4,
-                            Birthday = new DateTime(1995, 11, 19, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(2004, 10, 26, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_4",
                             Name = "Name-4",
                             Password = "password_4",
@@ -600,27 +599,28 @@ namespace WebAPI.Migrations
                         new
                         {
                             Id = 5,
-                            Birthday = new DateTime(2004, 11, 3, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(1999, 7, 15, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_5",
                             Name = "Name-5",
                             Password = "password_5",
-                            PermissionId = 2,
+                            PermissionId = 1,
                             Surname = "Surname-5"
                         },
                         new
                         {
                             Id = 6,
-                            Birthday = new DateTime(2000, 7, 17, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(1995, 5, 8, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_6",
                             Name = "Name-6",
                             Password = "password_6",
+                            Patronymic = "Patronymic6",
                             PermissionId = 2,
                             Surname = "Surname-6"
                         },
                         new
                         {
                             Id = 7,
-                            Birthday = new DateTime(1990, 9, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(1992, 1, 2, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_7",
                             Name = "Name-7",
                             Password = "password_7",
@@ -631,7 +631,7 @@ namespace WebAPI.Migrations
                         new
                         {
                             Id = 8,
-                            Birthday = new DateTime(1995, 11, 19, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(2000, 8, 2, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_8",
                             Name = "Name-8",
                             Password = "password_8",
@@ -642,11 +642,11 @@ namespace WebAPI.Migrations
                         new
                         {
                             Id = 9,
-                            Birthday = new DateTime(1997, 9, 11, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(2003, 7, 5, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_9",
                             Name = "Name-9",
                             Password = "password_9",
-                            PermissionId = 2,
+                            PermissionId = 1,
                             Surname = "Surname-9"
                         });
                 });

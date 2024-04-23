@@ -7,7 +7,7 @@ using WebApp.Settings;
 
 namespace WebApp.Controllers
 {
-    public class DataController : Controller
+    public class CabinetController : Controller
     {
         readonly List<Equipment> tableData = [];
         //Cabinet? _cabinet;
@@ -17,7 +17,7 @@ namespace WebApp.Controllers
             BaseAddress = new Uri(AppStatics.ApiUrl)
         };
 
-        public DataController()
+        public CabinetController()
         {
             for (int i = 0; i < 20; i++)
             {

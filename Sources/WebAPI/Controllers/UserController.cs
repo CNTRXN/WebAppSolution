@@ -5,6 +5,8 @@ using WebAPI.DataContext;
 using WebAPI.DataContext.DTO;
 using WebAPI.DataContext.Models;
 using WebAPI.Services;
+using EncryptLib;
+using System.Text;
 
 namespace WebAPI.Controllers
 {
@@ -40,6 +42,9 @@ namespace WebAPI.Controllers
         [HttpGet("get")]
         public async Task<IActionResult> GetUserByLoginAndPassword([FromHeader] string login, [FromHeader] string password)
         {
+            login = await Encrypting.Decrypt(Convert.FromBase64String(login));
+            password = await Encrypting.Decrypt(Convert.FromBase64String(password));
+
             var foundedUser = await _userService.GetUser(login, password);
 
             if (foundedUser == null)

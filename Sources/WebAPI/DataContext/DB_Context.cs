@@ -117,13 +117,26 @@ namespace WebAPI.DataContext
                         PlanNum = new Random().Next(10000, 40000),
                         ResponsiblePersonId = new Random().Next(1, Init_Users().Count)   
                     };
-                    cabinet.Num = new Random().Next(10, 50) + (cabinet.Group * 100);
-
+                    //cabinet.Num = new Random().Next(10, 50) + (cabinet.Group * 100);
+                    cabinet.Num = i == 1 ? 216942 : GenerateNum(cabinet.Group * 100);
 
                     cabinets.Add(cabinet);
                 }
 
                 return cabinets;
+
+                int GenerateNum(int sum)
+                {
+                    while (true)
+                    {
+                        var num = new Random().Next(10, 50) + sum;
+
+                        var numIsExist = cabinets.Where(c => c.Num == num).Any();
+
+                        if (!numIsExist)
+                            return num;
+                    }
+                }
             }
         }
     }
