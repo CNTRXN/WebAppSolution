@@ -18,8 +18,9 @@ namespace WebApp.Controllers
                 Console.WriteLine(stateId);
             }*/
 
-            if (!HttpContext.User.Identity.IsAuthenticated)
-                return Redirect("../auth");
+            if (!(HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated))
+                //return Redirect("../auth");
+                return Redirect("../test-page");
 
             if (AppStatics.User is UserDTO user) 
             {

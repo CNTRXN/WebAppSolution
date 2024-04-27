@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" type="text/javascript"></script>
+    <link href="~/css/RequestForm.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/RequestForm.js"></script>
+    <link href="~/css/ElementsStyle.css" rel="stylesheet" type="text/css" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        @*@await RenderSectionAsync("RequestFrom")*@
+        @RenderBody()
+        <h1>
+            TestPage
+            <button id="show-request-form"></button>
+        </h1>
+    </div>
+</body>
+</html>

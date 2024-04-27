@@ -97,13 +97,11 @@ $(window).on("load", () => {
         switchEditMode();
     });
 
-    
-
     $("#to-equipments").on("click", function () {
         showEquipments();
     });
 
-    $("#to-test-table").on("click", function () {
+    /*$("#to-test-table").on("click", function () {
         $.ajax({
             url: '/show-test',
             type: 'GET',
@@ -119,7 +117,7 @@ $(window).on("load", () => {
                 console.log('error load');
             }
         });
-    });
+    });*/
 
     function showEquipments() {
         $.ajax({

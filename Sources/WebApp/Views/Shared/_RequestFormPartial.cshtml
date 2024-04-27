@@ -1,0 +1,56 @@
+﻿@using System.Text.Json;
+@model dynamic;
+
+<div id="repair-request-container">
+    <div id="repair-request-container-bg"></div>
+
+    <div class="multiplie-objects-from">
+    </div>
+
+    <div id="repair-request-form">
+        <p id="repair-request-title">Заявка на ремонт оборудования</p>
+        <form id="form-container">
+            <div class="single-container" id="cabinetcontainer">
+                <label for="cabinet" class="single-element">
+                    <button type="button" class="delete defaultButton"></button>
+                    <input type="number" id="cabinet" name="cabinet" required hidden>
+                </label>
+            </div>
+            <div class="multiplie-container" id="equipmentscontainer">
+                <label for="cabinet" class="single-element">
+                    <button type="button" class="delete defaultButton">X</button>
+                    <input type="hidden" id="cabinet" name="cabinet" value="1" hidden>
+                </label>
+            </div>
+            <div>
+            </div>
+            <div id="descriptioncontainer">
+                <textarea id="description" name="description" placeholder="Описание" required></textarea>
+            </div>
+            <div class="drop-container" id="dropcontainer">
+                <span class="drop-title">Поместите файлы сюда</span>
+                или
+                <input type="file" id="images" name="images" accept="image/*" multiple="multiple">
+            </div>
+            <div>
+                <input type="submit" class="defaultButton">
+            </div>
+        </form>
+    </div>
+
+    <!--Шаблон формы без выбраного объекта-->
+    <template id="non-selected-object-temp">
+        <label for="cabinet" class="single-element">
+            <button type="button" class="add defaultButton"></button>
+            <input type="number" id="cabinet" name="cabinet" required hidden>
+        </label>
+    </template>
+
+    <!--Шаблон формы с выбраным объектом-->
+    <template id="selected-object-temp">
+        <label for="cabinet" class="single-element">
+            <button type="button" class="delete deleteButton">X</button>
+            <input type="hidden" id="cabinet" name="cabinet" value="1" hidden>
+        </label>
+    </template>
+</div>
