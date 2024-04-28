@@ -1,5 +1,6 @@
-﻿@using System.Text.Json;
-@model dynamic;
+﻿@using WebApp.Models.DTO;
+@using System.Text.Json;
+@model (CabinetDTO, List<EquipmentDTO>);
 
 <div id="repair-request-container">
     <div id="repair-request-container-bg"></div>
@@ -8,19 +9,53 @@
     </div>
 
     <div id="repair-request-form">
-        <p id="repair-request-title">Заявка на ремонт оборудования</p>
+        <div id="repair-request-form-header">
+            <p id="repair-request-title">Заявка на ремонт оборудования</p>
+            <button class="defaultButton" id="close-request-form">X</button>
+        </div>
+        
         <form id="form-container">
             <div class="single-container" id="cabinetcontainer">
-                <label for="cabinet" class="single-element">
-                    <button type="button" class="delete defaultButton"></button>
-                    <input type="number" id="cabinet" name="cabinet" required hidden>
-                </label>
+                @{
+                    if (Model.Item1 != null)
+                    {
+                        <label for="cabinet" class="single-element">
+                            <button type="button" class="delete deleteButton">X</button>
+                            <input type="hidden" id="cabinet" name="cabinet" value="1" hidden>
+                        </label>
+                    }
+                    else
+                    {
+                        <label for="cabinet" class="single-element">
+                            <button type="button" class="add defaultButton"></button>
+                            <input type="number" id="cabinet" name="cabinet" required hidden>
+                        </label>
+                    }
+                }
             </div>
             <div class="multiplie-container" id="equipmentscontainer">
-                <label for="cabinet" class="single-element">
-                    <button type="button" class="delete defaultButton">X</button>
-                    <input type="hidden" id="cabinet" name="cabinet" value="1" hidden>
-                </label>
+                @{
+                    if (Model.Item1 != null)
+                    {
+                        if (Model.Item2 is List<EquipmentDTO> equipments)
+                        {
+                            foreach (var equip in equipments)
+                            {
+                                <label for="cabinet" class="single-element">
+                                    <button type="button" class="delete defaultButton">X</button>
+                                    <input type="hidden" id="cabinet" name="cabinet" value="1" hidden>
+                                </label>
+                            }
+                        }
+                        else
+                        {
+                            <label for="cabinet" class="single-element">
+                                <button type="button" class="add defaultButton"></button>
+                                <input type="number" id="cabinet" name="cabinet" required hidden>
+                            </label>
+                        }
+                    }
+                }
             </div>
             <div>
             </div>
@@ -38,6 +73,8 @@
         </form>
     </div>
 
+    
+
     <!--Шаблон формы без выбраного объекта-->
     <template id="non-selected-object-temp">
         <label for="cabinet" class="single-element">
@@ -53,4 +90,4 @@
             <input type="hidden" id="cabinet" name="cabinet" value="1" hidden>
         </label>
     </template>
-</div>
+</div> 

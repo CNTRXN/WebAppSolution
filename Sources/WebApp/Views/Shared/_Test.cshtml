@@ -10,13 +10,12 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
+    @RenderBody()
     <div>
-        @*@await RenderSectionAsync("RequestFrom")*@
-        @RenderBody()
-        <h1>
-            TestPage
-            <button id="show-request-form"></button>
-        </h1>
+        <p>This is test page</p>
+        <button id="show-request-form-without-data">show empty request form</button>
+        <button id="show-request-form-with-cabid">show request form with cab</button>
+        <button id="show-request-form-with-cabid-and-equipments">show request form with cab and equipments</button>
     </div>
 </body>
 </html>

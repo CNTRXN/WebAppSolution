@@ -12,15 +12,14 @@ const oncabinetchange = new Event("cabinetchange");
 const onequipmentchange = new Event("equipmentchange");
 
 window.onload = () => {
-    
+    var cookie = getCookie();
 
     //test button
-    const showRequestForm = document.getElementById("show-request-form");
-
-    
+    const showRequestFormWithoutData = document.getElementById("show-request-form-without-data");
+    const showRequestFormWithCabId = document.getElementById("show-request-form-with-cabid");
 
     //test
-    showRequestForm.addEventListener("click", (e) => {
+    showRequestFormWithoutData.addEventListener("click", (e) => {
         $.ajax({
             url: '/show-request-from',
             type: 'GET',
@@ -29,11 +28,32 @@ window.onload = () => {
                 "Access-Control-Allow-Origin": "true",
             },
             success: function (response) { 
-                $(document.body).html(response);
+                $(document.body).append(response);
+
                 registerRequestFormEvents();
             },
             error: function () {
-                console.log('error load');
+                console.log('error load request form');
+            }
+        });
+    });
+
+    showRequestFormWithCabId.addEventListener("click", (e) => {
+        $.ajax({
+            url: '/show-request-from',
+            type: 'GET',
+            dataType: "html",
+            headers: {
+                "Access-Control-Allow-Origin": "true",
+                "cabId": cookie.cabid !== null ? parseInt(cookie.cabid) : 0
+            },
+            success: function (response) {
+                $(document.body).append(response);
+
+                registerRequestFormEvents();
+            },
+            error: function () {
+                console.log('error load request form');
             }
         });
     });
@@ -79,6 +99,11 @@ var registerRequestFormEvents = () => {
         }
     });
 
+    var closeFormButton = document.getElementById("close-request-form");
+
+    closeFormButton.addEventListener("click", (e) => {
+        $("#repair-request-container").remove();
+    });
 
     startContainer(requestForm);
 };
@@ -123,8 +148,29 @@ var setEmptyContainer = (containerOnChange, type) => {
 
             //Нажатие на добавление объекта
             addNewCabinet.addEventListener("click", (e) => {
-                setSelectedContainer(containerOnChange, ContainerType.cabinet);
+                //setSelectedContainer(containerOnChange, ContainerType.cabinet);
                 //открытие формы выбора кабинета
+                var cookie = getCookie();
+
+                $.ajax({
+                    url: '/show-select-object',
+                    type: 'GET',
+                    dataType: "html",
+                    headers: {
+                        "Access-Control-Allow-Origin": "true",
+                        "cabId": parseInt(cookie.cabid)
+                    },
+                    success: function (response) {
+                        $("#repair-request-container").append(response);
+
+                        $("#close-select-form").on("click", (e) => {
+                            $("#other-form-container").remove();
+                        });
+                    },
+                    error: function () {
+
+                    }
+                });
             });
             break;
         case ContainerType.equipment:
@@ -271,4 +317,12 @@ function deleteNotImage(files) {
     }
 
     return images.files;
+}
+
+function getCookie() {
+    return document.cookie.split('; ').reduce((acc, item) => {
+        const [name, value] = item.split('=')
+        acc[name] = value
+        return acc
+    }, {})
 }

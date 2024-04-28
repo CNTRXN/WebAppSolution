@@ -14,11 +14,6 @@ namespace WebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly HttpClient apiHttpClient = new() 
-        {
-            BaseAddress = new Uri($"{AppStatics.ApiUrl}api/User/")
-        };
-
         [HttpGet("auth")]
         public async Task<IActionResult> AuthAndReg()
         {
@@ -31,14 +26,14 @@ namespace WebApp.Controllers
             var tempLogin = await Encrypting.Encrypt(Login);
             var tempPassword = await Encrypting.Encrypt(Password);
 
-            apiHttpClient.DefaultRequestHeaders.Add("login", Convert.ToBase64String(tempLogin));
-            apiHttpClient.DefaultRequestHeaders.Add("password", Convert.ToBase64String(tempPassword));
+            AppStatics.ApiClient.DefaultRequestHeaders.Add("login", Convert.ToBase64String(tempLogin));
+            AppStatics.ApiClient.DefaultRequestHeaders.Add("password", Convert.ToBase64String(tempPassword));
 
             string errorMessage = string.Empty;
 
             try
             {
-                var response = await apiHttpClient.GetAsync("get");
+                var response = await AppStatics.ApiClient.GetAsync("api/User/get");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -108,7 +103,7 @@ namespace WebApp.Controllers
 
                     Console.WriteLine(newUser.Name);
 
-                    var response = await apiHttpClient.PostAsJsonAsync("registration", newUser);
+                    var response = await AppStatics.ApiClient.PostAsJsonAsync("api/User/registration", newUser);
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
@@ -146,7 +141,7 @@ namespace WebApp.Controllers
 
             try
             {
-                var result = await apiHttpClient.GetFromJsonAsync<UserDTO>("get/id=" + id);
+                var result = await AppStatics.ApiClient.GetFromJsonAsync<UserDTO>("api/User/get/id=" + id);
 
                 if (result != null) 
                 {

@@ -15,12 +15,6 @@
     opacity: 0.65;
 }
 
-#repair-request-title {
-    grid-row: 1;
-    text-align: center;
-    font-size: 16pt;
-}
-
 #repair-request-form {
     display: grid;
     grid-template-columns: 1fr;
@@ -36,6 +30,27 @@
     margin-right: -50%;
     transform: translate(-50%, 0%);
 }
+
+/*#region шапка формы*/
+#repair-request-form-header {
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    grid-template-rows: 1fr;
+}
+
+#repair-request-title {
+    text-align: center;
+    font-size: 16pt;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+#close-request-form {
+    grid-column: 2;
+    border-radius: 0px 20px 0px 0px;
+}
+/*#endregion*/
 
 #form-container {
     grid-row-start: 2;
@@ -187,4 +202,64 @@ input[type=submit] {
     transform: translate(-50%, 0%);
     width: 250px;
     height: 50px;
+}
+
+
+
+#other-form-container {
+    position: absolute;
+    width: 700px;
+    height: 800px;
+    top: 10%;
+    left: 50%;
+    margin: 0;
+    margin-right: -50%;
+    transform: translate(-50%, 0%);
+}
+
+#other-form-container-bg {
+    background-color: black;
+    border-radius: 20px;
+    opacity: 0.25;
+    position: absolute;
+    width: 700px;
+    height: 800px;
+}
+
+#select-object-form {
+    background-color: white;
+    border-radius: 10px;
+    position: absolute;
+    width: 600px;
+    height: 650px;
+    top: 10%;
+    left: 50%;
+    margin: 0;
+    margin-right: -50%;
+    transform: translate(-50%, 0%);
+    display: grid;
+    grid-template-rows: 50px 1fr 50px;
+    grid-template-columns: 1fr;
+}
+
+    #select-object-form > select {
+        grid-row: 2;
+    }
+
+        #select-object-form > select::-webkit-scrollbar {
+            width: 0;
+        }
+
+        #select-object-form > select > option[selected] {
+            background-color: blue;
+        }
+
+#select-object-header {
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    grid-template-rows: 1fr;
+}
+
+#close-select-form {
+    grid-column: 2;
 }

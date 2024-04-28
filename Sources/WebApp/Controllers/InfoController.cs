@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using WebApp.Models.DTO;
+using WebApp.Settings;
 
 namespace WebApp.Controllers
 {
@@ -19,9 +20,25 @@ namespace WebApp.Controllers
         }
 
         [HttpGet("show-request-from")]
-        public ActionResult ShowRequestForm() 
+        public async Task<ActionResult> ShowRequestForm([FromHeader] int cabId) 
         {
-            return PartialView("_RequestFormPartial", null);
+            CabinetDTO? cabinet = cabId != 0 ? await AppStatics.ApiClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/get/id={cabId}") : null;
+            List<EquipmentDTO>? equipments = null;
+
+            return PartialView("_RequestFormPartial", (cabinet, equipments));
+        }
+
+        [HttpGet("show-select-object")]
+        public async Task<ActionResult> ShowSelectObject([FromHeader] int cabId, [FromHeader] string getType) 
+        {
+            dynamic? getData = getType switch
+            {
+                "cabinets" => await AppStatics.ApiClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/get/id={cabId}"),
+                "equipment" => await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}"),
+                _ => null
+            };
+
+            return PartialView("_SelectObjectFormPartial", getData);
         }
 
         [HttpPost("send-request")]
