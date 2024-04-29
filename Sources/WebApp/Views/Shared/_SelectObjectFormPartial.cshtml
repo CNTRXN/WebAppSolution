@@ -9,27 +9,30 @@
         </div>
         <select size="5" multiple>
             @{
+                //Если кабинет не выбран(выводится список кабинетов)
+                if (Model is List<CabinetDTO> getCabinets)
+                {
+                    foreach (var cabinet in getCabinets)
+                    {
+                        
+                    }
+                }
+
+                //Если выбран кабинет(выводится информация о нём)
                 // if (Model is CabinetDTO getCabinet)
                 // {
 
                 // }
 
-                // if (Model is List<EquipmentDTO> getEquipment)
-                // {
-                //     foreach (var equip in getEquipment)
-                //     {
-
-                //     }   
-                // }
+                //Выбраное/невыбраное оборудование
+                if (Model is List<EquipmentDTO> getEquipments)
+                {
+                    foreach (var equipment in getEquipments)
+                    {
+                        <option>@equipment.Name</option>
+                    }   
+                }
             }
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
         </select>
     </div>
 </div>

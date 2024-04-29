@@ -20,14 +20,17 @@
                     if (Model.Item1 != null)
                     {
                         <label for="cabinet" class="single-element">
+                            <div class="single-element-content">
+                                <p>@Model.Item1.Num</p>
+                            </div>
                             <button type="button" class="delete deleteButton">X</button>
-                            <input type="hidden" id="cabinet" name="cabinet" value="1" hidden>
+                            <input type="hidden" id="cabinet" name="cabinet" value="@Model.Item1.Id" hidden>
                         </label>
                     }
                     else
                     {
-                        <label for="cabinet" class="single-element">
-                            <button type="button" class="add defaultButton"></button>
+                        <label for="cabinet" class="single-element"> 
+                            <button type="button" class="add defaultButton">Добавить кабинет</button>
                             <input type="number" id="cabinet" name="cabinet" required hidden>
                         </label>
                     }
@@ -42,6 +45,9 @@
                             foreach (var equip in equipments)
                             {
                                 <label for="cabinet" class="single-element">
+                                    <div class="single-element-content">
+                                    
+                                    </div>
                                     <button type="button" class="delete defaultButton">X</button>
                                     <input type="hidden" id="cabinet" name="cabinet" value="1" hidden>
                                 </label>
@@ -50,7 +56,7 @@
                         else
                         {
                             <label for="cabinet" class="single-element">
-                                <button type="button" class="add defaultButton"></button>
+                                <button type="button" class="add defaultButton">Добавить оборудование</button>
                                 <input type="number" id="cabinet" name="cabinet" required hidden>
                             </label>
                         }
@@ -77,17 +83,20 @@
 
     <!--Шаблон формы без выбраного объекта-->
     <template id="non-selected-object-temp">
-        <label for="cabinet" class="single-element">
+        <label class="single-element">
             <button type="button" class="add defaultButton"></button>
-            <input type="number" id="cabinet" name="cabinet" required hidden>
+            <input type="number" required hidden>
         </label>
     </template>
 
     <!--Шаблон формы с выбраным объектом-->
     <template id="selected-object-temp">
-        <label for="cabinet" class="single-element">
+        <label class="single-element">
+            <div class="single-element-content">
+
+            </div>
             <button type="button" class="delete deleteButton">X</button>
-            <input type="hidden" id="cabinet" name="cabinet" value="1" hidden>
+            <input type="hidden" value="1" hidden>
         </label>
     </template>
 </div> 

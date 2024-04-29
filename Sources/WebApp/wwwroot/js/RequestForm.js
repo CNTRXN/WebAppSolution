@@ -10,9 +10,9 @@ var ContainerType = Object.freeze({
 
 const oncabinetchange = new Event("cabinetchange");
 const onequipmentchange = new Event("equipmentchange");
-
 window.onload = () => {
     var cookie = getCookie();
+
 
     //test button
     const showRequestFormWithoutData = document.getElementById("show-request-form-without-data");
@@ -20,6 +20,7 @@ window.onload = () => {
 
     //test
     showRequestFormWithoutData.addEventListener("click", (e) => {
+        deleteCookie("cabid");
         $.ajax({
             url: '/show-request-from',
             type: 'GET',
@@ -39,13 +40,14 @@ window.onload = () => {
     });
 
     showRequestFormWithCabId.addEventListener("click", (e) => {
+
         $.ajax({
             url: '/show-request-from',
             type: 'GET',
             dataType: "html",
             headers: {
                 "Access-Control-Allow-Origin": "true",
-                "cabId": cookie.cabid !== null ? parseInt(cookie.cabid) : 0
+                "cabId": cookie.cabid !== 0 ? parseInt(cookie.cabid) : 0
             },
             success: function (response) {
                 $(document.body).append(response);
@@ -67,7 +69,7 @@ window.onload = () => {
     });*/
 };
 
-var registerRequestFormEvents = () => {
+var registerRequestFormEvents = (response) => {
     const requestForm = document.getElementById("form-container");
 
     const dropContainer = document.getElementById('dropcontainer');
@@ -105,19 +107,36 @@ var registerRequestFormEvents = () => {
         $("#repair-request-container").remove();
     });
 
-    startContainer(requestForm);
+    startContainer();
 };
 
-var startContainer = (requestForm) => {
+var startContainer = () => {
     const cabContaintainer = document.getElementById("cabinetcontainer");
     const equipContainer = document.getElementById("equipmentscontainer");
     //попытка получения выбранного элемента кабинета
+
+    /*
+    при загрузке после удаления куки - нет проверки, что их нет
+    поэтому проверяется старая форма, а полсе изменения контента не изменяется внешний вид
+    
+    
+    */
+
+
+
+
+
+
+
     try {
         //Кабинет
         if (cabContaintainer.querySelector(".delete")) {
             //есть объект
+
             setSelectedContainer(cabContaintainer, ContainerType.cabinet);
         } else {
+            equipContainer.hidden = true;
+
             setEmptyContainer(cabContaintainer, ContainerType.cabinet);
         }
 
@@ -126,6 +145,11 @@ var startContainer = (requestForm) => {
             //есть объект
             setSelectedContainer(equipContainer, ContainerType.equipment);
         } else {
+            /*const equipmentContainer = document.getElementById("equipmentscontainer");
+
+            //need to fix!!!!!!!!!!!!!!!!!!
+            deleteChild(equipmentContainer);*/
+
             setEmptyContainer(equipContainer, ContainerType.equipment);
         }
     } catch (err) {
@@ -143,25 +167,33 @@ var setEmptyContainer = (containerOnChange, type) => {
 
             if (containerOnChange.querySelector('.delete') || containerOnChange.querySelector('.add'))
                 containerOnChange.replaceChild(createdCabTemplate, containerOnChange.firstElementChild);
-            else
+            else {
                 containerOnChange.appendChild(createdCabTemplate);
-
+            }
+            
+            
             //Нажатие на добавление объекта
             addNewCabinet.addEventListener("click", (e) => {
-                //setSelectedContainer(containerOnChange, ContainerType.cabinet);
-                //открытие формы выбора кабинета
-                var cookie = getCookie();
+                setSelectedContainer(containerOnChange, ContainerType.cabinet);
 
-                $.ajax({
+                console.log("!");
+
+                //$("#equipmentscontainer").show();
+
+                //открытие формы выбора кабинета
+                /*$.ajax({
                     url: '/show-select-object',
                     type: 'GET',
                     dataType: "html",
                     headers: {
                         "Access-Control-Allow-Origin": "true",
-                        "cabId": parseInt(cookie.cabid)
+                        "cabId": getCookie().cabid !== 0 ? parseInt(getCookie().cabid) : 0
                     },
                     success: function (response) {
                         $("#repair-request-container").append(response);
+
+                        //событие при выборе кабинета
+                        //setEmptyContainer(cabContaintainer, ContainerType.cabinet);
 
                         $("#close-select-form").on("click", (e) => {
                             $("#other-form-container").remove();
@@ -170,8 +202,8 @@ var setEmptyContainer = (containerOnChange, type) => {
                     error: function () {
 
                     }
-                });
-            });
+                });*/
+            }); 
             break;
         case ContainerType.equipment:
             addNewEquipmentButton(containerOnChange);
@@ -180,20 +212,38 @@ var setEmptyContainer = (containerOnChange, type) => {
 }
 
 var setSelectedContainer = (containerOnChange, type) => {
+    var cookie = getCookie();
+
     switch (type) {
         case ContainerType.cabinet:
-            var createdCabTemplate = createObject(objectType.selected, ContainerType.cabinet);
+            var createdCabTemplate = null;
+
+            if (cookie.cabid == undefined)
+                createdCabTemplate = createObject(objectType.selected, ContainerType.cabinet);
+            else
+                createdCabTemplate = document.getElementById("cabinetcontainer");
 
             var deleteCabinetButton = createdCabTemplate.querySelector(".delete");
 
-            if (containerOnChange.querySelector('.add') || containerOnChange.querySelector('.delete'))
-                containerOnChange.replaceChild(createdCabTemplate, containerOnChange.firstElementChild);
-            else
+            if (containerOnChange.querySelector('.add') || containerOnChange.querySelector('.delete')) {
+                //containerOnChange.replaceChild(createdCabTemplate, containerOnChange.firstElementChild)
+                if (cookie.cabid != undefined)
+                    //если есть куки с номером кабинета, 
+                    //то скрывается кнопка удаления кабинета
+                    $(deleteCabinetButton).hide();
+                else {
+                    //containerOnChange.replaceChild(createdCabTemplate, containerOnChange.firstElementChild);
+                    setEmptyContainer(containerOnChange, ContainerType.cabinet);
+                }
+            }
+            else {
                 containerOnChange.appendChild(createdCabTemplate);
+            }
 
             //Нажатие на удаление кабинета
             deleteCabinetButton.addEventListener("click", (event) => {
                 setEmptyContainer(containerOnChange, ContainerType.cabinet);
+                $("#equipmentscontainer").hide();
             });
             break;
         case ContainerType.equipment:
@@ -205,38 +255,66 @@ var setSelectedContainer = (containerOnChange, type) => {
                 //удаление оборудования из списка
                 deleteEquipment.addEventListener("click", () => {
                     deleteEquipment.parentElement.remove();
-                });
-
-                addNewEquipmentButton(containerOnChange);
+                }); 
             }
             else
-                containerOnChange.appendChild(createdEquipmentTemplate);     
+                containerOnChange.appendChild(createdEquipmentTemplate); 
+
+            addNewEquipmentButton(containerOnChange);
             break;
     }
 }
 
 function addNewEquipmentButton(containerOnChange) {
+    var cookie = getCookie();
+
     var createdEquipmentTemplate = createObject(objectType.empty, ContainerType.equipment);
 
     var addNewEquipment = createdEquipmentTemplate.querySelector(".add");
     addNewEquipment.textContent = "Добавить оборудование";
 
-    if (containerOnChange.querySelector('.add'))
+    if (containerOnChange.querySelector('.add')) {
         containerOnChange.replaceChild(createdEquipmentTemplate, containerOnChange.firstElementChild);
-    else
+    }
+    else {
         containerOnChange.appendChild(createdEquipmentTemplate);
+    }
 
     //добавление нового оборудования
     addNewEquipment.addEventListener("click", (e) => {
-        var newEquipment = createObject(objectType.selected, ContainerType.equipment);
-        var deleteEquipmentButton = newEquipment.querySelector(".delete");
+        console.log('click!');
+        $.ajax({
+            url: '/show-select-object',
+            type: 'GET',
+            dataType: "html",
+            headers: {
+                "Access-Control-Allow-Origin": "true",
+                "cabId": cookie.cabid !== 0 ? parseInt(cookie.cabid) : 0
+            },
+            success: function (response) {
+                $("#repair-request-container").append(response);
 
-        //удаление оборудования из списка
-        deleteEquipmentButton.addEventListener("click", (e) => {
-            newEquipment.remove();
+                //событие при выборе кабинета
+                //setEmptyContainer(cabContaintainer, ContainerType.cabinet);
+
+                $("#close-select-form").on("click", (e) => {
+                    $("#other-form-container").remove();
+                });
+            },
+            error: function () {
+
+            }
         });
 
-        containerOnChange.insertBefore(newEquipment, containerOnChange.firstElementChild);
+        //var newEquipment = createObject(objectType.selected, ContainerType.equipment);
+        //var deleteEquipmentButton = newEquipment.querySelector(".delete");
+
+        ////удаление оборудования из списка
+        //deleteEquipmentButton.addEventListener("click", (e) => {
+        //    newEquipment.remove();
+        //});
+
+        //containerOnChange.insertBefore(newEquipment, containerOnChange.firstElementChild);
     });
 }
 
@@ -244,28 +322,35 @@ function createObject(obj_type, container_type) {
     switch (container_type) {
         case ContainerType.cabinet:
             var cabinetObject = byType();
-            cabinetObject.classList.add("selected-cabinet");
+            cabinetObject.setAttribute("for", "cabinet");
+            var cabinetInput = cabinetObject.querySelector('input');
+            cabinetInput.setAttribute("id", "cabinet");
+            cabinetInput.setAttribute("name", "cabinet");
+
             return cabinetObject;
-            break;
         case ContainerType.equipment:
             var equipmentObject = byType();
-            equipmentObject.classList.add("selected-equipment");
+            equipmentObject.setAttribute("for", "equipment");
+            var equipmentInput = equipmentObject.querySelector('input');
+            equipmentInput.setAttribute("id", "equipment");
+            equipmentInput.setAttribute("name", "equipment");
+
             return equipmentObject;
-            break;
     }
 
     function byType() {
         switch (obj_type) {
             case objectType.empty:
                 var emptyObject = emptyObj();
+                emptyObject.classList.add("empty");
                 return emptyObject;
-                break;
             case objectType.selected:
                 var selectedObject = selectedObj();
+                selectedObject.classList.add("selected");
                 return selectedObject;
-                break;
         }
     }
+
 
     function selectedObj() {
         const selectedObject = document.getElementById("selected-object-temp");
@@ -325,4 +410,16 @@ function getCookie() {
         acc[name] = value
         return acc
     }, {})
+}
+
+function deleteCookie(name) {
+    document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function deleteChild(container) {
+    let child = container.lastElementChild;
+    while (child) {
+        e.removeChild(child);
+        child = e.lastElementChild;
+    }
 }
