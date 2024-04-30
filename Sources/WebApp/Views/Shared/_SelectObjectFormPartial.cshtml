@@ -7,32 +7,33 @@
         <div id="select-object-header">
             <button id="close-select-form"></button>
         </div>
-        <select size="5" multiple>
             @{
                 //Если кабинет не выбран(выводится список кабинетов)
                 if (Model is List<CabinetDTO> getCabinets)
                 {
-                    foreach (var cabinet in getCabinets)
-                    {
-                        
+                    <select size="5">
+                    @{
+                        foreach (var cabinet in getCabinets)
+                        {
+                            <option value="@cabinet.Id">@cabinet.Num</option>
+                        }
                     }
+                    </select>
                 }
-
-                //Если выбран кабинет(выводится информация о нём)
-                // if (Model is CabinetDTO getCabinet)
-                // {
-
-                // }
 
                 //Выбраное/невыбраное оборудование
                 if (Model is List<EquipmentDTO> getEquipments)
                 {
-                    foreach (var equipment in getEquipments)
-                    {
-                        <option>@equipment.Name</option>
-                    }   
+                    <select size="5" multiple>
+                    @{
+                        foreach (var equipment in getEquipments)
+                        {
+                            //нет id, нужно исправить
+                            <option>@equipment.Name</option>
+                        }
+                    }  
+                    </select>
                 }
             }
-        </select>
     </div>
 </div>

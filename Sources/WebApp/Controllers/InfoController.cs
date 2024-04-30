@@ -34,8 +34,8 @@ namespace WebApp.Controllers
             dynamic? getData = getType switch
             {
                 "cabinets" => cabId != 0 ? await AppStatics.ApiClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/get/id={cabId}") 
-                    : await AppStatics.ApiClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/all"),
-                "equipment" => await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}"),
+                    : await AppStatics.ApiClient.GetFromJsonAsync<List<CabinetDTO>>($"api/Cabinet/all"),
+                "equipments" => await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}"),
                 _ => null
             };
 

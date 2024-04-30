@@ -20,7 +20,9 @@ window.onload = () => {
 
     //test
     showRequestFormWithoutData.addEventListener("click", (e) => {
+        //симуляция страницы без инфорамции о кабинете
         deleteCookie("cabid");
+
         $.ajax({
             url: '/show-request-from',
             type: 'GET',
@@ -40,6 +42,8 @@ window.onload = () => {
     });
 
     showRequestFormWithCabId.addEventListener("click", (e) => {
+        //симуляция страницы с кабинетом
+        document.cookie = "cabid=1";
 
         $.ajax({
             url: '/show-request-from',
@@ -121,37 +125,51 @@ var startContainer = () => {
     
     
     */
+    
 
-
-
-
-
-
+    if (isCabinetPage()) {
+        console.log('is cabinet page');
+    }
+    else {
+        console.log('isn`t cabinet page');
+    }
 
     try {
+        //cabContaintainer.querySelector(".delete")
         //Кабинет
-        if (cabContaintainer.querySelector(".delete")) {
+        if (isCabinetPage()) {
             //есть объект
 
             setSelectedContainer(cabContaintainer, ContainerType.cabinet);
         } else {
-            equipContainer.hidden = true;
+            
 
             setEmptyContainer(cabContaintainer, ContainerType.cabinet);
         }
 
+        let formHasEquipments = equipContainer.querySelector(".delete") != null;
+        //console.log(formHasEquipments);
+
+
         //Оборудование
-        if (equipContainer.querySelector(".delete")) {
-            //есть объект
-            setSelectedContainer(equipContainer, ContainerType.equipment);
+        if (isCabinetPage()) {
+            if (formHasEquipments) {
+                //есть объект
+                setSelectedContainer(equipContainer, ContainerType.equipment);
+            } else {
+                /*const equipmentContainer = document.getElementById("equipmentscontainer");
+    
+                //need to fix!!!!!!!!!!!!!!!!!!
+                deleteChild(equipmentContainer);*/
+
+                setEmptyContainer(equipContainer, ContainerType.equipment);
+            }
         } else {
-            /*const equipmentContainer = document.getElementById("equipmentscontainer");
-
-            //need to fix!!!!!!!!!!!!!!!!!!
-            deleteChild(equipmentContainer);*/
-
-            setEmptyContainer(equipContainer, ContainerType.equipment);
+            equipContainer.hidden = true;
         }
+
+
+        
     } catch (err) {
 
     }
@@ -174,22 +192,24 @@ var setEmptyContainer = (containerOnChange, type) => {
             
             //Нажатие на добавление объекта
             addNewCabinet.addEventListener("click", (e) => {
-                setSelectedContainer(containerOnChange, ContainerType.cabinet);
-
-                console.log("!");
+                //setSelectedContainer(containerOnChange, ContainerType.cabinet);
 
                 //$("#equipmentscontainer").show();
 
                 //открытие формы выбора кабинета
-                /*$.ajax({
+                $.ajax({
                     url: '/show-select-object',
                     type: 'GET',
                     dataType: "html",
                     headers: {
                         "Access-Control-Allow-Origin": "true",
-                        "cabId": getCookie().cabid !== 0 ? parseInt(getCookie().cabid) : 0
+                        "cabId": isCabinetPage() ? parseInt(getCookie().cabid) : 0,
+                        "getType": "cabinets"
                     },
                     success: function (response) {
+
+                        console.log("cabinet select open");
+
                         $("#repair-request-container").append(response);
 
                         //событие при выборе кабинета
@@ -200,9 +220,9 @@ var setEmptyContainer = (containerOnChange, type) => {
                         });
                     },
                     error: function () {
-
+                        console.log("error");
                     }
-                });*/
+                });
             }); 
             break;
         case ContainerType.equipment:
@@ -225,20 +245,34 @@ var setSelectedContainer = (containerOnChange, type) => {
 
             var deleteCabinetButton = createdCabTemplate.querySelector(".delete");
 
+
+
+
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (containerOnChange.querySelector('.add') || containerOnChange.querySelector('.delete')) {
                 //containerOnChange.replaceChild(createdCabTemplate, containerOnChange.firstElementChild)
-                if (cookie.cabid != undefined)
+                if (isCabinetPage())
                     //если есть куки с номером кабинета, 
-                    //то скрывается кнопка удаления кабинета
+                    //то скрывается кнопку удаления кабинета
                     $(deleteCabinetButton).hide();
+                    
                 else {
-                    //containerOnChange.replaceChild(createdCabTemplate, containerOnChange.firstElementChild);
-                    setEmptyContainer(containerOnChange, ContainerType.cabinet);
+                    //при добавлении кабинета
+                    containerOnChange.replaceChild(createdCabTemplate, containerOnChange.firstElementChild);
+                    let equipmentContainer = document.getElementById("equipmentscontainer");
+
+                    $(equipmentContainer).show();
+                    //setEmptyContainer(containerOnChange, ContainerType.cabinet);
+                    setEmptyContainer(equipmentContainer, ContainerType.equipment);
                 }
             }
             else {
                 containerOnChange.appendChild(createdCabTemplate);
             }
+
+
+
+
 
             //Нажатие на удаление кабинета
             deleteCabinetButton.addEventListener("click", (event) => {
@@ -263,6 +297,9 @@ var setSelectedContainer = (containerOnChange, type) => {
             addNewEquipmentButton(containerOnChange);
             break;
     }
+}
+let addCabinetData = () => {
+
 }
 
 function addNewEquipmentButton(containerOnChange) {
@@ -289,7 +326,8 @@ function addNewEquipmentButton(containerOnChange) {
             dataType: "html",
             headers: {
                 "Access-Control-Allow-Origin": "true",
-                "cabId": cookie.cabid !== 0 ? parseInt(cookie.cabid) : 0
+                "cabId": cookie.cabid !== 0 ? parseInt(cookie.cabid) : 0,
+                "getType" : "equipments"
             },
             success: function (response) {
                 $("#repair-request-container").append(response);
@@ -316,6 +354,14 @@ function addNewEquipmentButton(containerOnChange) {
 
         //containerOnChange.insertBefore(newEquipment, containerOnChange.firstElementChild);
     });
+}
+
+function isCabinetPage() {
+    let cookie = getCookie();
+
+    let isCabinetPage = cookie.cabid != undefined;
+
+    return isCabinetPage;
 }
 
 function createObject(obj_type, container_type) { 
