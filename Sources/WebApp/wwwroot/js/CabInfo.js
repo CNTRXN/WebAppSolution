@@ -56,7 +56,7 @@ $(window).on("load", () => {
 
     $(buttons[currentIndex - 1]).css("color", "white");
 
-    showEquipments();
+    showCabinetData('/show-equipments');
 
     $.each(buttons, function () {
         $(this).on("click", function () {
@@ -97,8 +97,12 @@ $(window).on("load", () => {
         switchEditMode();
     });
 
-    $("#to-equipments").on("click", function () {
-        showEquipments();
+    $("#to-equipments").on("click", (e) => {
+        showCabinetData('/show-equipments');
+    });
+
+    $("#to-test-table").on("click", () => {
+        showCabinetData('/show-test');
     });
 
     /*$("#to-test-table").on("click", function () {
@@ -119,9 +123,9 @@ $(window).on("load", () => {
         });
     });*/
 
-    function showEquipments() {
+    function showCabinetData(_url) {
         $.ajax({
-            url: '/show-equipments',
+            url: _url,
             type: 'GET',
             dataType: "html",
             headers: {

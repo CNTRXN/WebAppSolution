@@ -3,6 +3,13 @@
     public class TableValueResult
     {
         private Dictionary<string, object?> _tableResults = [];
+        public int Count 
+        { 
+            get 
+            {
+                return _tableResults.Count;
+            }
+        }
 
         public object? this[string key] 
         {

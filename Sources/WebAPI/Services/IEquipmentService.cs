@@ -6,11 +6,14 @@ namespace WebAPI.Services
     public interface IEquipmentService
     {
         Task<IEnumerable<Equipment>> GetEquipments();
-        Task<Equipment?> GetEquipment(int id);
-        Task<Equipment?> AddNewEquipment(EquipmentDTO newEquipments);
-        Task<bool> AddNewEquipmentType(string typeName);
-        Task<int?> AddNewEquipments(IEnumerable<EquipmentDTO> newEquipments);
-        Task<bool> DeleteEquipment(int id);
+        Task<Equipment?> GetEquipment(int equipmentId);
+        Task<Equipment?> AddNewEquipment(NewEquipmentDTO newEquipments);
+        Task<int?> AddNewEquipments(IEnumerable<NewEquipmentDTO> newEquipments);
+        Task<bool> DeleteEquipment(int equipmentId);
         Task<int?> DeleteEquipments(IEnumerable<EquipmentDTO> deletedEquipments);
+
+        Task<IEnumerable<EquipmentType>> GetEquipmentTypes();
+        Task<EquipmentType?> GetEquipmentType(int equipmentTypeId);
+        Task<bool> AddNewEquipmentType(string typeName);
     }
 }

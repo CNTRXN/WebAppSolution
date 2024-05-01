@@ -99,10 +99,10 @@ namespace WebApp.Settings
             });
         }
 
-        public TableValueResult? GetValues<ConT>(ConT convObj, bool withoutCheck = false) 
+        public TableValueResult? GetValues<ConT>(ConT convObj, bool withoutCheck = false, bool withNotInclude = false) 
         {
             if(!withoutCheck)
-                if (convObj?.GetType() != Type)
+                if (convObj?.GetType().Name != Type?.Name)
                     return null;
 
             var properties = convObj?.GetType()
@@ -110,6 +110,8 @@ namespace WebApp.Settings
                 .ToList();
 
             TableValueResult includedValues = new();
+
+            int i = 0;
 
             foreach (var prop in properties ?? []) 
             {
@@ -129,8 +131,10 @@ namespace WebApp.Settings
                     }
                 }
 
-                if (include)
+                if (include || withNotInclude)
                     includedValues[prop.Name] = prop.GetValue(convObj);
+
+                i++;
             }
 
             return includedValues;

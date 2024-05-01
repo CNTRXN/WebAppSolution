@@ -1,5 +1,21 @@
 ﻿@using WebApp.Models.DTO;
+@using WebApp.Models;
+@using WebApp.Settings
 @model dynamic;
+
+@{
+    TranslateMetadata<IMetaData> selectObjects = new();
+
+    if (Model is List<CabinetDTO>)
+    {
+        selectObjects.Assign<CabinetDTO>();
+    }
+
+    if (Model is List<EquipmentDTO>)
+    {
+        selectObjects.Assign<EquipmentDTO>();
+    }
+}
 
 <div id="other-form-container">
     <div id="other-form-container-bg"></div>
@@ -7,33 +23,61 @@
         <div id="select-object-header">
             <button id="close-select-form"></button>
         </div>
-            @{
-                //Если кабинет не выбран(выводится список кабинетов)
-                if (Model is List<CabinetDTO> getCabinets)
-                {
-                    <select size="5">
+        @{
+            if (selectObjects.Type == typeof(CabinetDTO))
+            {
+                <select id="select-object" size="5">
                     @{
-                        foreach (var cabinet in getCabinets)
+                        foreach (var cabinet in Model)
                         {
-                            <option value="@cabinet.Id">@cabinet.Num</option>
+                            var cabinetData = selectObjects.GetValues<CabinetDTO>(cabinet, withNotInclude: true);
+
+                            <option value="@cabinetData["Id"]">@cabinetData["Num"]</option>
                         }
                     }
-                    </select>
-                }
+                </select>
+            }
 
-                //Выбраное/невыбраное оборудование
-                if (Model is List<EquipmentDTO> getEquipments)
-                {
-                    <select size="5" multiple>
+            if (selectObjects.Type == typeof(EquipmentDTO))
+            {
+                <select id="select-object" size="5">
                     @{
-                        foreach (var equipment in getEquipments)
+                        foreach (var equipment in Model)
                         {
-                            //нет id, нужно исправить
-                            <option>@equipment.Name</option>
+                            var equipmentData = selectObjects.GetValues<EquipmentDTO>(equipment, withNotInclude: true);
+
+                            <option value="@equipmentData["Id"]">@equipmentData["Name"]</option>
                         }
-                    }  
-                    </select>
-                }
+                    }
+                </select>
+            }
+
+                // Если кабинет не выбран(выводится список кабинетов)
+                // if (Model is List<CabinetDTO> getCabinets)
+                // {
+                //     <select id="select-object" size="5">
+                //     @{
+                //         foreach (var cabinet in getCabinets)
+                //         {
+                //             <option value="@cabinet.Id">@cabinet.Num</option>
+                //         }
+                //     }
+                //     </select>
+                // }
+
+                // Выбраное/невыбраное оборудование
+                // if (Model is List<EquipmentDTO> getEquipments)
+                // {
+                //     <select id="select-object" size="5" multiple>
+                //     @{
+                //         foreach (var equipment in getEquipments)
+                //         {
+                //             нет id, нужно исправить
+                //             <option value="@equipment.Id">@equipment.Name</option>
+                //         }
+                //     }  
+                //     </select>
+                // }
             }
     </div>
 </div>

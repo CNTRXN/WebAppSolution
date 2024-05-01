@@ -213,6 +213,9 @@ var setEmptyContainer = (containerOnChange, type) => {
                         $("#repair-request-container").append(response);
 
                         //событие при выборе кабинета
+                        $("#select-object").on("change", (e) => {
+                            console.log(e.target);
+                        });
                         //setEmptyContainer(cabContaintainer, ContainerType.cabinet);
 
                         $("#close-select-form").on("click", (e) => {
@@ -332,7 +335,12 @@ function addNewEquipmentButton(containerOnChange) {
             success: function (response) {
                 $("#repair-request-container").append(response);
 
-                //событие при выборе кабинета
+                //событие при выборе оборудование
+                $("#select-object").on("change", (e) => {
+                    $("select option:selected").each(function () {
+                        console.log($(this).value);
+                    });
+                });
                 //setEmptyContainer(cabContaintainer, ContainerType.cabinet);
 
                 $("#close-select-form").on("click", (e) => {

@@ -12,10 +12,10 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CabinetController(ICabinetService cabinetService, IEquipmentService equipmentService) : Controller
+    public class CabinetController(ICabinetService cabinetService) : Controller
     {
         private readonly ICabinetService _cabinetService = cabinetService;
-        private readonly IEquipmentService _equipmentService = equipmentService;
+        //private readonly IEquipmentService _equipmentService = equipmentService;
 
         //Контроллер для получения всех записей кабинета
         [HttpGet("all")]

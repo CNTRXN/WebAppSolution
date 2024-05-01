@@ -5,6 +5,7 @@ namespace WebApp.Models.DTO
     [AlternativeName("Кабинеты")]
     public class CabinetDTO : IMetaData
     {
+        [InclusionInHeader(HeaderInclusion.NotInclude)]
         public int Id { get; set; }
         [AlternativeName("Номер кабинета")]
         public int Num { get; set; }//Номер кабиента

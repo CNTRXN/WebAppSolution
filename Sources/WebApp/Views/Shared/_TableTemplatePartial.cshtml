@@ -73,13 +73,34 @@
 
                 <div class="tableItem" id="table-item-@h" data-id="@id">
                     @{
+                        TableValueResult data = new();
+                        if (equipmentMeta.Type == typeof(EquipmentDTO))
+                            data = equipmentMeta.GetValues<EquipmentDTO>(eqiup);
+
+                        if (equipmentMeta.Type == typeof(TestData))
+                            data = equipmentMeta.GetValues<TestData>(eqiup);
+
                         foreach (var prop in eqiup.GetType().GetProperties())
                         {
-                            <p class="table-prop-name"
-                               id="table-item-@prop.Name"
-                               style="width: @itemHeaderWidth%">
-                                @prop.GetValue(eqiup, null)
-                            </p>
+                            if (data[prop.Name] != null)
+                            {
+                                <p class="table-prop-name"
+                                   id="table-item-@prop.Name"
+                                   style="width: @itemHeaderWidth%">
+                                    @{
+                                        var tbValue = data[prop.Name];
+
+                                        if (tbValue is EquipmentType equipmentT)
+                                        {
+                                            @equipmentT.Name
+                                        }
+                                        else
+                                        {
+                                            @tbValue
+                                        }
+                                    }
+                                </p> 
+                            }
 
                             j++;
                         }

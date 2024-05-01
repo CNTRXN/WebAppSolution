@@ -180,14 +180,16 @@ namespace WebAPI.Services
                     .Where(e => e.Id == cabEquip.EquipId)
                     .FirstOrDefaultAsync();
 
-                if(foundedEquipment is Equipment equipment)
-                equipments.Add(new EquipmentDTO() 
+                if (foundedEquipment is Equipment equipment) 
                 {
-                   Name = equipment.Name,
-                   Count = equipment.Count,
-                   Description = equipment.Description,
-                   TypeId = equipment.TypeId
-                });
+                    equipments.Add(new EquipmentDTO
+                    {
+                        Name = equipment.Name,
+                        Count = equipment.Count,
+                        Description = equipment.Description,
+                        EquipmentType = await _context.EquipmentTypes.Where(et => et.Id == equipment.Id).FirstAsync()
+                    });
+                }
             }
 
             return equipments;

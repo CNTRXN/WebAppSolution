@@ -36,19 +36,8 @@ namespace WebAPI.Controllers
             return Ok(equipment);
         }
 
-        [HttpPost("new-equipmentT")]
-        public async Task<IActionResult> AddNewEquipmentType(string typeName) 
-        {
-            var equipmentType = await _equipmentService.AddNewEquipmentType(typeName);
-
-            if (equipmentType)
-                return BadRequest($"Не удалось добавить тип оборудования '{typeName}'");
-
-            return Ok($"Тип оборудования '{typeName}' успешно добавлен");
-        }
-
         [HttpPost("new")]
-        public async Task<IActionResult> AddNewEquipments([FromBody] List<EquipmentDTO> equipments) 
+        public async Task<IActionResult> AddNewEquipments([FromBody] List<NewEquipmentDTO> equipments) 
         {
             var addedCount = await _equipmentService.AddNewEquipments(equipments);
 
