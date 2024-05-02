@@ -23,6 +23,8 @@ window.onload = () => {
         //симуляция страницы без инфорамции о кабинете
         deleteCookie("cabid");
 
+        e.target.disabled = true;
+
         $.ajax({
             url: '/show-request-from',
             type: 'GET',
@@ -34,9 +36,12 @@ window.onload = () => {
                 $(document.body).append(response);
 
                 registerRequestFormEvents();
+
+                e.target.disabled = false;
             },
             error: function () {
                 console.log('error load request form');
+                e.target.disabled = false;
             }
         });
     });
@@ -44,6 +49,8 @@ window.onload = () => {
     showRequestFormWithCabId.addEventListener("click", (e) => {
         //симуляция страницы с кабинетом
         document.cookie = "cabid=1";
+
+        e.target.disabled = true;
 
         $.ajax({
             url: '/show-request-from',
@@ -57,9 +64,12 @@ window.onload = () => {
                 $(document.body).append(response);
 
                 registerRequestFormEvents();
+
+                e.target.disabled = false;
             },
             error: function () {
                 console.log('error load request form');
+                e.target.disabled = false;
             }
         });
     });
@@ -135,41 +145,25 @@ var startContainer = () => {
     }
 
     try {
-        //cabContaintainer.querySelector(".delete")
         //Кабинет
         if (isCabinetPage()) {
-            //есть объект
-
-            setSelectedContainer(cabContaintainer, ContainerType.cabinet);
+            setSelectedContainer(cabContaintainer, ContainerType.cabinet, null);
         } else {
-            
-
-            setEmptyContainer(cabContaintainer, ContainerType.cabinet);
+            setEmptyContainer(cabContaintainer, ContainerType.cabinet, null);
         }
 
         let formHasEquipments = equipContainer.querySelector(".delete") != null;
-        //console.log(formHasEquipments);
-
 
         //Оборудование
         if (isCabinetPage()) {
             if (formHasEquipments) {
-                //есть объект
-                setSelectedContainer(equipContainer, ContainerType.equipment);
+                setSelectedContainer(equipContainer, ContainerType.equipment, null);
             } else {
-                /*const equipmentContainer = document.getElementById("equipmentscontainer");
-    
-                //need to fix!!!!!!!!!!!!!!!!!!
-                deleteChild(equipmentContainer);*/
-
-                setEmptyContainer(equipContainer, ContainerType.equipment);
+                setEmptyContainer(equipContainer, ContainerType.equipment, null);
             }
         } else {
             equipContainer.hidden = true;
-        }
-
-
-        
+        } 
     } catch (err) {
 
     }
@@ -189,13 +183,8 @@ var setEmptyContainer = (containerOnChange, type) => {
                 containerOnChange.appendChild(createdCabTemplate);
             }
             
-            
             //Нажатие на добавление объекта
             addNewCabinet.addEventListener("click", (e) => {
-                //setSelectedContainer(containerOnChange, ContainerType.cabinet);
-
-                //$("#equipmentscontainer").show();
-
                 //открытие формы выбора кабинета
                 $.ajax({
                     url: '/show-select-object',
@@ -213,10 +202,7 @@ var setEmptyContainer = (containerOnChange, type) => {
                         $("#repair-request-container").append(response);
 
                         //событие при выборе кабинета
-                        $("#select-object").on("change", (e) => {
-                            console.log(e.target);
-                        });
-                        //setEmptyContainer(cabContaintainer, ContainerType.cabinet);
+                        onSelectObject(containerOnChange, ContainerType.cabinet);
 
                         $("#close-select-form").on("click", (e) => {
                             $("#other-form-container").remove();
@@ -234,7 +220,7 @@ var setEmptyContainer = (containerOnChange, type) => {
     }
 }
 
-var setSelectedContainer = (containerOnChange, type) => {
+var setSelectedContainer = (containerOnChange, type, value) => {
     var cookie = getCookie();
 
     switch (type) {
@@ -246,63 +232,94 @@ var setSelectedContainer = (containerOnChange, type) => {
             else
                 createdCabTemplate = document.getElementById("cabinetcontainer");
 
+            var valueElem = createdCabTemplate.querySelector('input');
+            if (!$(valueElem).val()) {
+                if (value != null)
+                    $(valueElem).val(value)
+            }
+
             var deleteCabinetButton = createdCabTemplate.querySelector(".delete");
 
-
-
-
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (containerOnChange.querySelector('.add') || containerOnChange.querySelector('.delete')) {
-                //containerOnChange.replaceChild(createdCabTemplate, containerOnChange.firstElementChild)
-                if (isCabinetPage())
-                    //если есть куки с номером кабинета, 
-                    //то скрывается кнопку удаления кабинета
+                if (isCabinetPage()) {
                     $(deleteCabinetButton).hide();
-                    
+                }
                 else {
                     //при добавлении кабинета
                     containerOnChange.replaceChild(createdCabTemplate, containerOnChange.firstElementChild);
                     let equipmentContainer = document.getElementById("equipmentscontainer");
 
                     $(equipmentContainer).show();
-                    //setEmptyContainer(containerOnChange, ContainerType.cabinet);
-                    setEmptyContainer(equipmentContainer, ContainerType.equipment);
+                    setEmptyContainer(equipmentContainer, ContainerType.equipment, null);
                 }
             }
             else {
                 containerOnChange.appendChild(createdCabTemplate);
             }
 
-
-
-
-
             //Нажатие на удаление кабинета
             deleteCabinetButton.addEventListener("click", (event) => {
-                setEmptyContainer(containerOnChange, ContainerType.cabinet);
+                setEmptyContainer(containerOnChange, ContainerType.cabinet, null);
                 $("#equipmentscontainer").hide();
             });
             break;
         case ContainerType.equipment:
             var createdEquipmentTemplate = createObject(objectType.selected, ContainerType.equipment);
-            
-            if (containerOnChange.querySelector(".delete")) {
-                var deleteEquipment = containerOnChange.querySelector(".delete");
 
-                //удаление оборудования из списка
-                deleteEquipment.addEventListener("click", () => {
-                    deleteEquipment.parentElement.remove();
-                }); 
+            var valueElem = createdEquipmentTemplate.querySelector('input');
+            if ($(valueElem).val()) {
+                if (value != null)
+                    $(valueElem).val(value)
             }
-            else
-                containerOnChange.appendChild(createdEquipmentTemplate); 
+
+            containerOnChange.insertBefore(createdEquipmentTemplate, containerOnChange.firstElementChild);
+            onSelectedEquipmentsChanged();
+
+            var deleteEquipment = containerOnChange.querySelector(".delete");
+
+            //удаление оборудования из списка
+            deleteEquipment.addEventListener("click", () => {
+                deleteEquipment.parentElement.remove();
+                onSelectedEquipmentsChanged();
+            });              
 
             addNewEquipmentButton(containerOnChange);
             break;
     }
 }
-let addCabinetData = () => {
 
+function onSelectedEquipmentsChanged() {
+    //if ($("#equipmentscontainer").querySelector('.selected'))
+    //    console.log($("#equipmentscontainer").$(".add").querySelector('input'));
+}
+
+function onSelectObject(container, type) {
+    var selectedObjects = null;
+    $("#select-object").on("change", (e) => {
+        selectedObjects = [];
+        $("select option:selected").each(function () {
+            selectedObjects.push($(this).attr("value"));
+        });
+
+        if (selectedObjects.length > 0) {
+            $("#select-this-object").show();
+        }
+        else {
+            $("#select-this-object").hide();
+        }
+    });
+
+    $("#select-this-object").on("click", (e) => {
+        Array.from(selectedObjects).forEach(elem => {
+            if (type == ContainerType.cabinet) {
+                setSelectedContainer(container, ContainerType.cabinet, elem);
+            } else if (type == ContainerType.equipment) {
+                setSelectedContainer(container, ContainerType.equipment, elem);
+            }
+        });
+
+        $("#other-form-container").remove();
+    });
 }
 
 function addNewEquipmentButton(containerOnChange) {
@@ -314,7 +331,7 @@ function addNewEquipmentButton(containerOnChange) {
     addNewEquipment.textContent = "Добавить оборудование";
 
     if (containerOnChange.querySelector('.add')) {
-        containerOnChange.replaceChild(createdEquipmentTemplate, containerOnChange.firstElementChild);
+        containerOnChange.replaceChild(createdEquipmentTemplate, containerOnChange.lastElementChild);
     }
     else {
         containerOnChange.appendChild(createdEquipmentTemplate);
@@ -322,7 +339,8 @@ function addNewEquipmentButton(containerOnChange) {
 
     //добавление нового оборудования
     addNewEquipment.addEventListener("click", (e) => {
-        console.log('click!');
+        console.log('click! equipment');
+
         $.ajax({
             url: '/show-select-object',
             type: 'GET',
@@ -335,13 +353,7 @@ function addNewEquipmentButton(containerOnChange) {
             success: function (response) {
                 $("#repair-request-container").append(response);
 
-                //событие при выборе оборудование
-                $("#select-object").on("change", (e) => {
-                    $("select option:selected").each(function () {
-                        console.log($(this).value);
-                    });
-                });
-                //setEmptyContainer(cabContaintainer, ContainerType.cabinet);
+                onSelectObject(containerOnChange, ContainerType.equipment);
 
                 $("#close-select-form").on("click", (e) => {
                     $("#other-form-container").remove();
@@ -351,16 +363,6 @@ function addNewEquipmentButton(containerOnChange) {
 
             }
         });
-
-        //var newEquipment = createObject(objectType.selected, ContainerType.equipment);
-        //var deleteEquipmentButton = newEquipment.querySelector(".delete");
-
-        ////удаление оборудования из списка
-        //deleteEquipmentButton.addEventListener("click", (e) => {
-        //    newEquipment.remove();
-        //});
-
-        //containerOnChange.insertBefore(newEquipment, containerOnChange.firstElementChild);
     });
 }
 
@@ -427,8 +429,6 @@ function checkImages(files) {
     for (var i = 0; i < files.length; i++) {
         var file = files[i];
         if (file.type.startsWith('image/')) {
-            //console.log('Файл ' + file.name + ' является изображением.');
-            // Здесь можно выполнить дополнительные действия с изображением, например, загрузить его
             if (!isImageFile)
                 isImageFile = true;
         } else {

@@ -14,7 +14,7 @@
             <button class="defaultButton" id="close-request-form">X</button>
         </div>
         
-        <form id="form-container">
+        <form id="form-container" method="post" action="send-request">
             <div class="single-container" id="cabinetcontainer">
                 @{
                     if (Model.Item1 != null)
@@ -44,20 +44,18 @@
                         {
                             foreach (var equip in equipments)
                             {
-                                <label for="cabinet" class="single-element">
-                                    <div class="single-element-content">
-                                    
-                                    </div>
+                                <label for="equipment" class="single-element">
+                                    <div class="single-element-content">@equip.Name</div>
                                     <button type="button" class="delete defaultButton">X</button>
-                                    <input type="hidden" id="cabinet" name="cabinet" value="1" hidden>
+                                    <input type="hidden" id="cabinet" name="equipment" value="1" hidden>
                                 </label>
                             }
                         }
                         else
                         {
-                            <label for="cabinet" class="single-element">
+                            <label for="equipment" class="single-element">
                                 <button type="button" class="add defaultButton">Добавить оборудование</button>
-                                <input type="number" id="cabinet" name="cabinet" required hidden>
+                                <input type="number" id="cabinet" name="equipment" required hidden>
                             </label>
                         }
                     }

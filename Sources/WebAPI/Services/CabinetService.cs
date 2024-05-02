@@ -184,10 +184,11 @@ namespace WebAPI.Services
                 {
                     equipments.Add(new EquipmentDTO
                     {
+                        Id = equipment.Id,
                         Name = equipment.Name,
                         Count = equipment.Count,
                         Description = equipment.Description,
-                        EquipmentType = await _context.EquipmentTypes.Where(et => et.Id == equipment.Id).FirstAsync()
+                        EquipmentType = await _context.EquipmentTypes.Where(et => et.Id == equipment.TypeId).FirstAsync()
                     });
                 }
             }

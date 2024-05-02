@@ -43,9 +43,16 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("send-request")]
-        public ActionResult SendReqeust() 
+        public ActionResult SendReqeust(FormCollection formData) 
         {
-            return Redirect("/");
+            int cabinetId = int.Parse(formData["cabinet"]);
+            List<int> equipmentsId = formData["cabinet"].Select(int.Parse).ToList();
+            string description = formData["description"];
+            var images = formData["images"];
+
+            Console.WriteLine(images);
+
+            return Redirect("/test-page");
         }
     }
 }

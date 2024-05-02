@@ -273,3 +273,14 @@ input[type=submit] {
 #close-select-form {
     grid-column: 2;
 }
+
+#select-this-object {
+    width: 200px;
+    height: 40px;
+    position: relative;
+    top: 10%;
+    left: 50%;
+    margin: 0;
+    margin-right: -50%;
+    transform: translate(-50%, 0%);
+}

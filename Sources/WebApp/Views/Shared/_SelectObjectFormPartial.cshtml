@@ -32,7 +32,9 @@
                         {
                             var cabinetData = selectObjects.GetValues<CabinetDTO>(cabinet, withNotInclude: true);
 
-                            <option value="@cabinetData["Id"]">@cabinetData["Num"]</option>
+                            var id = cabinetData["Id"];
+
+                            <option value="@id">@cabinetData["Num"]</option>
                         }
                     }
                 </select>
@@ -40,7 +42,7 @@
 
             if (selectObjects.Type == typeof(EquipmentDTO))
             {
-                <select id="select-object" size="5">
+                <select id="select-object" size="5" multiple>
                     @{
                         foreach (var equipment in Model)
                         {
@@ -51,33 +53,9 @@
                     }
                 </select>
             }
-
-                // Если кабинет не выбран(выводится список кабинетов)
-                // if (Model is List<CabinetDTO> getCabinets)
-                // {
-                //     <select id="select-object" size="5">
-                //     @{
-                //         foreach (var cabinet in getCabinets)
-                //         {
-                //             <option value="@cabinet.Id">@cabinet.Num</option>
-                //         }
-                //     }
-                //     </select>
-                // }
-
-                // Выбраное/невыбраное оборудование
-                // if (Model is List<EquipmentDTO> getEquipments)
-                // {
-                //     <select id="select-object" size="5" multiple>
-                //     @{
-                //         foreach (var equipment in getEquipments)
-                //         {
-                //             нет id, нужно исправить
-                //             <option value="@equipment.Id">@equipment.Name</option>
-                //         }
-                //     }  
-                //     </select>
-                // }
-            }
+        }
+        <div id="select-object-btn-container">
+            <button class="defaultButton" id="select-this-object" hidden>Добавить</button>
+        </div>
     </div>
 </div>
