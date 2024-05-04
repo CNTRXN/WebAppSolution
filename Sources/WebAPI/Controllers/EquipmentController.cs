@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.DataContext;
 using WebAPI.DataContext.DTO;
 using WebAPI.DataContext.Models;
-using WebAPI.Services;
+using WebAPI.Services.EquipmentService;
 
 namespace WebAPI.Controllers
 {

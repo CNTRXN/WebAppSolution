@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Models;
 using WebApp.Models.DTO;
 using WebApp.Models.EquipData;
+using WebApp.Models.PageModels;
 using WebApp.Settings;
 
 namespace WebApp.Controllers

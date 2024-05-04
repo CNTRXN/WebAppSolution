@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using WebAPI.DataContext;
 using WebAPI.DataContext.DTO;
 using WebAPI.DataContext.Models;
-using WebAPI.Services;
+using WebAPI.Services.PermissionService;
 
 namespace WebAPI.Controllers
 {

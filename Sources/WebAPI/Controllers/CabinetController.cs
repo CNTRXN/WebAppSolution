@@ -4,7 +4,7 @@ using WebAPI.DataContext;
 using WebAPI.DataContext.DTO;
 using WebAPI.DataContext.Models;
 using WebAPI.Other;
-using WebAPI.Services;
+using WebAPI.Services.CabinetService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

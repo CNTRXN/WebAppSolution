@@ -1,4 +1,5 @@
 ﻿using WebApp.Attributes;
+using WebApp.Settings.Converters.Table;
 
 namespace WebApp.Models.DTO
 {

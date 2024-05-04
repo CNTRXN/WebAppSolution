@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using WebApp.Models;
 using WebApp.Models.DTO;
 using WebApp.Settings;
 
@@ -43,14 +44,29 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("send-request")]
-        public ActionResult SendReqeust(FormCollection formData) 
+        public ActionResult SendReqeust(
+            [FromForm] string cabinet, 
+            [FromForm] List<string> equipment,
+            [FromForm] List<IFormFile> images) 
         {
-            int cabinetId = int.Parse(formData["cabinet"]);
-            List<int> equipmentsId = formData["cabinet"].Select(int.Parse).ToList();
-            string description = formData["description"];
-            var images = formData["images"];
+            var files = images;
 
-            Console.WriteLine(images);
+            Console.WriteLine(files);
+            //var files = HttpContext.Request.Files
+            /*var formData = HttpContext.Request.Form;
+
+            int cabinetId = int.Parse(formData["cabinet"]);
+            //List<int> equipmentsId = formData["equipment"].Select(int.Parse).ToList();
+            string description = formData["description"];
+
+            var images = formData.Files;*/
+
+            /*Console.WriteLine(cabinet);
+            foreach (var equip in equipment) 
+            {
+                Console.WriteLine(equip);
+            }*/
+            //Console.WriteLine(images);
 
             return Redirect("/test-page");
         }

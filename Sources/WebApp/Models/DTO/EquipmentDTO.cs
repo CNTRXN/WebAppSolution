@@ -1,5 +1,6 @@
 ﻿using WebApp.Attributes;
 using WebApp.Models.EquipData;
+using WebApp.Settings.Converters.Table;
 
 namespace WebApp.Models.DTO
 {

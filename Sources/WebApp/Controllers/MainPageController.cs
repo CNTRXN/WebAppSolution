@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApp.Models.DTO;
-using WebApp.Models.EquipData;
-using WebApp.Models.UserData;
 using WebApp.Settings;
 
 namespace WebApp.Controllers

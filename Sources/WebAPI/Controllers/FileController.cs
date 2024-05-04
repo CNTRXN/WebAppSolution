@@ -9,7 +9,8 @@ namespace WebAPI.Controllers
     public enum TargetType 
     {
         Cabinet,
-        Profile
+        Profile,
+        Request
     }
 
     public enum FileType 
@@ -56,16 +57,20 @@ namespace WebAPI.Controllers
             if (cab == null)
                 return BadRequest("Cabinet not found");
 
-            string folderName = Path.Combine("Resources", "images", "cabinets", cab.Num.ToString());
+            //string folderName = Path.Combine("Resources", "images", "cabinets", cab.Num.ToString());
+            var cabPhotos = await _context.CabPhotos
+                .Where(cp => cp.CabId == cabId)
+                .Select(cp => cp.ImagePath)
+                .ToListAsync();
 
-            if (!Directory.Exists(folderName))
+            /*if (!Directory.Exists(folderName))
                 return BadRequest("Resources not found");
 
-            var images = Directory.GetFiles(folderName, "*.*", SearchOption.AllDirectories).ToList();
+            var images = Directory.GetFiles(folderName, "*.*", SearchOption.AllDirectories).ToList();*/
 
             List<string> Urls = [];
 
-            foreach(var img in images)
+            foreach(var img in cabPhotos)
             {
                 var repUrl = img.Replace("\\", @"/");
 
@@ -76,13 +81,13 @@ namespace WebAPI.Controllers
         }  
 
         [HttpPost("upload"), DisableRequestSizeLimit]
-        public async Task<IActionResult> UploadFile([FromForm] FileUploadModel model, FileType file, TargetType target, int id, bool canUpdate = false) 
+        public async Task<IActionResult> UploadFile([FromForm] FileUploadModel model, FileType file, TargetType target, int cabinetId, bool canUpdate = false) 
         {
             if (model.File == null && model.File?.Length == 0)
                 return BadRequest("Invalid file");
 
             var author = await _context.Users
-                .Where(u => u.Id == model.ImageAuthorId)
+                .Where(u => u.Id == model.FileAuthorId)
                 .FirstOrDefaultAsync();
 
             if (author == null)
@@ -101,6 +106,7 @@ namespace WebAPI.Controllers
             {
                 TargetType.Cabinet => Path.Combine(folderName, "cabinets"),
                 TargetType.Profile => Path.Combine(folderName, "profiles"),
+                TargetType.Request => Path.Combine(folderName, "requests"),
                 _ => string.Empty
             };
 
@@ -109,18 +115,19 @@ namespace WebAPI.Controllers
             async Task<IActionResult> Cabinet() 
             {
                 var cabinet = await _context.Cabinets
-                .Where(c => c.Id == id)
-                .FirstOrDefaultAsync();
+                    .Where(c => c.Id == cabinetId)
+                    .FirstOrDefaultAsync();
 
                 if (cabinet == null)
-                    return BadRequest("Cabinet nt exist");
+                    return BadRequest("Cabinet not exist");
 
                 var savePath = Path.Combine(Directory.GetCurrentDirectory(), folderName, cabinet.Num.ToString());
 
                 if (!Directory.Exists(savePath))
                     Directory.CreateDirectory(savePath);
 
-                var fileName = model.File.FileName;
+                //var fileName = model.File.FileName;
+                var fileName = $"{Guid.NewGuid()}.png";
                 var fullPath = Path.Combine(savePath, fileName);
 
                 var dbPath = Path.Combine(folderName, fileName);
@@ -135,8 +142,8 @@ namespace WebAPI.Controllers
                 await _context.CabPhotos.AddAsync(new CabPhoto()
                 {
                     ImagePath = dbPath,
-                    FileName = model.FileName,
-                    Description = model.Descrption,
+                    //FileName = model.FileName,
+                    //Description = model.Descrption,
                     CabId = cabinet.Id,
                     ImageAuthor = author.Id
                 });

@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WebApp.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebApp.Models.PageModels;
 using WebApp.Models.DTO;
-using System.Net;
-using WebApp.Models.UserData;
 using WebApp.Settings;
+using System.Net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;

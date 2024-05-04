@@ -1,4 +1,4 @@
-﻿using WebApp.Models.UserData;
+﻿using WebApp.Models.Default;
 
 namespace WebApp.Models.DTO
 {

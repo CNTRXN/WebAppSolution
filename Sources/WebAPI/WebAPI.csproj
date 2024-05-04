@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\images\cabinets\" />
     <Folder Include="Resources\images\profiles\" />
   </ItemGroup>
 

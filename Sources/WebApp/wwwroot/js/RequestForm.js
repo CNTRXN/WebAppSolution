@@ -273,7 +273,6 @@ var setSelectedContainer = (containerOnChange, type, value) => {
             }
 
             containerOnChange.insertBefore(createdEquipmentTemplate, containerOnChange.firstElementChild);
-            onSelectedEquipmentsChanged();
 
             var deleteEquipment = containerOnChange.querySelector(".delete");
 
@@ -289,8 +288,15 @@ var setSelectedContainer = (containerOnChange, type, value) => {
 }
 
 function onSelectedEquipmentsChanged() {
-    //if ($("#equipmentscontainer").querySelector('.selected'))
-    //    console.log($("#equipmentscontainer").$(".add").querySelector('input'));
+    var equipmentsContainer = document.getElementById("equipmentscontainer");
+    var equipments = Array.from(equipmentsContainer.getElementsByClassName("selected"));
+
+    var addButton = equipmentsContainer.getElementsByClassName('add')[0].parentElement.getElementsByTagName('input')[0];
+
+    if (equipments.length > 0)
+        addButton.removeAttribute('required');
+    else
+        addButton.setAttribute('required', '')
 }
 
 function onSelectObject(container, type) {
@@ -317,6 +323,9 @@ function onSelectObject(container, type) {
                 setSelectedContainer(container, ContainerType.equipment, elem);
             }
         });
+
+        if (type == ContainerType.equipment)
+            onSelectedEquipmentsChanged();
 
         $("#other-form-container").remove();
     });
@@ -447,6 +456,8 @@ function deleteNotImage(files) {
         var file = files[i];
         if (file.type.startsWith('image/')) {
             checkedImages.push(file);
+
+            console.log(files);
         }
     }
 

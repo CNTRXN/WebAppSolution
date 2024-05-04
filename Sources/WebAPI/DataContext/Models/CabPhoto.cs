@@ -11,9 +11,6 @@ namespace WebAPI.DataContext.Models
         public int CabId { get; set; }
         public string ImagePath { get; set; }
         public int ImageAuthor { get; set; }
-        public string FileName { get; set; }
-        public string Description { get; set; }
-
 
         [ForeignKey("CabId")]
         public Cabinet Cabinet { get; set; }

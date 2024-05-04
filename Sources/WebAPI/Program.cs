@@ -1,8 +1,11 @@
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using WebAPI.DataContext;
-using WebAPI.Services;
+using WebAPI.Services.CabinetService;
+using WebAPI.Services.EquipmentService;
+using WebAPI.Services.PermissionService;
+using WebAPI.Services.RequestService;
+using WebAPI.Services.UserService;
 
 namespace WebAPI
 {
@@ -42,6 +45,7 @@ namespace WebAPI
             builder.Services.AddTransient<IEquipmentService, EquipmentService>();
             builder.Services.AddTransient<ICabinetService, CabinetService>();
             builder.Services.AddTransient<IPermissionService, PermissionService>();
+            builder.Services.AddTransient<IRequestService, RequestService>();
 
             var app = builder.Build();
 

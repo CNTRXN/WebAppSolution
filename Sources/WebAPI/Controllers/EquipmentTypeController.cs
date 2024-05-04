@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebAPI.Services;
+using WebAPI.Services.EquipmentService;
 
 namespace WebAPI.Controllers
 {

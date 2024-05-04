@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebAPI.Controllers;
 using WebAPI.DataContext.Models;
-using WebAPI.Services;
 
 namespace WebAPI.Tests
 {

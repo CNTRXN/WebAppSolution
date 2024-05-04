@@ -17,7 +17,7 @@ namespace WebAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -42,21 +42,9 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SignInKey")
-                        .IsUnique();
-
                     b.HasIndex("UserId");
 
                     b.ToTable("AccountStats");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ExpirationKeyDate = new DateTime(2024, 3, 25, 0, 0, 0, 0, DateTimeKind.Utc),
-                            SignInKey = "cc02ca31-7c33-447e-9177-a78e4ae040e3",
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("WebAPI.DataContext.Models.CabEquipment", b =>
@@ -83,6 +71,22 @@ namespace WebAPI.Migrations
                     b.HasIndex("EquipId");
 
                     b.ToTable("Оборудование в кабинетах");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CabId = 1,
+                            Count = 5,
+                            EquipId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CabId = 1,
+                            Count = 5,
+                            EquipId = 1
+                        });
                 });
 
             modelBuilder.Entity("WebAPI.DataContext.Models.CabPhoto", b =>
@@ -95,14 +99,6 @@ namespace WebAPI.Migrations
 
                     b.Property<int>("CabId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<int>("ImageAuthor")
                         .HasColumnType("integer");
@@ -162,230 +158,230 @@ namespace WebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Floor = 1,
-                            Group = 2423,
-                            Height = 108.0,
-                            Length = 172.0,
+                            Floor = 2,
+                            Group = 1568,
+                            Height = 431.0,
+                            Length = 417.0,
                             Num = 216942,
-                            PlanNum = 19614,
-                            ResponsiblePersonId = 7,
-                            Width = 387.0
+                            PlanNum = 21308,
+                            ResponsiblePersonId = 3,
+                            Width = 143.0
                         },
                         new
                         {
                             Id = 2,
-                            Floor = 1,
-                            Group = 3884,
-                            Height = 162.0,
-                            Length = 484.0,
-                            Num = 388427,
-                            PlanNum = 23843,
-                            ResponsiblePersonId = 1,
-                            Width = 330.0
+                            Floor = 2,
+                            Group = 2395,
+                            Height = 182.0,
+                            Length = 206.0,
+                            Num = 239540,
+                            PlanNum = 12458,
+                            ResponsiblePersonId = 3,
+                            Width = 289.0
                         },
                         new
                         {
                             Id = 3,
-                            Floor = 1,
-                            Group = 3374,
-                            Height = 281.0,
-                            Length = 360.0,
-                            Num = 337420,
-                            PlanNum = 10371,
-                            ResponsiblePersonId = 7,
-                            Width = 328.0
+                            Floor = 0,
+                            Group = 2967,
+                            Height = 440.0,
+                            Length = 415.0,
+                            Num = 296711,
+                            PlanNum = 30318,
+                            ResponsiblePersonId = 5,
+                            Width = 375.0
                         },
                         new
                         {
                             Id = 4,
-                            Floor = 0,
-                            Group = 2081,
-                            Height = 488.0,
-                            Length = 293.0,
-                            Num = 208125,
-                            PlanNum = 38595,
-                            ResponsiblePersonId = 8,
-                            Width = 247.0
+                            Floor = 2,
+                            Group = 1781,
+                            Height = 145.0,
+                            Length = 428.0,
+                            Num = 178124,
+                            PlanNum = 20629,
+                            ResponsiblePersonId = 4,
+                            Width = 241.0
                         },
                         new
                         {
                             Id = 5,
-                            Floor = 0,
-                            Group = 1778,
-                            Height = 237.0,
-                            Length = 231.0,
-                            Num = 177821,
-                            PlanNum = 27827,
+                            Floor = 1,
+                            Group = 2212,
+                            Height = 363.0,
+                            Length = 388.0,
+                            Num = 221215,
+                            PlanNum = 10144,
                             ResponsiblePersonId = 4,
-                            Width = 311.0
+                            Width = 473.0
                         },
                         new
                         {
                             Id = 6,
-                            Floor = 0,
-                            Group = 2765,
-                            Height = 125.0,
-                            Length = 276.0,
-                            Num = 276526,
-                            PlanNum = 21421,
-                            ResponsiblePersonId = 8,
-                            Width = 342.0
+                            Floor = 2,
+                            Group = 2626,
+                            Height = 233.0,
+                            Length = 318.0,
+                            Num = 262641,
+                            PlanNum = 34268,
+                            ResponsiblePersonId = 7,
+                            Width = 456.0
                         },
                         new
                         {
                             Id = 7,
                             Floor = 2,
-                            Group = 2663,
-                            Height = 196.0,
-                            Length = 137.0,
-                            Num = 266342,
-                            PlanNum = 12036,
-                            ResponsiblePersonId = 6,
-                            Width = 371.0
+                            Group = 2217,
+                            Height = 214.0,
+                            Length = 176.0,
+                            Num = 221726,
+                            PlanNum = 26331,
+                            ResponsiblePersonId = 4,
+                            Width = 380.0
                         },
                         new
                         {
                             Id = 8,
-                            Floor = 0,
-                            Group = 2500,
-                            Height = 198.0,
-                            Length = 208.0,
-                            Num = 250036,
-                            PlanNum = 11580,
-                            ResponsiblePersonId = 3,
-                            Width = 285.0
+                            Floor = 1,
+                            Group = 1912,
+                            Height = 130.0,
+                            Length = 422.0,
+                            Num = 191228,
+                            PlanNum = 37255,
+                            ResponsiblePersonId = 1,
+                            Width = 202.0
                         },
                         new
                         {
                             Id = 9,
                             Floor = 2,
-                            Group = 3406,
-                            Height = 175.0,
-                            Length = 439.0,
-                            Num = 340648,
-                            PlanNum = 28929,
-                            ResponsiblePersonId = 5,
-                            Width = 103.0
+                            Group = 2826,
+                            Height = 257.0,
+                            Length = 396.0,
+                            Num = 282613,
+                            PlanNum = 39695,
+                            ResponsiblePersonId = 6,
+                            Width = 441.0
                         },
                         new
                         {
                             Id = 10,
-                            Floor = 0,
-                            Group = 2492,
-                            Height = 485.0,
-                            Length = 272.0,
-                            Num = 249230,
-                            PlanNum = 12616,
-                            ResponsiblePersonId = 8,
-                            Width = 317.0
+                            Floor = 2,
+                            Group = 2691,
+                            Height = 258.0,
+                            Length = 363.0,
+                            Num = 269146,
+                            PlanNum = 22172,
+                            ResponsiblePersonId = 7,
+                            Width = 279.0
                         },
                         new
                         {
                             Id = 11,
                             Floor = 1,
-                            Group = 3572,
-                            Height = 317.0,
-                            Length = 466.0,
-                            Num = 357219,
-                            PlanNum = 14735,
-                            ResponsiblePersonId = 6,
-                            Width = 202.0
+                            Group = 1502,
+                            Height = 149.0,
+                            Length = 319.0,
+                            Num = 150249,
+                            PlanNum = 18567,
+                            ResponsiblePersonId = 3,
+                            Width = 456.0
                         },
                         new
                         {
                             Id = 12,
                             Floor = 0,
-                            Group = 2509,
-                            Height = 291.0,
-                            Length = 367.0,
-                            Num = 250947,
-                            PlanNum = 21029,
-                            ResponsiblePersonId = 5,
-                            Width = 270.0
+                            Group = 1568,
+                            Height = 102.0,
+                            Length = 144.0,
+                            Num = 156841,
+                            PlanNum = 24861,
+                            ResponsiblePersonId = 2,
+                            Width = 136.0
                         },
                         new
                         {
                             Id = 13,
-                            Floor = 1,
-                            Group = 2398,
-                            Height = 427.0,
-                            Length = 312.0,
-                            Num = 239824,
-                            PlanNum = 14719,
-                            ResponsiblePersonId = 8,
-                            Width = 178.0
+                            Floor = 2,
+                            Group = 2744,
+                            Height = 306.0,
+                            Length = 295.0,
+                            Num = 274442,
+                            PlanNum = 29184,
+                            ResponsiblePersonId = 2,
+                            Width = 482.0
                         },
                         new
                         {
                             Id = 14,
                             Floor = 0,
-                            Group = 2346,
-                            Height = 241.0,
-                            Length = 107.0,
-                            Num = 234623,
-                            PlanNum = 27697,
+                            Group = 2615,
+                            Height = 390.0,
+                            Length = 492.0,
+                            Num = 261521,
+                            PlanNum = 25692,
                             ResponsiblePersonId = 3,
-                            Width = 247.0
+                            Width = 487.0
                         },
                         new
                         {
                             Id = 15,
                             Floor = 1,
-                            Group = 1656,
-                            Height = 290.0,
-                            Length = 398.0,
-                            Num = 165630,
-                            PlanNum = 33875,
-                            ResponsiblePersonId = 3,
-                            Width = 498.0
+                            Group = 2763,
+                            Height = 415.0,
+                            Length = 106.0,
+                            Num = 276321,
+                            PlanNum = 21637,
+                            ResponsiblePersonId = 4,
+                            Width = 133.0
                         },
                         new
                         {
                             Id = 16,
                             Floor = 2,
-                            Group = 1747,
-                            Height = 448.0,
-                            Length = 413.0,
-                            Num = 174739,
-                            PlanNum = 35518,
-                            ResponsiblePersonId = 6,
-                            Width = 188.0
+                            Group = 2917,
+                            Height = 475.0,
+                            Length = 163.0,
+                            Num = 291744,
+                            PlanNum = 13196,
+                            ResponsiblePersonId = 2,
+                            Width = 362.0
                         },
                         new
                         {
                             Id = 17,
-                            Floor = 2,
-                            Group = 3502,
-                            Height = 188.0,
-                            Length = 297.0,
-                            Num = 350228,
-                            PlanNum = 36765,
-                            ResponsiblePersonId = 7,
-                            Width = 331.0
+                            Floor = 0,
+                            Group = 2610,
+                            Height = 144.0,
+                            Length = 124.0,
+                            Num = 261041,
+                            PlanNum = 35286,
+                            ResponsiblePersonId = 6,
+                            Width = 310.0
                         },
                         new
                         {
                             Id = 18,
-                            Floor = 1,
-                            Group = 2518,
-                            Height = 148.0,
-                            Length = 225.0,
-                            Num = 251849,
-                            PlanNum = 11370,
-                            ResponsiblePersonId = 1,
-                            Width = 365.0
+                            Floor = 0,
+                            Group = 1482,
+                            Height = 356.0,
+                            Length = 314.0,
+                            Num = 148228,
+                            PlanNum = 22759,
+                            ResponsiblePersonId = 8,
+                            Width = 340.0
                         },
                         new
                         {
                             Id = 19,
-                            Floor = 0,
-                            Group = 1015,
-                            Height = 140.0,
-                            Length = 116.0,
-                            Num = 101539,
-                            PlanNum = 34516,
-                            ResponsiblePersonId = 4,
-                            Width = 217.0
+                            Floor = 2,
+                            Group = 3524,
+                            Height = 318.0,
+                            Length = 371.0,
+                            Num = 352411,
+                            PlanNum = 35994,
+                            ResponsiblePersonId = 5,
+                            Width = 445.0
                         });
                 });
 
@@ -416,6 +412,24 @@ namespace WebAPI.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Оборудование");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Count = 5,
+                            Description = "ПК",
+                            Name = "Монитор",
+                            TypeId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Count = 5,
+                            Description = "ПК",
+                            Name = "Системный блок",
+                            TypeId = 1
+                        });
                 });
 
             modelBuilder.Entity("WebAPI.DataContext.Models.EquipmentType", b =>
@@ -433,6 +447,23 @@ namespace WebAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Типы оборудования");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Электрооборудование"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Мебель"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Инфраструктура"
+                        });
                 });
 
             modelBuilder.Entity("WebAPI.DataContext.Models.Permission", b =>
@@ -477,10 +508,7 @@ namespace WebAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("AcceptanceDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("CabId")
+                    b.Property<int>("CabId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("CompleteDate")
@@ -493,10 +521,16 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("FromId")
+                    b.Property<int?>("FromId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ImageId")
+                    b.Property<int>("ImageId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RequestStatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RequestTypeId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
@@ -511,7 +545,136 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("ImageId");
 
+                    b.HasIndex("RequestStatusId");
+
+                    b.HasIndex("RequestTypeId");
+
                     b.ToTable("Заявки");
+                });
+
+            modelBuilder.Entity("WebAPI.DataContext.Models.RequestImages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("Фотографии заявки");
+                });
+
+            modelBuilder.Entity("WebAPI.DataContext.Models.RequestStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("StatusName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Статус заявки");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            StatusName = "Новая"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            StatusName = "В обработке"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            StatusName = "Ожидание материалов"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            StatusName = "Выполняется"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            StatusName = "Выполнена"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            StatusName = "Отклонена"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            StatusName = "Отложена"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            StatusName = "Просрочена"
+                        });
+                });
+
+            modelBuilder.Entity("WebAPI.DataContext.Models.RequestType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Тип заявки");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            TypeName = "Ремонт"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            TypeName = "Тех. обслуживание"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            TypeName = "Закупка"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            TypeName = "Установка"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            TypeName = "Консультация"
+                        });
                 });
 
             modelBuilder.Entity("WebAPI.DataContext.Models.User", b =>
@@ -557,70 +720,69 @@ namespace WebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Birthday = new DateTime(1992, 7, 16, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(1995, 6, 3, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_1",
                             Name = "Name-1",
                             Password = "password_1",
-                            PermissionId = 2,
+                            PermissionId = 1,
                             Surname = "Surname-1"
                         },
                         new
                         {
                             Id = 2,
-                            Birthday = new DateTime(1991, 4, 9, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(2000, 2, 12, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_2",
                             Name = "Name-2",
                             Password = "password_2",
+                            Patronymic = "Patronymic2",
                             PermissionId = 1,
                             Surname = "Surname-2"
                         },
                         new
                         {
                             Id = 3,
-                            Birthday = new DateTime(1994, 8, 22, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(1993, 5, 21, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_3",
                             Name = "Name-3",
                             Password = "password_3",
-                            Patronymic = "Patronymic3",
                             PermissionId = 1,
                             Surname = "Surname-3"
                         },
                         new
                         {
                             Id = 4,
-                            Birthday = new DateTime(2004, 10, 26, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(2003, 6, 25, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_4",
                             Name = "Name-4",
                             Password = "password_4",
-                            Patronymic = "Patronymic4",
                             PermissionId = 1,
                             Surname = "Surname-4"
                         },
                         new
                         {
                             Id = 5,
-                            Birthday = new DateTime(1999, 7, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(2002, 5, 15, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_5",
                             Name = "Name-5",
                             Password = "password_5",
+                            Patronymic = "Patronymic5",
                             PermissionId = 1,
                             Surname = "Surname-5"
                         },
                         new
                         {
                             Id = 6,
-                            Birthday = new DateTime(1995, 5, 8, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(2004, 10, 3, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_6",
                             Name = "Name-6",
                             Password = "password_6",
-                            Patronymic = "Patronymic6",
-                            PermissionId = 2,
+                            PermissionId = 1,
                             Surname = "Surname-6"
                         },
                         new
                         {
                             Id = 7,
-                            Birthday = new DateTime(1992, 1, 2, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(2000, 7, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_7",
                             Name = "Name-7",
                             Password = "password_7",
@@ -631,18 +793,18 @@ namespace WebAPI.Migrations
                         new
                         {
                             Id = 8,
-                            Birthday = new DateTime(2000, 8, 2, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(1992, 3, 25, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_8",
                             Name = "Name-8",
                             Password = "password_8",
                             Patronymic = "Patronymic8",
-                            PermissionId = 2,
+                            PermissionId = 1,
                             Surname = "Surname-8"
                         },
                         new
                         {
                             Id = 9,
-                            Birthday = new DateTime(2003, 7, 5, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Birthday = new DateTime(2003, 5, 14, 0, 0, 0, 0, DateTimeKind.Utc),
                             Login = "login_9",
                             Name = "Name-9",
                             Password = "password_9",
@@ -726,23 +888,52 @@ namespace WebAPI.Migrations
                 {
                     b.HasOne("WebAPI.DataContext.Models.Cabinet", "Cabinet")
                         .WithMany()
-                        .HasForeignKey("CabId");
-
-                    b.HasOne("WebAPI.DataContext.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("FromId")
+                        .HasForeignKey("CabId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebAPI.DataContext.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("FromId");
+
                     b.HasOne("WebAPI.DataContext.Models.CabPhoto", "CabPhoto")
                         .WithMany()
-                        .HasForeignKey("ImageId");
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebAPI.DataContext.Models.RequestStatus", "RequestStatus")
+                        .WithMany()
+                        .HasForeignKey("RequestStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebAPI.DataContext.Models.RequestType", "RequestType")
+                        .WithMany()
+                        .HasForeignKey("RequestTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CabPhoto");
 
                     b.Navigation("Cabinet");
 
+                    b.Navigation("RequestStatus");
+
+                    b.Navigation("RequestType");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebAPI.DataContext.Models.RequestImages", b =>
+                {
+                    b.HasOne("WebAPI.DataContext.Models.Request", "Request")
+                        .WithMany()
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("WebAPI.DataContext.Models.User", b =>

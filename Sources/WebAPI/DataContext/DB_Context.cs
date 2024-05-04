@@ -1,4 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using WebAPI.DataContext.Models;
 using ConfigurationManager = System.Configuration;
 
@@ -7,16 +11,26 @@ namespace WebAPI.DataContext
     public class DB_Context(DbContextOptions<DB_Context> options) 
         : DbContext(options)
     {
-        public DbSet<CabEquipment> CabEquipments { get; set; }
+        #region Кабинеты и оборудования
         public DbSet<Cabinet> Cabinets { get; set; }
         public DbSet<CabPhoto> CabPhotos { get; set; }
+        public DbSet<CabEquipment> CabEquipments { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<EquipmentType> EquipmentTypes { get; set; }
+        #endregion
+
+        #region Пользователи
         public DbSet<User> Users { get; set; }
         public DbSet<Permission> Permissions { get; set; }
-        public DbSet<Request> Requests { get; set; }
         public DbSet<AccountStat> AccountStats { get; set; }
+        #endregion
 
+        #region Заявки
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<RequestType> RequestTypes { get; set; }
+        public DbSet<RequestStatus> RequestStatuses { get; set; }
+        public DbSet<RequestImages> RequestImages { get; set; }
+        #endregion
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,6 +48,18 @@ namespace WebAPI.DataContext
                 .HasData(Init_Cabs());
 
             modelBuilder
+                .Entity<EquipmentType>()
+                .HasData(Init_EquipmentType());
+
+            modelBuilder
+                .Entity<Equipment>()
+                .HasData(Init_Equipments());
+
+            modelBuilder
+                .Entity<CabEquipment>()
+                .HasData(Init_CabEquipments());
+
+            /*modelBuilder
                 .Entity<AccountStat>(entity =>
                 {
                     entity.HasIndex(a => a.SignInKey).IsUnique();
@@ -47,64 +73,52 @@ namespace WebAPI.DataContext
                             ExpirationKeyDate = new DateTime(2024, 03, 25, 0, 0, 0, DateTimeKind.Utc)
                         },
                     });
-                });
+                });*/
 
-            static List<Permission> Init_Permissions() 
+            modelBuilder
+                .Entity<RequestType>()
+                .HasData(Init_RequestTypes());
+
+            modelBuilder
+                .Entity<RequestStatus>()
+                .HasData(Init_RequestsStatus());
+
+            static List<Permission> Init_Permissions()
             {
-                List<Permission> permissions = [
-                    new Permission()
-                    {
-                        Name = "User"
-                    },
-                    new Permission()
-                    {
-                        Name = "Master"
-                    },
-                    new Permission()
-                    {
-                        Name = "Admin"
-                    }
-                ];
-
-                int i = 1;
-                foreach (var post in permissions)
-                {
-                    post.Id = i;
-                    i++;
-                }
+                List<Permission> permissions = InitData<Permission>("PermissionsData");
 
                 return permissions;
             }
 
-            static List<User> Init_Users() 
+            static List<User> Init_Users()
             {
                 List<User> users = [];
 
                 int i = 1;
-                for (; i < 10; i++) 
+                for (; i < 10; i++)
                 {
-                    users.Add(new User() 
+                    users.Add(new User()
                     {
                         Id = i,
                         Login = $"login_{i}",
                         Password = $"password_{i}",
                         Name = $"Name-{i}",
                         Surname = $"Surname-{i}",
-                        Patronymic = (new Random().Next(0, 2) == 0) ?  null : $"Patronymic{i}",
+                        Patronymic = (new Random().Next(0, 2) == 0) ? null : $"Patronymic{i}",
                         Birthday = new DateTime(new Random().Next(1990, 2005), new Random().Next(1, 12), new Random().Next(1, 28), 0, 0, 0, DateTimeKind.Utc),
-                        PermissionId = new Random().Next(1, Init_Permissions().Count)
+                        PermissionId = 1//new Random().Next(1, Init_Permissions().Count)
                     });
                 }
 
                 return users;
             }
 
-            static List<Cabinet> Init_Cabs() 
+            static List<Cabinet> Init_Cabs()
             {
                 List<Cabinet> cabinets = [];
 
                 int i = 1;
-                for (; i < 20; i++) 
+                for (; i < 20; i++)
                 {
                     var cabinet = new Cabinet()
                     {
@@ -115,7 +129,7 @@ namespace WebAPI.DataContext
                         Length = new Random().Next(100, 500),
                         Width = new Random().Next(100, 500),
                         PlanNum = new Random().Next(10000, 40000),
-                        ResponsiblePersonId = new Random().Next(1, Init_Users().Count)   
+                        ResponsiblePersonId = new Random().Next(1, Init_Users().Count)
                     };
                     //cabinet.Num = new Random().Next(10, 50) + (cabinet.Group * 100);
                     cabinet.Num = i == 1 ? 216942 : GenerateNum(cabinet.Group * 100);
@@ -138,6 +152,57 @@ namespace WebAPI.DataContext
                     }
                 }
             }
+
+            static List<EquipmentType> Init_EquipmentType() 
+            {
+                List<EquipmentType> equipmentTypes = InitData<EquipmentType>("EquipmentTypeData");    
+
+                return equipmentTypes;
+            }
+        
+            static List<Equipment> Init_Equipments() 
+            {
+                List<Equipment> equipments = InitData<Equipment>("EquipmentsData");
+
+                return equipments;
+            }
+
+            static List<CabEquipment> Init_CabEquipments() 
+            {
+                List<CabEquipment> cabEquipments = InitData<CabEquipment>("CabinetEquipments");
+
+                return cabEquipments;
+            }
+
+            static List<RequestType> Init_RequestTypes() 
+            {
+                List<RequestType> requestTypes = InitData<RequestType>("RequestTypesData");
+
+                return requestTypes;
+            }
+
+            static List<RequestStatus> Init_RequestsStatus() 
+            {
+                List<RequestStatus> requestStatuses = InitData<RequestStatus>("RequestStatusesData");
+
+                return requestStatuses;
+            }
+
+            static List<T> InitData<T>(string fileName) 
+            {
+                List<T> datas = [];
+
+                string path = Path.Combine("Other", "InitData", $"{fileName}.json");
+                var fileStream = File.ReadAllText(path);
+
+                if (fileStream != null)
+                {
+                    datas = JsonSerializer.Deserialize<List<T>>(fileStream) ?? [];
+                }
+
+                return datas;
+            }
+
         }
     }
 }
