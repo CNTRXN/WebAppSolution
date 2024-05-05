@@ -40,7 +40,7 @@ namespace WebAPI.Services.CabinetService
                 .FirstOrDefaultAsync();
 
             int addedRows = 0;
-            List<CabEquipment> addedEquipment = [];
+            List<CabinetEquipment> addedEquipment = [];
 
             if (cabinet != null)
             {
@@ -66,11 +66,11 @@ namespace WebAPI.Services.CabinetService
                                 break;
                         }
 
-                        addedEquipment.Add(new CabEquipment()
+                        addedEquipment.Add(new CabinetEquipment()
                         {
                             Id = equip.Id,
-                            CabId = cabinet.Id,
-                            EquipId = equip.Id,
+                            CabinetId = cabinet.Id,
+                            EquipmentId = equip.Id,
                             Count = totalCount
                         });
 
@@ -84,17 +84,17 @@ namespace WebAPI.Services.CabinetService
                 //Добавление оборудование к кабинету
                 foreach (var equipment in addedEquipment)
                 {
-                    var equipInCab = await context.CabEquipments
-                        .Where(eq => eq.EquipId == equipment.Id)
+                    var equipInCab = await context.CabinetEquipments
+                        .Where(eq => eq.EquipmentId == equipment.Id)
                         .FirstOrDefaultAsync();
 
                     if (equipInCab == null)
                     {
                         //Если оборудования нет в кабинет, то оно добавляется
-                        await context.CabEquipments.AddAsync(new CabEquipment()
+                        await context.CabinetEquipments.AddAsync(new CabinetEquipment()
                         {
-                            CabId = cabinet.Id,
-                            EquipId = equipment.Id,
+                            CabinetId = cabinet.Id,
+                            EquipmentId = equipment.Id,
                             Count = equipment.Count
                         });
                     }
@@ -103,7 +103,7 @@ namespace WebAPI.Services.CabinetService
                         //Если оборудование есть в кабинете, то прибавляется количество добавляемого
                         equipInCab.Count += equipment.Count;
 
-                        context.CabEquipments.Update(equipInCab);
+                        context.CabinetEquipments.Update(equipInCab);
                     }
                     await context.SaveChangesAsync();
                 }
@@ -167,15 +167,15 @@ namespace WebAPI.Services.CabinetService
 
         public async Task<IEnumerable<EquipmentDTO>> GetCabinetEquipments(int cabId)
         {
-            var cabinetsEquipments = await context.CabEquipments
-                .Where(ce => ce.CabId == cabId)
+            var cabinetsEquipments = await context.CabinetEquipments
+                .Where(ce => ce.CabinetId == cabId)
                 .ToListAsync();
 
             List<EquipmentDTO> equipments = [];
             foreach (var cabEquip in cabinetsEquipments)
             {
                 var foundedEquipment = await context.Equipments
-                    .Where(e => e.Id == cabEquip.EquipId)
+                    .Where(e => e.Id == cabEquip.EquipmentId)
                     .FirstOrDefaultAsync();
 
                 if (foundedEquipment is Equipment equipment)

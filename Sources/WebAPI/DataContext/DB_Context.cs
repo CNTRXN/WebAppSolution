@@ -13,8 +13,8 @@ namespace WebAPI.DataContext
     {
         #region Кабинеты и оборудования
         public DbSet<Cabinet> Cabinets { get; set; }
-        public DbSet<CabPhoto> CabPhotos { get; set; }
-        public DbSet<CabEquipment> CabEquipments { get; set; }
+        public DbSet<CabinetFiles> CabinetFiles { get; set; }
+        public DbSet<CabinetEquipment> CabinetEquipments { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<EquipmentType> EquipmentTypes { get; set; }
         #endregion
@@ -29,7 +29,8 @@ namespace WebAPI.DataContext
         public DbSet<Request> Requests { get; set; }
         public DbSet<RequestType> RequestTypes { get; set; }
         public DbSet<RequestStatus> RequestStatuses { get; set; }
-        public DbSet<RequestImages> RequestImages { get; set; }
+        public DbSet<RequestFile> RequestFiles { get; set; }
+        public DbSet<RequestEquipment> RequestEquipments { get; set; }
         #endregion
 
 
@@ -56,7 +57,7 @@ namespace WebAPI.DataContext
                 .HasData(Init_Equipments());
 
             modelBuilder
-                .Entity<CabEquipment>()
+                .Entity<CabinetEquipment>()
                 .HasData(Init_CabEquipments());
 
             /*modelBuilder
@@ -167,9 +168,9 @@ namespace WebAPI.DataContext
                 return equipments;
             }
 
-            static List<CabEquipment> Init_CabEquipments() 
+            static List<CabinetEquipment> Init_CabEquipments() 
             {
-                List<CabEquipment> cabEquipments = InitData<CabEquipment>("CabinetEquipments");
+                List<CabinetEquipment> cabEquipments = InitData<CabinetEquipment>("CabinetEquipments");
 
                 return cabEquipments;
             }

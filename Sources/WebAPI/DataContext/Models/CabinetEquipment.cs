@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 namespace WebAPI.DataContext.Models
 {
     [Table("Оборудование в кабинетах")]
-    public class CabEquipment
+    public class CabinetEquipment
     {
         [Key]
         public int Id { get; set; }
-        public int CabId { get; set; }
-        public int EquipId { get; set; }
+        public int CabinetId { get; set; }
+        public int EquipmentId { get; set; }
         public int Count { get; set; }
 
-        [ForeignKey("CabId")]
+        [ForeignKey("CabinetId")]
         public Cabinet Cabinet { get; set; }
 
-        [ForeignKey("EquipId")]
+        [ForeignKey("EquipmentId")]
         public Equipment Equipment { get; set; }
     }
 }

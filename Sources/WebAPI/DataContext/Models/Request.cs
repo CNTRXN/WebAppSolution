@@ -22,10 +22,9 @@ namespace WebAPI.DataContext.Models
         public int? FromId { get; set; }
         public int CabId { get; set; }
 
+
         [ForeignKey("FromId")]
         public User User { get; set; }
-        [ForeignKey("ImageId")]
-        public CabPhoto CabPhoto { get; set; }
         [ForeignKey("CabId")]
         public Cabinet Cabinet { get; set; }
         [ForeignKey("RequestTypeId")]

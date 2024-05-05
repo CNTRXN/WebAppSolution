@@ -3,15 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPI.DataContext.Models
 {
-    [Table("Фотографии заявки")]
-    public class RequestImages
+    [Table("Оборудование заявок")]
+    public class RequestEquipment
     {
         [Key]
         public int Id { get; set; }
         public int RequestId { get; set; }
-        public string ImagePath { get; set; }
-        
+        public int EquipmentId { get; set; }
+
         [ForeignKey("RequestId")]
         public Request Request { get; set; }
+        [ForeignKey("EquipmentId")]
+        public Equipment Equipment { get; set; }
     }
 }

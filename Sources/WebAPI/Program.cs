@@ -3,6 +3,7 @@ using Microsoft.Extensions.FileProviders;
 using WebAPI.DataContext;
 using WebAPI.Services.CabinetService;
 using WebAPI.Services.EquipmentService;
+using WebAPI.Services.FileService;
 using WebAPI.Services.PermissionService;
 using WebAPI.Services.RequestService;
 using WebAPI.Services.UserService;
@@ -46,6 +47,7 @@ namespace WebAPI
             builder.Services.AddTransient<ICabinetService, CabinetService>();
             builder.Services.AddTransient<IPermissionService, PermissionService>();
             builder.Services.AddTransient<IRequestService, RequestService>();
+            builder.Services.AddTransient<IFileService, FileService>();
 
             var app = builder.Build();
 

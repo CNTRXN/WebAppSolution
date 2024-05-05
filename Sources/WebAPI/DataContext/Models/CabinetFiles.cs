@@ -3,18 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPI.DataContext.Models
 {
-    [Table("Фотографии кабинета")]
-    public class CabPhoto
+    [Table("Файлы кабинета")]
+    public class CabinetFiles
     {
         [Key]
         public int Id { get; set; }
-        public int CabId { get; set; }
-        public string ImagePath { get; set; }
-        public int ImageAuthor { get; set; }
+        public int CabinetId { get; set; }
+        public string FilePath { get; set; }
+        public int? FileAuthor { get; set; }
 
-        [ForeignKey("CabId")]
+        [ForeignKey("CabinetId")]
         public Cabinet Cabinet { get; set; }
-        [ForeignKey("ImageAuthor")]
+        [ForeignKey("FileAuthor")]
         public User User { get; set; }
     }
 }

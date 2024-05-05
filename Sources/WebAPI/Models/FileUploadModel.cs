@@ -3,6 +3,6 @@
     public class FileUploadModel
     {
         public IFormFile File { get; set; }
-        public int FileAuthorId { get; set; }
+        public int? FileAuthorId { get; set; }
     }
 }

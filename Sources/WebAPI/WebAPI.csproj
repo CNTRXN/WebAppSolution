@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\images\**" />
+    <Content Remove="Resources\images\**" />
+    <EmbeddedResource Remove="Resources\images\**" />
+    <None Remove="Resources\images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.4" />
@@ -31,12 +38,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\images\cabinets\" />
-    <Folder Include="Resources\images\profiles\" />
+    <ProjectReference Include="..\EncryptLib\EncryptLib\EncryptLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EncryptLib\EncryptLib\EncryptLib.csproj" />
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>
