@@ -1,11 +1,22 @@
 ﻿@using WebApp.Models.DTO;
 @using WebApp.Settings;
+@using System.Security.Claims;
+
 @model UserDTO;
 
 @{
     Layout = "_Profile";
 
-    bool isCurrentUser = (AppStatics.User is UserDTO user && user.Id == Model.Id) && (Context.User.Identity != null && Context.User.Identity.IsAuthenticated);
+    var isAuth = (Context.User.Identity != null && Context.User.Identity.IsAuthenticated);
+
+    int? userId = null;
+    if (isAuth)
+    {
+        if (Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value is string userIdAsString)
+            userId = int.Parse(userIdAsString);
+    }
+
+    bool isCurrentUser = (userId != null && userId == Model.Id) && isAuth;
 }
 
 @section ProfileContent{

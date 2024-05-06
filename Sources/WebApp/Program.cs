@@ -66,7 +66,7 @@ namespace WebApp
             app.MapGet("/logout", async (HttpContext context) => 
             {
                 await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                AppStatics.User = null;
+                //AppStatics.User = null;
 
                 return Results.Redirect("/");
             });

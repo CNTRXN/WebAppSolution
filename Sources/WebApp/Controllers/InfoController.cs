@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text.Json;
 using WebApp.Models;
 using WebApp.Models.DTO;
@@ -44,29 +46,52 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("send-request")]
-        public ActionResult SendReqeust(
+        public async Task<ActionResult> SendReqeust(
             [FromForm] string cabinet, 
             [FromForm] List<string> equipment,
             [FromForm] List<IFormFile> images) 
         {
-            var files = images;
+            int? senderId = null;
+            if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
+                if (HttpContext.User.FindFirstValue(ClaimTypes.Sid) is string userId)
+                    senderId = int.Parse(userId);
 
-            Console.WriteLine(files);
-            //var files = HttpContext.Request.Files
-            /*var formData = HttpContext.Request.Form;
-
-            int cabinetId = int.Parse(formData["cabinet"]);
-            //List<int> equipmentsId = formData["equipment"].Select(int.Parse).ToList();
-            string description = formData["description"];
-
-            var images = formData.Files;*/
-
-            /*Console.WriteLine(cabinet);
-            foreach (var equip in equipment) 
+            MultipartFormDataContent multipartContent = new()
             {
-                Console.WriteLine(equip);
-            }*/
-            //Console.WriteLine(images);
+                { new StringContent(cabinet), "cabinetId" },
+                { new StringContent(senderId.ToString()), "userId" },
+                { new StringContent("Test Title"), "Title" },
+                { new StringContent("Test Description"), "Description" },
+            };
+
+            equipment.Remove(equipment[^1]);
+            foreach (var equip in equipment)
+            {
+                multipartContent.Add(new StringContent(equip.ToString()), "equipmentsIds");
+            }
+
+            foreach (var image in images)
+            {
+                multipartContent.Add(new StreamContent(image.OpenReadStream())
+                {
+                    Headers =
+                    {
+                        ContentLength = image.Length,
+                        ContentType = new MediaTypeHeaderValue(image.ContentType)
+                    }
+                }, "images", image.FileName);
+            }
+
+            var response = await AppStatics.ApiClient.PostAsync("api/Request/repair", multipartContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("complete");
+            }
+            else 
+            {
+                Console.WriteLine("error");
+            }
 
             return Redirect("/test-page");
         }

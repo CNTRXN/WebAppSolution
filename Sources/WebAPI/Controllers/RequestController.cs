@@ -9,19 +9,32 @@ namespace WebAPI.Controllers
     [ApiController]
     public class RequestController(IRequestService requestService) : ControllerBase
     {
-        [HttpPost("addNewRequest/repair")]
+        [HttpPost("repair")]
         public async Task<IActionResult> AddNewRepairRequest(
             [FromForm] int cabinetId, 
             [FromForm] int? userId, 
-            [FromForm] List<int> equipmentsIds, 
             [FromForm] string Title, 
             [FromForm] string Description, 
+            [FromForm] List<int> equipmentsIds, 
             [FromForm] List<IFormFile> images) 
         {
-            var request = await requestService.AddRepairRequest(cabinetId, userId, equipmentsIds, Title, Description, images);
+            /*var request = await requestService.AddRepairRequest(cabinetId, userId, equipmentsIds, Title, Description, images);
 
             if (!request)
-                return BadRequest();
+                return BadRequest();*/
+
+            Console.WriteLine($"{cabinetId}");
+            Console.WriteLine($"{userId}");
+            Console.WriteLine($"{Title}");
+            Console.WriteLine($"{Description}");
+            equipmentsIds.ForEach(e => 
+            {
+                Console.WriteLine($"{e}");
+            });
+            images.ForEach(e =>
+            {
+                Console.WriteLine($"{e.FileName}");
+            });
 
             return Ok();
         }

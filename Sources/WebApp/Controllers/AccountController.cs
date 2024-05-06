@@ -35,15 +35,21 @@ namespace WebApp.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    AppStatics.User = await response.Content.ReadFromJsonAsync<UserDTO>();
+                    //AppStatics.User = await response.Content.ReadFromJsonAsync<UserDTO>();
+                    var receivedUser = await response.Content.ReadFromJsonAsync<UserDTO>();
 
-                    if (AppStatics.User is UserDTO user)
+                    if (receivedUser is UserDTO user)
                     {
                         var claims = new List<Claim>()
-                            {
-                                new(ClaimTypes.Name, Login),
-                                new(ClaimTypes.Role, AppStatics.User.PermissionName ?? "User")
-                            };
+                        {
+                            new(ClaimTypes.Sid, user.Id.ToString()),
+                            new(ClaimTypes.Name, user.Name),
+                            new(ClaimTypes.Surname, user.Surname),
+                            new("Patronymic", user.Patronymic ?? string.Empty),
+                            new(ClaimTypes.DateOfBirth, user.Birthday.ToShortDateString()),
+                            new(ClaimTypes.NameIdentifier, Login),
+                            new(ClaimTypes.Role, user.PermissionName ?? "User")
+                        };
 
                         ClaimsIdentity identity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

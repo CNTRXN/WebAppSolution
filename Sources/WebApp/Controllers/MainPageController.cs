@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebApp.Models.DTO;
 using WebApp.Settings;
 
@@ -20,12 +21,17 @@ namespace WebApp.Controllers
                 //return Redirect("../auth");
                 return Redirect("../test-page");
 
-            if (AppStatics.User is UserDTO user) 
-            {
-                return View(user);
-            }
 
-            return View();
+
+            //if (AppStatics.User is UserDTO user) 
+            //{
+            //    return View(user);
+            //}
+            int? userId = null;
+            if (HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value is string userIdAsString)
+                userId = int.Parse(userIdAsString);
+
+            return Redirect($"../profile={userId}");
         }
     }
 }

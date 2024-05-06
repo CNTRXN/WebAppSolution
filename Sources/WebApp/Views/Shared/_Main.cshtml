@@ -13,6 +13,7 @@
     </head>
     <body>
         @RenderBody()
-        @await Html.PartialAsync("_RightMenuPartial", AppStatics.User)     
+        @* @await Html.PartialAsync("_RightMenuPartial", AppStatics.User) *@     
+        @await Html.PartialAsync("_RightMenuPartial")     
     </body>
 </html>

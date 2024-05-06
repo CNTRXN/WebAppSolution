@@ -16,6 +16,7 @@
 </head>
 <body>
     @await RenderSectionAsync("ProfileContent")
-    @await Html.PartialAsync("_RightMenuPartial", AppStatics.User)
+    @* @await Html.PartialAsync("_RightMenuPartial", AppStatics.User) *@
+    @await Html.PartialAsync("_RightMenuPartial")
 </body>
 </html>

@@ -16,7 +16,8 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    @await Html.PartialAsync("_RightMenuPartial", AppStatics.User)
+    @* @await Html.PartialAsync("_RightMenuPartial", AppStatics.User) *@
+    @await Html.PartialAsync("_RightMenuPartial")
 
     <div class="center-element-horizontal">
         @await RenderSectionAsync("CabTable")

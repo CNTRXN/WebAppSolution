@@ -1,12 +1,27 @@
 ﻿@using WebApp.Models.DTO
-@model UserDTO; 
+@using System.Security.Claims;
+@*@model UserDTO;*@
 
 @{
-    var userModel = Model;//ViewData["UserModel"] as UserDTO;
+    //var userModel = Model;//ViewData["UserModel"] as UserDTO;
+
+    dynamic? userModel = null;
 
 
+    var userIsAuth = Context.User.Identity != null && Context.User.Identity.IsAuthenticated;//&& userModel != null;
 
-    var userIsAuth = Context.User.Identity != null && Context.User.Identity.IsAuthenticated && userModel != null;
+    if(userIsAuth)
+    {
+        userModel = new
+        {
+            Name = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+            Surname = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value,
+            PermissionName = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
+        };
+
+        // if (Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value is string userIdAsString)
+        //     userModel.Id = int.Parse(userIdAsString);
+    }
 }
 
 <div id="rightMenu">
