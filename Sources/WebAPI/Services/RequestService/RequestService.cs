@@ -89,22 +89,90 @@ namespace WebAPI.Services.RequestService
             return true;
         }
 
-        public async Task<Request> GetAllRequests()
+        public async Task<IEnumerable<Request>> GetAllRequests()
         {
+            return await context.Requests.ToListAsync();
+        }
+
+        public async Task<RequestDTO?> GetRequestById(int requestId)
+        {
+            //!!!!!!!!!
+            var rawRequest = await context.Requests
+                .Where(r => r.Id == requestId)
+                .Select(r => new RequestDTO()
+                {
+                    Id = r.Id,
+                    Cabinet = context.Cabinets
+                        .Where(c => c.Id == r.CabId)
+                        .Select(c => new CabinetDTO()
+                        {
+                            Id = c.Id,
+                            Floor = c.Floor,
+                            Group = c.Group,
+                            Height = c.Height,
+                            Length = c.Length,
+                            Num = c.Num,
+                            PlanNum = c.PlanNum,
+                            Width = c.Width,
+                            ResponsiblePerson = context.Users
+                                .Where(u => u.Id == c.ResponsiblePersonId)
+                                .Select(u => new UserDTO()
+                                {
+                                    Id = u.Id,
+                                    Birthday = u.Birthday,
+                                    Name = u.Name,
+                                    Patronymic = u.Patronymic,
+                                    Surname = u.Surname,
+                                    PermissionName = context.Permissions
+                                        .Where(p => p.Id == u.PermissionId)
+                                        .Select(p => p.Name)
+                                        .First()
+                                })
+                                .First()
+                        })
+                        .First(),
+                    FromUser = context.Users
+                        .Where(u => u.Id == r.FromId)
+                        .Select(u => new UserDTO()
+                        {
+                            Id = u.Id,
+                            Birthday = u.Birthday,
+                            Name = u.Name,
+                            Patronymic = u.Patronymic,
+                            Surname = u.Surname,
+                            PermissionName = context.Permissions
+                                        .Where(p => p.Id == u.PermissionId)
+                                        .Select(p => p.Name)
+                                        .First()
+                        })
+                        .FirstOrDefault(),
+                    CompleteDate = r.CompleteDate,
+                    CreatedDate = r.CreatedDate,
+                    Description = r.Description,
+                    RequestStatusId = r.RequestStatusId,
+                    RequestTypeId = r.RequestTypeId,
+                    Title = r.Title
+                })
+                .FirstOrDefaultAsync();
+
+            RequestDTO request = new();
+
+            //прикрепить изображение
+
+            if (request == null)
+                return null;
+
+            return request;
+        }
+
+        public async Task<IEnumerable<RequestDTO>> GetRequestsByCabinetId(int cabinetId)
+        {
+            //var rawRequest = await context.Requests.
+
             throw new NotImplementedException();
         }
 
-        public async Task<RequestDTO> GetRequestByCabinetId(int cabinetId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<RequestDTO> GetRequestById(int requestId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<RequestDTO> GetRequestByUserId(int userId)
+        public async Task<IEnumerable<RequestDTO>> GetRequestsByUserId(int userId)
         {
             throw new NotImplementedException();
         }

@@ -11,5 +11,7 @@ namespace WebApp.Settings
         {
             BaseAddress = new Uri(ApiUrl)
         };
+
+        //public static string CabinetRoles { get; } = "User, Master";
     }
 }

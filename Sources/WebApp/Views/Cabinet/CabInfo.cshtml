@@ -2,6 +2,7 @@
 @using WebApp.Settings;
 @using WebApp.Models;
 @using System.Collections;
+@using System.Security.Claims;
 @using WebApp.Settings.Converters.Table;
 @using WebApp.Models.PageModels;
 
@@ -69,7 +70,16 @@
                 <button class="cab-select-info-button" id="to-equipments">Оборудование</button>
                 <button class="cab-select-info-button" id="to-test-table">Test1</button>
                 <button class="cab-select-info-button">Test2</button>
-                <button class="cab-select-info-button">Test3</button>
+
+                @{
+                    if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
+                    {
+                        if (Context.User.IsInRole("Master"))
+                        {
+                            <button class="cab-select-info-button" id="show-cabinet-requests">Заявки для кабинета</button>
+                        }
+                    }
+                } 
 
                 <div id="cab-select-info-button-bg"></div>
             </div>

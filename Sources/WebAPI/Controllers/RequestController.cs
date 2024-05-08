@@ -18,23 +18,23 @@ namespace WebAPI.Controllers
             [FromForm] List<int> equipmentsIds, 
             [FromForm] List<IFormFile> images) 
         {
-            /*var request = await requestService.AddRepairRequest(cabinetId, userId, equipmentsIds, Title, Description, images);
+            var request = await requestService.AddRepairRequest(cabinetId, userId, equipmentsIds, Title, Description, images);
 
             if (!request)
-                return BadRequest();*/
+                return BadRequest();
 
-            Console.WriteLine($"{cabinetId}");
-            Console.WriteLine($"{userId}");
-            Console.WriteLine($"{Title}");
-            Console.WriteLine($"{Description}");
-            equipmentsIds.ForEach(e => 
-            {
-                Console.WriteLine($"{e}");
-            });
-            images.ForEach(e =>
-            {
-                Console.WriteLine($"{e.FileName}");
-            });
+            //Console.WriteLine($"{cabinetId}");
+            //Console.WriteLine($"{userId}");
+            //Console.WriteLine($"{Title}");
+            //Console.WriteLine($"{Description}");
+            //equipmentsIds.ForEach(e => 
+            //{
+            //    Console.WriteLine($"{e}");
+            //});
+            //images.ForEach(e =>
+            //{
+            //    Console.WriteLine($"{e.FileName}");
+            //});
 
             return Ok();
         }

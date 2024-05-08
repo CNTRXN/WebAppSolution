@@ -71,9 +71,15 @@
                 {
                     if (Context.User.IsInRole("User"))
                     {
-                        <button class="rightMenuButton2">Заявки</button>
-                        <button class="rightMenuButton2" onclick="window.location = '../cabinets'">Кабинеты</button>
+                        <button class="rightMenuButton2" id="myRequests">Мои заявки</button>
                     }
+
+                    if (Context.User.IsInRole("Master"))
+                    {
+                        <button class="rightMenuButton2" id="newRequests">Заявки</button>
+                    }
+
+                    <button class="rightMenuButton2" onclick="window.location = '../cabinets'">Кабинеты</button>
                 }
             }
         </div>

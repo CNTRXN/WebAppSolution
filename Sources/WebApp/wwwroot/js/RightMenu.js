@@ -17,6 +17,16 @@
         }
     });
 
+    if (document.querySelector('#myRequests'))
+        $('#myRequests').on("click", () => {
+            alert('!mr');
+        });
+
+    if (document.querySelector('#newRequests'))
+        $('#newRequests').on("click", () => {
+            alert('!nr');
+        });
+
     function openRightMenu() {
         if ($("#" + rightMenu.id).width() == 0) {
             $("#" + rightMenu.id).animate({

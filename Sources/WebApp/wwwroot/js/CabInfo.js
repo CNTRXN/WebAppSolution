@@ -105,6 +105,12 @@ $(window).on("load", () => {
         showCabinetData('/show-test');
     });
 
+    if (document.querySelector('#show-cabinet-requests'))
+        $("#show-cabinet-requests").on("click", () =>
+        {
+            showRequests();
+        });
+
     /*$("#to-test-table").on("click", function () {
         $.ajax({
             url: '/show-test',
@@ -141,7 +147,77 @@ $(window).on("load", () => {
             }
         });
     }
+
+    function showRequests() {
+        $.ajax({
+            url: "/show-cabinet-requests",
+            type: 'GET',
+            dataType: "html",
+            headers: {
+                "Access-Control-Allow-Origin": "true",
+                "cabId": parseInt(cookie.cabid)
+            },
+            success: function (response) {
+                // При успешном получении ответа, обновляем содержимое контейнера с partial view
+                $("#main-table").html(response);
+
+                registerCabinetRequestsSector();
+            },
+            error: function () {
+                console.log('error load');
+            }
+        });
+    }
 });
+
+let registerCabinetRequestsSector = () => {
+    var requestCategory = document.getElementsByClassName('request-categories-header');
+
+    Array.from(requestCategory).forEach(elem => {
+        const category = elem.parentElement;
+        const categoryRequstContainer = category.querySelector('.cab-requests-container');
+
+
+        $(elem).on("click", () => {
+            let click = true;
+
+            const isOpen = category.classList.contains('open');
+            const sign = elem.querySelector('.request-categories-header-sign');
+
+            console.log(sign);
+
+            if (click) {
+                if (!isOpen) {
+                    category.classList.add('open');
+                    category.classList.remove('close');
+
+                    $(categoryRequstContainer).animate({
+                        height: "+=350px",
+                    }, 900, () => {
+                        click = false;
+                    });
+
+                    $(sign).rotate({
+                        animateTo: 0,
+                    });
+                } else {
+                    category.classList.remove('open');
+                    category.classList.add('close');
+
+                    $(categoryRequstContainer).animate({
+                        height: "0px",
+                    }, 900, () => {
+                        click = false;
+                    });
+
+                    $(sign).rotate({
+                        animateTo: 180
+                    });
+                }
+            }
+        });
+    });
+}
 
 function switchEditMode() {
     var parent = document.getElementById('cab-text-info');

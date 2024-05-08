@@ -9,7 +9,8 @@
         public DateTime? CompleteDate { get; set; }
         public int RequestTypeId { get; set; }
         public int RequestStatusId { get; set; }
-        public UserDTO? FromId { get; set; }
-        public CabinetDTO CabId { get; set; }
+        public UserDTO? FromUser { get; set; }
+        public CabinetDTO Cabinet { get; set; }
+        public List<string> Images { get; set; }
     }
 }
