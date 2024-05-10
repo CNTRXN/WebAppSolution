@@ -177,7 +177,6 @@ let registerCabinetRequestsSector = () => {
         const category = elem.parentElement;
         const categoryRequstContainer = category.querySelector('.cab-requests-container');
 
-
         $(elem).on("click", () => {
             let click = true;
 
@@ -201,13 +200,12 @@ let registerCabinetRequestsSector = () => {
                         animateTo: 0,
                     });
                 } else {
-                    category.classList.remove('open');
-                    category.classList.add('close');
-
                     $(categoryRequstContainer).animate({
                         height: "0px",
                     }, 900, () => {
                         click = false;
+                        category.classList.remove('open');
+                        category.classList.add('close');
                     });
 
                     $(sign).rotate({

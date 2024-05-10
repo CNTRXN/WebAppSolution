@@ -51,11 +51,30 @@
     grid-template-rows: repeat(6, 1fr);
 }
 
-    #cab-text-info > p {
+    /*#cab-text-info > p {
         margin: 0;
         text-align: center;
         font-size: 14pt;
+    }*/
+
+    #cab-text-info > div {
+        display: grid;
+        grid-template-columns: 20% 1fr;
     }
+
+        #cab-text-info > div > p {
+            text-align: left;
+            margin-left: 10px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+.cab-text-info-sign {
+    color: #9C9CFF;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 0 0 0 #9C9CFF;
+    user-select: none;
+}
 
 #toProfile {
     grid-row: 6;
@@ -448,7 +467,6 @@
 #cab-requests {
     width: auto;
     height: auto;
-    background-color: green;
     position: relative;
     display: block;
     overflow: scroll;
@@ -460,7 +478,6 @@
     }
 
 .request-categories {
-    background-color: yellow;
     min-height: 50px;
     cursor: pointer;
     display: grid;
@@ -469,10 +486,20 @@
 
 .request-categories-header {
     height: 50px;
-    background-color: purple;
+    background-color: #f0f0f0;
     display: grid;
     grid-template-columns: 1fr 50px;
     grid-template-rows: 50px;
+}
+    .request-categories-header:hover {
+        background-color: lightgray;
+        
+    }
+
+.open {
+    -webkit-box-shadow: 0px 0px 22px -7px rgba(34, 60, 80, 0.2) inset;
+    -moz-box-shadow: 0px 0px 22px -7px rgba(34, 60, 80, 0.2) inset;
+    box-shadow: 0px 0px 22px -7px rgba(34, 60, 80, 0.2) inset;
 }
 
 .request-categories-header-sign {
@@ -480,20 +507,22 @@
     text-align: center;
     font-weight: bolder;
     font-size: 18pt;
+    color: #9C9CFF;
 }
 
 .request-categories-item {
     height: 200px;
-    background-color: orange;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 20px;
     margin-right: 20px;
+
+    border-radius: 10px;
 }
 
 .cab-requests-container {
-    /*height: auto;*/
-    background-color: pink;
+    /*height: auto;
+    background-color: pink;*/
     overflow: scroll;
     max-height: 500px;
 }
@@ -501,4 +530,36 @@
     .cab-requests-container::-webkit-scrollbar {
         width: 0px;
     }
+
+.request-new {
+    background-color: #ccccff;
+}
+
+.request-in-processing {
+    background-color: #ffff9c;
+}
+
+.request-materials-waiting {
+    background-color: #ffd966;
+}
+
+.request-in-progress {
+    background-color: #9ce66b;
+}
+
+.request-in-completed {
+    background-color: #57af1d;
+}
+
+.request-rejected {
+    background-color: #f55151;
+}
+
+.request-postponed {
+    background-color: #d4d4d4;
+}
+
+.request-overdue {
+    background-color: #e00000;
+}
 /*#endregion*/

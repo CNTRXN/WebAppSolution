@@ -18,17 +18,17 @@ namespace WebApp.Models.DTO
         public int Group { get; set; }//
         [AlternativeName("Этаж")]
         public int Floor { get; set; }//Этаж
-        [AlternativeName("Высота")]
+        [AlternativeName("Высота"), InclusionInHeader(HeaderInclusion.NotInclude)]
         public double Height { get; set; }//Высота
-        [AlternativeName("Длинна")]
+        [AlternativeName("Длинна"), InclusionInHeader(HeaderInclusion.NotInclude)]
         public double Length { get; set; }//Длина
-        [AlternativeName("Ширина")]
+        [AlternativeName("Ширина"), InclusionInHeader(HeaderInclusion.NotInclude)]
         public double Width { get; set; }//Ширина
-        [AlternativeName("Площадь потолка и пола")]
+        [AlternativeName("Площадь потолка и пола"), InclusionInHeader(HeaderInclusion.NotInclude)]
         public double SquareFloor => Width * Length;
-        [AlternativeName("Площадь стен 1")]
+        [AlternativeName("Площадь стен 1"), InclusionInHeader(HeaderInclusion.NotInclude)]
         public double SquareWall_1 => Length * Height;
-        [AlternativeName("Площадь стен 2")]
+        [AlternativeName("Площадь стен 2"), InclusionInHeader(HeaderInclusion.NotInclude)]
         public double SquareWall_2 => Width * Height;
     }
 }

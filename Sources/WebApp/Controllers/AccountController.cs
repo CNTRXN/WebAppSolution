@@ -77,7 +77,6 @@ namespace WebApp.Controllers
             return await Task.FromResult<IActionResult>(RedirectToAction("Main", "MainPage"));
         }
 
-
         [HttpPost("registration")]
         public async Task<IActionResult> Registration(UserRegDTO userRegData, string rpassword) 
         {
@@ -158,6 +157,12 @@ namespace WebApp.Controllers
             }
 
             return View(user);
+        }
+
+        [HttpGet("myRequests")]
+        public async Task<IActionResult> ShowMyRequests([FromRoute] int profileId) 
+        {
+            return Ok();
         }
     }
 }

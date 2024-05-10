@@ -26,16 +26,46 @@
     <div id="cab-info-container">
         <div id="main-cab-info">
             <div id="cab-text-info">
-                <p id="num">@cabinet.Num</p>
-                <p id="planNum">@cabinet.PlanNum</p>
-                <p id="group">@cabinet.Group</p>
-                <p id="floor">@cabinet.Floor</p>
-                <p id="height">@cabinet.Height</p>
-                <p id="length">@cabinet.Length</p>
-                <p id="width">@cabinet.Width</p>
-                <p id="squareFloor">@cabinet.SquareFloor</p>
-                <p id="squereWall1">@cabinet.SquareWall_1</p>
-                <p id="squereWall2">@cabinet.SquareWall_2</p>
+                <div title="Номер кабинета">
+                    <p class="cab-text-info-sign">№</p>
+                    <p id="num">@cabinet.Num</p>
+                </div>
+                <div title="Номер кабинета по плану">
+                    <p class="cab-text-info-sign">№</p>
+                    <p id="planNum">@cabinet.PlanNum</p>
+                </div>
+                <div title="Группа">
+                    <p class="cab-text-info-sign">G</p>
+                    <p id="group">@cabinet.Group</p>
+                </div>
+                <div title="Этаж">
+                    <p class="cab-text-info-sign">F</p>
+                    <p id="floor">@cabinet.Floor</p>
+                </div>
+                <div title="Длина">
+                    <p class="cab-text-info-sign">a</p>
+                    <p id="width">@cabinet.Width</p>
+                </div>
+                <div title="Ширина">
+                    <p class="cab-text-info-sign">b</p>
+                    <p id="length">@cabinet.Length</p>
+                </div>
+                <div title="Высота">
+                    <p class="cab-text-info-sign">h</p>
+                    <p id="height">@cabinet.Height</p>
+                </div>
+                <div title="Площадь пола/потолка">
+                    <p class="cab-text-info-sign">S²</p>
+                    <p id="squareFloor">@cabinet.SquareFloor</p>
+                </div>
+                <div title="Площадь стены 1">
+                    <p class="cab-text-info-sign">S²</p>
+                    <p id="squereWall1">@cabinet.SquareWall_1</p>
+                </div>
+                <div title="Площадь стены 2">
+                    <p class="cab-text-info-sign">S²</p>
+                    <p id="squereWall2">@cabinet.SquareWall_2</p>
+                </div>
                 <button class="defaultButton" id="toProfile" onclick="window.location = '../profile=@respPerson?.Id'">
                     <span>
                         @{

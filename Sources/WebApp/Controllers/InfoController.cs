@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -17,12 +18,14 @@ namespace WebApp.Controllers
         }
 
         [HttpGet("test-page")]
+        [Authorize(Roles = "Master, Admin")]
         public ActionResult Test() 
         {
             return View();
         }
 
         [HttpGet("show-request-from")]
+        [Authorize]
         public async Task<ActionResult> ShowRequestForm([FromHeader] int cabId) 
         {
             CabinetDTO? cabinet = cabId != 0 ? await AppStatics.ApiClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/get/id={cabId}") : null;
@@ -32,6 +35,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet("show-select-object")]
+        [Authorize]
         public async Task<ActionResult> ShowSelectObject([FromHeader] int cabId, [FromHeader] string getType) 
         {
             dynamic? getData = getType switch
@@ -46,6 +50,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("send-request")]
+        [Authorize]
         public async Task<ActionResult> SendReqeust(
             [FromForm] string cabinet, 
             [FromForm] List<string> equipment,
@@ -86,7 +91,7 @@ namespace WebApp.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("complete");
+                Console.WriteLine("request send");
             }
             else 
             {
