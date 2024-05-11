@@ -183,15 +183,13 @@ let registerCabinetRequestsSector = () => {
             const isOpen = category.classList.contains('open');
             const sign = elem.querySelector('.request-categories-header-sign');
 
-            console.log(sign);
-
             if (click) {
                 if (!isOpen) {
                     category.classList.add('open');
                     category.classList.remove('close');
 
                     $(categoryRequstContainer).animate({
-                        height: "+=350px",
+                        height: "+=500px",
                     }, 900, () => {
                         click = false;
                     });

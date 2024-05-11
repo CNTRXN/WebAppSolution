@@ -15,7 +15,7 @@ namespace WebAPI.DataContext.Models
         public int Id { get; set; }
         public int CabinetId { get; set; }
         public int EquipmentId { get; set; }
-        public int Count { get; set; }
+        //public int Count { get; set; }
 
         [ForeignKey("CabinetId")]
         public Cabinet Cabinet { get; set; }

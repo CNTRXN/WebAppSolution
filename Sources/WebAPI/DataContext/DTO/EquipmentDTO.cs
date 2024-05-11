@@ -7,7 +7,8 @@ namespace WebAPI.DataContext.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string InventoryNumber { get; set; }
         public EquipmentType EquipmentType { get; set; }
-        public int Count { get; set; }
+        //public int Count { get; set; }
     }
 }

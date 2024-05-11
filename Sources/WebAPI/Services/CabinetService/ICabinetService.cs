@@ -9,7 +9,7 @@ namespace WebAPI.Services.CabinetService
         Task<CabinetDTO> GetCabinet(int id);
         Task<Cabinet?> AddCabinet(NewCabinetDTO newCabinet);
         Task<IEnumerable<EquipmentDTO>> GetCabinetEquipments(int cabId);
-        Task<int?> AddEquipmentsToCabinet(int cabId, IEnumerable<AddEquipToCabDTO> equipments);
+        Task<int> AddEquipmentsToCabinet(int cabId, IEnumerable<int> equipmentsIds);
         Task<bool> DeleteCabinet(int id);
     }
 }

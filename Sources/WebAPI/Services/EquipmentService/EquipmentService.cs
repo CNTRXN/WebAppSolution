@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 using WebAPI.DataContext;
 using WebAPI.DataContext.DTO;
 using WebAPI.DataContext.Models;
@@ -12,7 +11,7 @@ namespace WebAPI.Services.EquipmentService
         public async Task<Equipment?> AddNewEquipment(NewEquipmentDTO newEquipment)
         {
             var equipmentIsExist = await context.Equipments
-                .AnyAsync(e => e.Name == newEquipment.Name);
+                .AnyAsync(e => e.InventoryNumber == newEquipment.InventoryNumber);
 
             if (equipmentIsExist)
                 return null;
@@ -20,7 +19,8 @@ namespace WebAPI.Services.EquipmentService
             var addedEquipment = await context.Equipments.AddAsync(new()
             {
                 Name = newEquipment.Name,
-                Count = newEquipment.Count,
+                //Count = newEquipment.Count,
+                InventoryNumber = newEquipment.InventoryNumber,
                 Description = newEquipment.Description,
                 TypeId = newEquipment.TypeId
             });
@@ -29,10 +29,10 @@ namespace WebAPI.Services.EquipmentService
             return addedEquipment.Entity;
         }
 
-        public async Task<int?> AddNewEquipments(IEnumerable<NewEquipmentDTO> newEquipments)
+        public async Task<int> AddNewEquipments(IEnumerable<NewEquipmentDTO> newEquipments)
         {
             if (newEquipments.ToList().Count == 0)
-                return null;
+                return 0;
 
             int i = 0;
 
@@ -42,7 +42,7 @@ namespace WebAPI.Services.EquipmentService
                 var typeIsExist = await context.EquipmentTypes.AnyAsync(et => et.Id == equip.TypeId);
 
                 if (!typeIsExist)
-                    return null;
+                    return 0;
 
                 i++;
             }
@@ -51,7 +51,8 @@ namespace WebAPI.Services.EquipmentService
             {
                 Name = eq.Name,
                 Description = eq.Description,
-                Count = eq.Count,
+                InventoryNumber = eq.InventoryNumber,
+                //Count = eq.Count,
                 TypeId = eq.TypeId
             }));
             await context.SaveChangesAsync();
@@ -88,10 +89,10 @@ namespace WebAPI.Services.EquipmentService
             return true;
         }
 
-        public async Task<int?> DeleteEquipments(IEnumerable<EquipmentDTO> deletedEquipments)
+        public async Task<int> DeleteEquipments(IEnumerable<EquipmentDTO> deletedEquipments)
         {
             if (deletedEquipments.ToList().Count == 0)
-                return null;
+                return 0;
 
             int i = 0;
 
@@ -100,7 +101,7 @@ namespace WebAPI.Services.EquipmentService
                 var typeIsExist = await context.EquipmentTypes.AnyAsync(et => et.Id == equip.EquipmentType.Id);
 
                 if (!typeIsExist)
-                    return null;
+                    return 0;
 
                 i++;
             }
@@ -109,7 +110,8 @@ namespace WebAPI.Services.EquipmentService
             {
                 Name = eq.Name,
                 Description = eq.Description,
-                Count = eq.Count,
+                InventoryNumber = eq.InventoryNumber,
+                //Count = eq.Count,
                 TypeId = eq.EquipmentType.Id
             }));
             await context.SaveChangesAsync();
@@ -135,6 +137,25 @@ namespace WebAPI.Services.EquipmentService
         public async Task<IEnumerable<EquipmentType>> GetEquipmentTypes()
         {
             return await context.EquipmentTypes.ToListAsync();
+        }
+
+        public async Task<int> GetEuipmentCountByType(string typeName)
+        {
+            var equipmentType = await context.EquipmentTypes
+                .Where(et => et.Name.Equals(typeName, StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefaultAsync();
+
+            if (equipmentType == null)
+                return 0;
+
+            var equipments = await context.Equipments
+                .Where(e => e.TypeId == equipmentType.Id)
+                .ToListAsync();
+
+            if (equipments == null)
+                return 0;
+
+            return equipments.Count;
         }
     }
 }

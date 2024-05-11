@@ -14,8 +14,8 @@ namespace WebApp.Models.DTO
         public int PlanNum { get; set; }//Номер кабинета по плану
         [AlternativeName("Ответственное лицо")]
         public UserDTO? ResponsiblePerson { get; set; }
-        [AlternativeName("Группа")]
-        public int Group { get; set; }//
+        //[AlternativeName("Группа")]
+        //public int Group { get; set; }//
         [AlternativeName("Этаж")]
         public int Floor { get; set; }//Этаж
         [AlternativeName("Высота"), InclusionInHeader(HeaderInclusion.NotInclude)]

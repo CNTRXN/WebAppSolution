@@ -6,7 +6,7 @@
         public int Num { get; set; }//Номер кабиента
         public int PlanNum { get; set; }//Номер кабинета по плану
         public UserDTO? ResponsiblePerson { get; set; }
-        public int Group { get; set; }//
+        //public int Group { get; set; }//
         public int Floor { get; set; }//Этаж
         public double Height { get; set; }//Высота
         public double Length { get; set; }//Длина

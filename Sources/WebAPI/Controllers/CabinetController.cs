@@ -37,20 +37,20 @@ namespace WebAPI.Controllers
         }
 
         //Получение оборудования кабинета по id
-        [HttpGet("get-equip/id={id}")]
-        public async Task<IActionResult> GetCabinetEquipments([FromRoute] int id) 
+        [HttpGet("get-equip/cabid={cabid}")]
+        public async Task<IActionResult> GetCabinetEquipments([FromRoute] int cabid) 
         {
-            var equipments = await cabinetService.GetCabinetEquipments(id);
+            var equipments = await cabinetService.GetCabinetEquipments(cabid);
 
             if (equipments == null)
-                return NotFound($"В БД нет записей с оборудованием в кабинете с id '{id}'");
+                return NotFound($"В БД нет записей с оборудованием в кабинете с id '{cabid}'");
 
             return Ok(equipments);
         }
 
         //Добавление оборудования к кабинету
         [HttpPost("add-equip-to-cab/cabid={cabId}")]
-        public async Task<IActionResult> AddEquipmentsToCabinet([FromRoute] int cabId, [FromBody] List<AddEquipToCabDTO> equipIdAndCount) 
+        public async Task<IActionResult> AddEquipmentsToCabinet([FromRoute] int cabId, [FromBody] List<int> equipIdAndCount) 
         {
             var cabinet = await cabinetService.GetCabinet(cabId);
 
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
 
             var addedRows = await cabinetService.AddEquipmentsToCabinet(cabinet.Id, equipIdAndCount);
 
-            if (addedRows == null)
+            if (addedRows == 0)
                 return BadRequest($"Не удалось добавить '{equipIdAndCount.Count}' оборудования к кабинету");
 
             return Ok($"'{addedRows}' строчек добавлено к кабинету");

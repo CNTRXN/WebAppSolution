@@ -20,7 +20,7 @@ namespace WebAPI.Services.CabinetService
                 Num = newCabinet.Num,
                 PlanNum = newCabinet.PlanNum,
                 Floor = newCabinet.Floor,
-                Group = newCabinet.Group,
+                //Group = newCabinet.Group,
                 Height = newCabinet.Height,
                 Length = newCabinet.Length,
                 Width = newCabinet.Width,
@@ -33,86 +33,46 @@ namespace WebAPI.Services.CabinetService
             return addedCabinet;
         }
 
-        public async Task<int?> AddEquipmentsToCabinet(int cabId, IEnumerable<AddEquipToCabDTO> equipments)
+        public async Task<int> AddEquipmentsToCabinet(int cabId, IEnumerable<int> equipmentsIds) 
         {
-            var cabinet = await context.Cabinets
-                .Where(c => c.Id == cabId)
-                .FirstOrDefaultAsync();
+            //Проверка на существование кабинета
+            var cabinetIsExist = await context.Cabinets.AnyAsync(c => c.Id == cabId);
 
-            int addedRows = 0;
-            List<CabinetEquipment> addedEquipment = [];
+            if (!cabinetIsExist)
+                return 0;
 
-            if (cabinet != null)
+            List<CabinetEquipment> equipmentToAdd = [];
+
+            //Проверка на существование оборудования
+            foreach (var equipmentId in equipmentsIds) 
             {
-                //Проверка на существование оборудования
-                foreach (var equipment in equipments)
+                var equipment = await context.Equipments
+                    .FirstOrDefaultAsync(e => e.Id == equipmentId);
+
+                if (equipment != null) 
                 {
-                    var equip = await context.Equipments
-                        .Where(e => e.Id == equipment.EquipmentId)
-                        .FirstOrDefaultAsync();
+                    //Проверка: не привязано ли оборудование к какому-нибудь кабинету
+                    var equipmentInOtherCabinet = await context.CabinetEquipments
+                        .AnyAsync(ce => ce.EquipmentId == equipment.Id);
 
-                    if (equip != null && equip.Count > 0)
+                    if (!equipmentInOtherCabinet)
                     {
-                        int totalCount = 0;
-                        switch (equip.Count - equipment.AddedEquipmentCount)
+                        equipmentToAdd.Add(new CabinetEquipment() 
                         {
-                            case <= 0:
-                                totalCount = equip.Count;
-                                equip.Count = 0;
-                                break;
-                            case > 0:
-                                totalCount = equipment.AddedEquipmentCount;
-                                equip.Count -= equipment.AddedEquipmentCount;
-                                break;
-                        }
-
-                        addedEquipment.Add(new CabinetEquipment()
-                        {
-                            Id = equip.Id,
-                            CabinetId = cabinet.Id,
-                            EquipmentId = equip.Id,
-                            Count = totalCount
-                        });
-
-                        context.Equipments.Update(equip);
-                        await context.SaveChangesAsync();
-
-                        addedRows++;
-                    }
-                }
-
-                //Добавление оборудование к кабинету
-                foreach (var equipment in addedEquipment)
-                {
-                    var equipInCab = await context.CabinetEquipments
-                        .Where(eq => eq.EquipmentId == equipment.Id)
-                        .FirstOrDefaultAsync();
-
-                    if (equipInCab == null)
-                    {
-                        //Если оборудования нет в кабинет, то оно добавляется
-                        await context.CabinetEquipments.AddAsync(new CabinetEquipment()
-                        {
-                            CabinetId = cabinet.Id,
-                            EquipmentId = equipment.Id,
-                            Count = equipment.Count
+                            CabinetId = cabId,
+                            EquipmentId = equipment.Id
                         });
                     }
-                    else
-                    {
-                        //Если оборудование есть в кабинете, то прибавляется количество добавляемого
-                        equipInCab.Count += equipment.Count;
-
-                        context.CabinetEquipments.Update(equipInCab);
-                    }
-                    await context.SaveChangesAsync();
                 }
-
-                //await context.CabEquipments.AddRangeAsync(addedEquipment);
-                await context.SaveChangesAsync();
             }
 
-            return addedRows;
+            if (equipmentToAdd.Count == 0)
+                return 0;
+
+            await context.CabinetEquipments.AddRangeAsync(equipmentToAdd);
+            await context.SaveChangesAsync();
+
+            return equipmentToAdd.Count;
         }
 
         public async Task<bool> DeleteCabinet(int id)
@@ -141,7 +101,7 @@ namespace WebAPI.Services.CabinetService
             {
                 Id = cabinet.Id,
                 Floor = cabinet.Floor,
-                Group = cabinet.Group,
+                //Group = cabinet.Group,
                 Height = cabinet.Height,
                 Length = cabinet.Length,
                 Num = cabinet.Num,
@@ -184,8 +144,9 @@ namespace WebAPI.Services.CabinetService
                     {
                         Id = equipment.Id,
                         Name = equipment.Name,
-                        Count = equipment.Count,
+                        //Count = equipment.Count,
                         Description = equipment.Description,
+                        InventoryNumber = equipment.InventoryNumber,
                         EquipmentType = await context.EquipmentTypes.Where(et => et.Id == equipment.TypeId).FirstAsync()
                     });
                 }
@@ -207,7 +168,7 @@ namespace WebAPI.Services.CabinetService
                     Id = cab.Id,
                     Num = cab.Num,
                     Floor = cab.Floor,
-                    Group = cab.Group,
+                    //Group = cab.Group,
                     Length = cab.Length,
                     Height = cab.Height,
                     Width = cab.Width,

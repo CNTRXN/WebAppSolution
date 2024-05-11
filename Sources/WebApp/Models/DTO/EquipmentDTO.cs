@@ -9,13 +9,20 @@ namespace WebApp.Models.DTO
     {
         [InclusionInHeader(HeaderInclusion.NotInclude)]
         public int Id { get; set; }
+
         [AlternativeName("Имя")]
         public string Name { get; set; }
+
         [AlternativeName("Описание")]
         public string Description { get; set; }
+
+        [AlternativeName("Инвентарный номер")]
+        public string InventoryNumber { get; set; }
+
         [AlternativeName("Тип")]
         public EquipmentType EquipmentType { get; set; }
-        [AlternativeName("Количество")]
-        public int Count { get; set; }
+
+        //[AlternativeName("Количество")]
+        //public int Count { get; set; }
     }
 }

@@ -10,8 +10,9 @@ namespace WebAPI.DataContext.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string InventoryNumber { get; set; }
         public int TypeId { get; set; }
-        public int Count { get; set; }
+        //public int Count { get; set; }
 
         [ForeignKey("TypeId")]
         public EquipmentType EquipmentType { get; set; }

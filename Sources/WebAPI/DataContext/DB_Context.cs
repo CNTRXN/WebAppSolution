@@ -36,25 +36,65 @@ namespace WebAPI.DataContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Права доступа
             modelBuilder
                 .Entity<Permission>()
                 .HasData(Init_Permissions());
 
             modelBuilder
+                .Entity<Permission>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+            #endregion
+
+            #region Пользователи
+            modelBuilder
                 .Entity<User>()
                 .HasData(Init_Users());
 
+            modelBuilder
+                .Entity<User>()
+                .HasIndex(u => u.Login)
+                .IsUnique();
+            #endregion
+
+            #region Кабинет
             modelBuilder
                 .Entity<Cabinet>()
                 .HasData(Init_Cabs());
 
             modelBuilder
+                .Entity<Cabinet>()
+                .HasIndex(c => c.Num)
+                .IsUnique();
+
+            modelBuilder
+                .Entity<Cabinet>()
+                .HasIndex(c => c.PlanNum)
+                .IsUnique();
+            #endregion
+
+            #region Типы оборудования
+            modelBuilder
                 .Entity<EquipmentType>()
                 .HasData(Init_EquipmentType());
 
             modelBuilder
+                .Entity<EquipmentType>()
+                .HasIndex(et => et.Name)
+                .IsUnique();
+            #endregion
+
+            #region Оборудование
+            modelBuilder
                 .Entity<Equipment>()
                 .HasData(Init_Equipments());
+
+            modelBuilder
+                .Entity<Equipment>()
+                .HasIndex(e => e.InventoryNumber)
+                .IsUnique();
+            #endregion
 
             modelBuilder
                 .Entity<CabinetEquipment>()
@@ -76,13 +116,27 @@ namespace WebAPI.DataContext
                     });
                 });*/
 
+            #region Тип заявки
             modelBuilder
                 .Entity<RequestType>()
                 .HasData(Init_RequestTypes());
 
             modelBuilder
+                .Entity<RequestType>()
+                .HasIndex(r => r.TypeName)
+                .IsUnique();
+            #endregion
+
+            #region Статус заявки
+            modelBuilder
                 .Entity<RequestStatus>()
                 .HasData(Init_RequestsStatus());
+
+            modelBuilder
+                .Entity<RequestStatus>()
+                .HasIndex(rs => rs.StatusName)
+                .IsUnique();
+            #endregion
 
             static List<Permission> Init_Permissions()
             {
@@ -125,7 +179,7 @@ namespace WebAPI.DataContext
                     {
                         Id = i,
                         Floor = new Random().Next(0, 3),
-                        Group = new Random().Next(1000, 4000),
+                        //Group = new Random().Next(1000, 4000),
                         Height = new Random().Next(100, 500),
                         Length = new Random().Next(100, 500),
                         Width = new Random().Next(100, 500),
@@ -133,7 +187,7 @@ namespace WebAPI.DataContext
                         ResponsiblePersonId = new Random().Next(1, Init_Users().Count)
                     };
                     //cabinet.Num = new Random().Next(10, 50) + (cabinet.Group * 100);
-                    cabinet.Num = i == 1 ? 216942 : GenerateNum(cabinet.Group * 100);
+                    cabinet.Num = i == 1 ? 216942 : GenerateNum(new Random().Next(1000, 4000) * 100);
 
                     cabinets.Add(cabinet);
                 }

@@ -479,7 +479,6 @@
 
 .request-categories {
     min-height: 50px;
-    cursor: pointer;
     display: grid;
     grid-template-rows: 50px 1fr;
 }
@@ -493,7 +492,7 @@
 }
     .request-categories-header:hover {
         background-color: lightgray;
-        
+        cursor: pointer;
     }
 
 .open {

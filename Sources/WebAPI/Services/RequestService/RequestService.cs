@@ -108,7 +108,7 @@ namespace WebAPI.Services.RequestService
                         {
                             Id = c.Id,
                             Floor = c.Floor,
-                            Group = c.Group,
+                            //Group = c.Group,
                             Height = c.Height,
                             Length = c.Length,
                             Num = c.Num,

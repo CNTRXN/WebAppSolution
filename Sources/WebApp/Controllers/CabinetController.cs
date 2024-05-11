@@ -18,7 +18,7 @@ namespace WebApp.Controllers
                 tableData.Add(new Equipment()
                 {
                     Id = i,
-                    Count = new Random().Next(0, 100),
+                    //Count = new Random().Next(0, 100),
                     Description = $"Table-{i}",
                     Name = $"Name-{i}",
                     TypeId = new Random().Next(0, 4)
@@ -78,7 +78,7 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<ActionResult> ShowEquipments([FromHeader] int cabId)
         {
-            List<EquipmentDTO>? equipment = await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}");
+            List<EquipmentDTO>? equipment = await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/cabid={cabId}");
 
             return PartialView("CabInfo/_TableTemplatePartial", new CabInfoPage()
             {
