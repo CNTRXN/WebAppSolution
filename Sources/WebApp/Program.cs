@@ -16,6 +16,7 @@ namespace WebApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            Console.Title = "App";
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -35,6 +36,7 @@ namespace WebApp
                     options.AccessDeniedPath = "/accessdenied";
                 });
             builder.Services.AddAuthorization();
+            builder.Services.AddOutputCache();
 
             var app = builder.Build();
 
@@ -47,6 +49,7 @@ namespace WebApp
             }
 
             app.UseSession();
+            app.UseOutputCache();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

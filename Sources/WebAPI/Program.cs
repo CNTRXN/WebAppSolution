@@ -15,6 +15,7 @@ namespace WebAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            Console.Title = "API";
 
             var MyPolicy = "MyPolicy";
 

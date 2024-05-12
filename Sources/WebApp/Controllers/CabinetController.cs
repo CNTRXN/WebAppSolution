@@ -111,15 +111,6 @@ namespace WebApp.Controllers
             });
         }
 
-        [HttpGet("open-image-form")]
-        [Authorize]
-        public async Task<ActionResult> ShowCabinetsPhoto([FromHeader] int cabId) 
-        {
-            List<string>? imageHref = await AppStatics.ApiClient.GetFromJsonAsync<List<string>>($"api/File/images/cabId={cabId}");
-
-            return PartialView("CabInfo/_CabinetImageFormPartial", imageHref);
-        }
-
         [HttpGet("show-cabinet-requests")]
         [Authorize(Roles = "Master, Admin")]
         public async Task<ActionResult> ShowCabinetRequests([FromHeader] int cabId) 
