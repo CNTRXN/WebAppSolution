@@ -18,7 +18,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet("test-page")]
-        [Authorize(Roles = "Master, Admin")]
+        //[Authorize(Roles = "Master, Admin")]
         public ActionResult Test() 
         {
             return View();

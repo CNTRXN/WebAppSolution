@@ -14,7 +14,7 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<ActionResult> ShowCabinetsPhoto([FromHeader] int cabId)
         {
-            List<string>? imageHref = await AppStatics.ApiClient.GetFromJsonAsync<List<string>>($"api/File/images/cabId={cabId}");
+            List<string>? imageHref = await AppStatics.ApiClient.GetFromJsonAsync<List<string>>($"api/Cabinet/image/getImagesByCab={cabId}");
 
             return PartialView("CabInfo/ModalWindows/_CabinetImageFormPartial", imageHref);
         }

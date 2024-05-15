@@ -13,8 +13,15 @@
     <title>Войти</title>
 </head>
 <body>
-    @*@await Html.PartialAsync("_RightMenuPartial", AppStatics.User)*@    
-    @await Html.PartialAsync("_RightMenuPartial")
+    @*@await Html.PartialAsync("_RightMenuPartial", AppStatics.User)*@
+    @{
+        var userIsAuth = Context.User.Identity != null && Context.User.Identity.IsAuthenticated;
+
+        if (userIsAuth)
+        {
+            await Html.PartialAsync("_RightMenuPartial");
+        }
+    }
     @await RenderSectionAsync("LogAndRegForm")
 </body>
 </html>

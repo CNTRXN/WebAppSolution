@@ -1,1 +1,81 @@
-﻿
+﻿<div id="edit-cab-info">
+        <div class="black-screen"></div>
+        <div id="edit-cab-info-form-container">
+            <div id="edit-cab-info-form-container-header">
+                <button id="close-edit-cab-info-form"></button>
+            </div>
+            <form id="edit-cab-info-form-container-content">
+                <div class="edit-cab-info-form-item">
+                    <p>Номер кабинета</p>
+                    <input type="text" name="cabNumber" required>
+                </div>
+                <div class="edit-cab-info-form-item">
+                    <p>Номер кабинета по плану</p>
+                    <input type="text" name="cabPlanNumber" required>
+                </div>
+                <div class="edit-cab-info-form-item">
+                    <p>Этаж</p>
+                    <input type="text" name="floor" required>
+                </div>
+                <div class="edit-cab-info-form-item">
+                    <p>Ответственное лицо</p>
+                    <div id="responsible-person-container">
+                        <div id="select-resp-person">
+                            <div id="select-resp-person-content">
+
+                            </div>
+                            <button type="button" id="change-resp-person"></button>
+                            <button type="button" id="delete-resp-person"></button>
+                            <input type="hidden" name="person" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="edit-cab-info-form-item">
+                    <p>Длина</p>
+                    <input type="text" name="length" required>
+                </div>
+                <div class="edit-cab-info-form-item">
+                    <p>Ширина</p>
+                    <input type="text" name="width" required>
+                </div>
+                <div class="edit-cab-info-form-item">
+                    <p>Высота</p>
+                    <input type="text" name="height" required>
+                </div>
+                <div class="edit-cab-info-form-item">
+                    <p>Площадь пола/потолка</p>
+                    <input type="text" name="squareFloor" required>
+                </div>
+                <div class="edit-cab-info-form-item">
+                    <p>Площадь стены 1</p>
+                    <input type="text" name="squereWall1" required>
+                </div>
+                <div class="edit-cab-info-form-item">
+                    <p>Площадь стены 2</p>
+                    <input type="text" name="squereWall2" required>
+                </div>
+
+                <input class="defaultButton" type="submit">
+            </form>
+
+             
+        </div>
+
+        <template id="non-select-resp-person-template">
+            <div id="non-select-resp-person">
+                <button type="button" id="select-new-responsible-person"></button>
+                <input type="hidden" name="person">
+            </div>
+        </template>
+
+        <template id="select-resp-person-template">
+            <div id="select-resp-person">
+                <div id="select-resp-person-content">
+
+                </div>
+                <button type="button" id="change-resp-person"></button>
+                <button type="button" id="delete-resp-person"></button>
+                <input type="hidden" name="person">
+            </div>
+        </template>
+    </div>

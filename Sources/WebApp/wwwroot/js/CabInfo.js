@@ -1,3 +1,5 @@
+//import { downloadFile } from "./js/Files";
+
 const imageType = Object.freeze({ "page": 1, "form": 2 });
 const allSkeleton = document.querySelectorAll('.skeleton');
 
@@ -93,8 +95,27 @@ $(window).on("load", () => {
         });
     });
 
+    //Редактирование информации
     $("#cab-info-edit").on("click", () => {
-        switchEditMode();
+        $.ajax({
+            url: "/show-cabinet-edit-form",
+            type: 'GET',
+            dataType: "html",
+            headers: {
+                "Access-Control-Allow-Origin": "true",
+                "cabId": parseInt(cookie.cabid)
+            },
+            success: function (response) {
+                // При успешном получении ответа, обновляем содержимое контейнера с partial view
+                /*$(document.body).insertAfter(response);*/
+                $('body').append(response);
+
+                registerEditInfoFormSector();
+            },
+            error: function () {
+                console.log('error load');
+            }
+        });
     });
 
     $("#to-equipments").on("click", (e) => {
@@ -105,11 +126,14 @@ $(window).on("load", () => {
         showCabinetData('/show-test');
     });
 
+    //Показать заявки кабинета (от. прав доступа Мастер, Админ) 
     if (document.querySelector('#show-cabinet-requests'))
-        $("#show-cabinet-requests").on("click", () =>
-        {
+        $("#show-cabinet-requests").on("click", () => {
             showRequests();
         });
+
+    
+
 
     /*$("#to-test-table").on("click", function () {
         $.ajax({
@@ -170,6 +194,19 @@ $(window).on("load", () => {
     }
 });
 
+let registerEditInfoFormSector = () => {
+    let responsiblePerson = null;
+    const editContainer = document.querySelector('#edit-cab-info-form-container');
+
+    if ($('#select-resp-person').length) {
+        console.log(editContainer);
+    } else {
+        console.log('!');
+    }
+
+    //if()
+};
+
 let registerCabinetRequestsSector = () => {
     var requestCategory = document.getElementsByClassName('request-categories-header');
 
@@ -215,37 +252,37 @@ let registerCabinetRequestsSector = () => {
     });
 }
 
-function switchEditMode() {
-    var parent = document.getElementById('cab-text-info');
+//function switchEditMode() {
+//    var parent = document.getElementById('cab-text-info');
 
-    var cabInfo = new CabInfo();
+//    var cabInfo = new CabInfo();
 
-    parent.childNodes.forEach(item => {
-        var newElem;
-        if (item.tagName == "P") {
-            //редактирование
-            newElem = document.createElement('input');
-            newElem.value = item.textContent;
+//    parent.childNodes.forEach(item => {
+//        var newElem;
+//        if (item.tagName == "P") {
+//            //редактирование
+//            newElem = document.createElement('input');
+//            newElem.value = item.textContent;
 
-            cabInfo.setPropertyValue(item.id, item.value);
-            newElem.setAttribute('type', 'text');
-        }
-        else if (item.tagName == "INPUT") {
-            //сохранение
-            newElem = document.createElement('p');
+//            cabInfo.setPropertyValue(item.id, item.value);
+//            newElem.setAttribute('type', 'text');
+//        }
+//        else if (item.tagName == "INPUT") {
+//            //сохранение
+//            newElem = document.createElement('p');
 
-            newElem.textContent = item.value;
-        }
+//            newElem.textContent = item.value;
+//        }
 
-        if (newElem != undefined) {
-            newElem.setAttribute('id', item.id);
+//        if (newElem != undefined) {
+//            newElem.setAttribute('id', item.id);
 
-            parent.replaceChild(newElem, item);
+//            parent.replaceChild(newElem, item);
 
-            isEditMode = !isEditMode;
-        }
-    });
-}
+//            isEditMode = !isEditMode;
+//        }
+//    });
+//}
 
 /*function openImageForm(id) {
     GetFormImages(id, imageType.form);
@@ -253,8 +290,10 @@ function switchEditMode() {
 
 var GetFormImages = function(id, type) {
     const showFormButton = document.getElementById("show-image-form-button").content.cloneNode(true);
+    const imageTemplate = document.getElementById("file-template");
+
     const imagePageList = document.getElementById("cab-photos");
-    const img = imagePageList.querySelectorAll('.skeleton');
+    const img = imagePageList.querySelectorAll('div');//imagePageList.querySelectorAll('.skeleton');
 
     /*const imageForm = document.getElementById('show-image-list');
     const imageFormList = document.getElementById('image-list');*/
@@ -325,7 +364,8 @@ var GetFormImages = function(id, type) {
         case imageType.page:
             $.ajax({
                 type: "GET",
-                url: "http://localhost:5215/api/File/images/cabId=" + id,
+                //url: "http://localhost:5215/api/File/images/cabId=" + id,
+                url: "http://localhost:5215/api/Cabinet/image/getImagesByCab=" + id,
                 dataType: "json",
                 headers: {
                     "Access-Control-Allow-Origin": "true"
@@ -333,16 +373,42 @@ var GetFormImages = function(id, type) {
                 success: function (data) {
                     var i = 0;
 
-                    data.some((element, index) => {
+                    /*data.some((element, index, arr) => {
                         if (index < 3) {
-                            img[index].src = element;
-                            img[index].className = "";
+                            let imageElement = img[index];
+
+                            imageElement.src = element;
+                            imageElement.className = "";
                         }
                         else {
                             i = index;
                             return true;
                         }
-                    })
+                    });
+
+                    for (; i < img.length; i++) {
+                        imagePageList.removeChild(img[i]);
+                    }*/
+
+                    data.some((element, index, arr) => {
+                        //let imageContainer = imageTemplate.content.cloneNode(true);
+
+                        if (index < 3) {
+                            $(img[index]).css('background-image', 'url(' + element + ')');
+
+                            let downloadButton = img[index].querySelector('button');
+
+                            $(downloadButton).on("click", () => {
+                                console.log(index);
+                                downloadFile(element, index);
+                            });
+                        }
+                        else {
+                            i = index;
+                            return true;
+                        }
+                        //console.log(imageContainer);
+                    });
 
                     for (; i < img.length; i++) {
                         imagePageList.removeChild(img[i]);
@@ -350,7 +416,33 @@ var GetFormImages = function(id, type) {
 
                     imagePageList.appendChild(showFormButton);
 
+                    let isOver = false;
+                    Array.from(img).forEach(elem => {
+                        $(elem).hover(function () {
+                            if (!isOver) {
+                                const downloadButton = elem.querySelector('button');
+                                $(downloadButton).animate({
+                                    top: "-=25"
+                                }, 200);
+                            }
+
+                            isOver = true;
+
+                        }, function () {
+                            if (isOver) {
+                                const downloadButton = elem.querySelector('button');
+                                $(downloadButton).animate({
+                                    top: "+=25"
+                                }, 200);
+                            }
+
+                            isOver = false;
+                        }
+                        );
+                    });
+
                     $("#open-image-form").on("click", function () {
+                        console.log("open");
                         var cookie = getCookie();
                         GetFormImages(parseInt(cookie.cabid), imageType.form);
                     });
@@ -396,4 +488,16 @@ function getCookie() {
         acc[name] = value
         return acc
     }, {})
+}
+
+function downloadFile(url, filename) {
+    let link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
 }

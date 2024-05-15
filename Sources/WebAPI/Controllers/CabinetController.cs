@@ -90,6 +90,29 @@ namespace WebAPI.Controllers
         }
 
         #region Изображения и файлы
+        #region Получение
+        [HttpGet("image/getImagesByCab={cabId}")]
+        public async Task<IActionResult> GetCabinetImages([FromRoute] int cabId) 
+        {
+            var images = await fileService.GetCabinetImages(cabId);
+
+            if (images == null)
+                return BadRequest("Images not found");
+
+            List<string> Urls = [];
+
+            foreach (var img in images)
+            {
+                var repUrl = img.Replace("\\", @"/");
+
+                Urls.Add($"http://{HttpContext.Request.Host.Value}/{repUrl}");
+            }
+
+            return Ok(Urls);
+        }
+        #endregion
+
+        #region Добавление
         [HttpPost("file/uploadFile"), DisableRequestSizeLimit]
         public async Task<IActionResult> AddNewCabinetFile([FromForm] FileUploadModel file, int cabinetId)
         {
@@ -102,9 +125,20 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("file/uploadFiles"), DisableRequestSizeLimit]
-        public async Task<IActionResult> AddNewCabinetFiles([FromForm] List<FileUploadModel> file, int cabinetId)
+        public async Task<IActionResult> AddNewCabinetFiles([FromForm] List<IFormFile> files, [FromHeader] int authorId, [FromHeader] int cabinetId)
         {
-            var newCabinetPhoto = await fileService.AddNewCabinetFiles(file, cabinetId);
+            List<FileUploadModel> uploadFiles = [];
+
+            foreach (var file in files)
+            {
+                uploadFiles.Add(new FileUploadModel()
+                {
+                    File = file,
+                    FileAuthorId = authorId
+                });
+            }
+
+            var newCabinetPhoto = await fileService.AddNewCabinetFiles(uploadFiles, cabinetId);
 
             if (!newCabinetPhoto)
                 return BadRequest();
@@ -124,15 +158,29 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("image/uploadPhotos"), DisableRequestSizeLimit]
-        public async Task<IActionResult> AddNewCabinetPhotos([FromForm] List<FileUploadModel> images, int cabinetId)
+        public async Task<IActionResult> AddNewCabinetPhotos([FromForm] List<IFormFile> images, [FromHeader] int authorId, [FromHeader] int cabinetId)
         {
-            var newCabinetPhoto = await fileService.AddNewCabinetImages(images, cabinetId);
+            List<FileUploadModel> uploadImages = [];
+
+            foreach (var image in images)
+            {
+                uploadImages.Add(new FileUploadModel()
+                {
+                    File = image,
+                    FileAuthorId = authorId
+                });
+            }
+
+            var newCabinetPhoto = await fileService.AddNewCabinetImages(uploadImages, cabinetId);
 
             if (!newCabinetPhoto)
                 return BadRequest();
 
             return Ok();
         }
+        #endregion
+        
+
         #endregion
     }
 }

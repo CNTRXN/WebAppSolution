@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WebAPI.DataContext;
 using WebAPI.DataContext.DTO;
 using WebAPI.DataContext.Models;
@@ -10,6 +9,7 @@ namespace WebAPI.Services.FileService
 {
     public class FileService(DB_Context context) : IFileService
     {
+        #region Кабинет(добавление)
         public async Task<bool> AddNewCabinetFile(FileUploadModel file, int cabinetId)
         {
             //существует ли запись кабинета
@@ -63,7 +63,7 @@ namespace WebAPI.Services.FileService
             return true;
         }
 
-        public async Task<bool> AddNewCabinetFiles(List<FileUploadModel> files, int cabinetId)
+        public async Task<bool> AddNewCabinetFiles(IEnumerable<FileUploadModel> files, int cabinetId)
         {
             //существует ли запись кабинета
             var cabinet = await context.Cabinets
@@ -183,7 +183,7 @@ namespace WebAPI.Services.FileService
             return true;
         }
 
-        public async Task<bool> AddNewCabinetImages(List<FileUploadModel> images, int cabinetId)
+        public async Task<bool> AddNewCabinetImages(IEnumerable<FileUploadModel> images, int cabinetId)
         {
             //существует ли запись кабинета
             var cabinet = await context.Cabinets
@@ -249,13 +249,15 @@ namespace WebAPI.Services.FileService
 
             return true;
         }
+        #endregion
 
+        #region Заявки(добавление)
         public Task<bool> AddNewRequestFile(FileUploadModel file, int requestId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> AddNewRequestFiles(List<FileUploadModel> file, int requestId)
+        public Task<bool> AddNewRequestFiles(IEnumerable<FileUploadModel> file, int requestId)
         {
             throw new NotImplementedException();
         }
@@ -265,7 +267,7 @@ namespace WebAPI.Services.FileService
             throw new NotImplementedException();
         }
 
-        public async Task<bool> AddNewRequestImages(List<FileUploadModel> images, int requestId)
+        public async Task<bool> AddNewRequestImages(IEnumerable<FileUploadModel> images, int requestId)
         {
             //существует ли запись кабинета
             var request = await context.Requests
@@ -330,6 +332,7 @@ namespace WebAPI.Services.FileService
 
             return true;
         }
+        #endregion
 
         public Task<bool> DeleteCabinetFile_ByFileId(int cabinetId, int fileId)
         {
@@ -351,42 +354,52 @@ namespace WebAPI.Services.FileService
             throw new NotImplementedException();
         }
 
-        public Task<FileModelDTO> GetCabinetFile(int cabinetId, int fileId)
+        public Task<string> GetCabinetFile(int cabinetId, int fileId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<FileModelDTO>> GetCabinetFiles(int cabinetId)
+        public Task<IEnumerable<string>> GetCabinetFiles(int cabinetId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<FileModelDTO> GetCabinetImage(int cabinetId, int imageId)
+        public Task<string> GetCabinetImage(int cabinetId, int imageId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<FileModelDTO>> GetCabinetImages(int cabinetId)
+        public async Task<IEnumerable<string>?> GetCabinetImages(int cabinetId)
+        {
+            var cabinetIsExist = await context.Cabinets.AnyAsync(c => c.Id == cabinetId);
+
+            if (!cabinetIsExist)
+                return null;
+
+            var cabinetsImages = await context.CabinetFiles
+                .Where(cf => cf.CabinetId == cabinetId)
+                .Select(cf => cf.FilePath)
+                .ToListAsync();
+
+            return cabinetsImages;
+        }
+
+        public Task<string> GetRequestFile(int requestId, int fileId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<FileModelDTO> GetRequestFile(int requestId, int fileId)
+        public Task<IEnumerable<string>> GetRequestFiles(int requestId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<FileModelDTO>> GetRequestFiles(int requestId)
+        public Task<string> GetRequestImage(int requestId, int imageId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<FileModelDTO> GetRequestImage(int requestId, int imageId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<FileModelDTO>> GetRequestImages(int requestId)
+        public Task<IEnumerable<string>> GetRequestImages(int requestId)
         {
             throw new NotImplementedException();
         }
