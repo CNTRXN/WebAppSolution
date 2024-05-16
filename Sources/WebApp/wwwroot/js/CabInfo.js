@@ -293,7 +293,7 @@ var GetFormImages = function(id, type) {
     const imageTemplate = document.getElementById("file-template");
 
     const imagePageList = document.getElementById("cab-photos");
-    const img = imagePageList.querySelectorAll('div');//imagePageList.querySelectorAll('.skeleton');
+    const img = imagePageList.querySelectorAll('.file-container');//imagePageList.querySelectorAll('.skeleton');
 
     /*const imageForm = document.getElementById('show-image-list');
     const imageFormList = document.getElementById('image-list');*/
@@ -416,30 +416,8 @@ var GetFormImages = function(id, type) {
 
                     imagePageList.appendChild(showFormButton);
 
-                    let isOver = false;
-                    Array.from(img).forEach(elem => {
-                        $(elem).hover(function () {
-                            if (!isOver) {
-                                const downloadButton = elem.querySelector('button');
-                                $(downloadButton).animate({
-                                    top: "-=25"
-                                }, 200);
-                            }
-
-                            isOver = true;
-
-                        }, function () {
-                            if (isOver) {
-                                const downloadButton = elem.querySelector('button');
-                                $(downloadButton).animate({
-                                    top: "+=25"
-                                }, 200);
-                            }
-
-                            isOver = false;
-                        }
-                        );
-                    });
+                    
+                    initDownloadButton(img);
 
                     $("#open-image-form").on("click", function () {
                         console.log("open");
@@ -467,6 +445,11 @@ var GetFormImages = function(id, type) {
                 },
                 success: (response) => {
                     $('body').append(response);
+
+                    const imgContainer = document.querySelector('#image-list');
+                    const images = imgContainer.querySelectorAll('.file-container');
+
+                    initDownloadButton(images);
 
                     $("#image-list-close").on("click", function () {
                         $("#show-image-list").remove();
@@ -501,3 +484,31 @@ function downloadFile(url, filename) {
 
     document.body.removeChild(link);
 }
+
+let initDownloadButton = (imgContainer) => {
+    let isOver = false;
+
+    Array.from(imgContainer).forEach(elem => {
+        $(elem).hover(function () {
+            if (!isOver) {
+                const downloadButton = elem.querySelector('button');
+                $(downloadButton).animate({
+                    top: "-=25"
+                }, 200);
+            }
+
+            isOver = true;
+
+        }, function () {
+            if (isOver) {
+                const downloadButton = elem.querySelector('button');
+                $(downloadButton).animate({
+                    top: "+=25"
+                }, 200);
+            }
+
+            isOver = false;
+        }
+        );
+    });
+};

@@ -11,8 +11,8 @@ namespace WebApp.Controllers
         public IActionResult Main() 
         {
             if (!(HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated))
-                //return Redirect("../auth");
-                return Redirect("../test-page");
+                return Redirect("../auth");
+                //return Redirect("../test-page");
 
             int? userId = null;
             if (HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value is string userIdAsString)
