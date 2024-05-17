@@ -36,6 +36,17 @@ namespace WebAPI.Controllers
             return Ok(equipment);
         }
 
+        [HttpGet("get/byids")]
+        public async Task<IActionResult> GetEquipmentsById([FromBody] List<int> ids) 
+        {
+            foreach (var id in ids) 
+            {
+                Console.WriteLine(id);
+            }
+
+            return Ok();
+        }
+
         [HttpPost("new")]
         public async Task<IActionResult> AddNewEquipments([FromBody] List<NewEquipmentDTO> equipments) 
         {

@@ -24,6 +24,7 @@ namespace WebApp.Controllers
             var tempLogin = await Encrypting.Encrypt(Login);
             var tempPassword = await Encrypting.Encrypt(Password);
 
+            AppStatics.ApiClient.DefaultRequestHeaders.Clear();
             AppStatics.ApiClient.DefaultRequestHeaders.Add("login", Convert.ToBase64String(tempLogin));
             AppStatics.ApiClient.DefaultRequestHeaders.Add("password", Convert.ToBase64String(tempPassword));
 

@@ -110,7 +110,7 @@ $(window).on("load", () => {
                 /*$(document.body).insertAfter(response);*/
                 $('body').append(response);
 
-                registerEditInfoFormSector();
+                registerEditInfoFormSector(parseInt(cookie.cabid));
             },
             error: function () {
                 console.log('error load');
@@ -131,27 +131,6 @@ $(window).on("load", () => {
         $("#show-cabinet-requests").on("click", () => {
             showRequests();
         });
-
-    
-
-
-    /*$("#to-test-table").on("click", function () {
-        $.ajax({
-            url: '/show-test',
-            type: 'GET',
-            dataType: "html",
-            headers: {
-                "Access-Control-Allow-Origin": "true",
-            },
-            success: function (response) {
-                // При успешном получении ответа, обновляем содержимое контейнера с partial view
-                $("#main-table").html(response);
-            },
-            error: function () {
-                console.log('error load');
-            }
-        });
-    });*/
 
     function showCabinetData(_url) {
         $.ajax({
@@ -194,12 +173,14 @@ $(window).on("load", () => {
     }
 });
 
-let registerEditInfoFormSector = () => {
+let registerEditInfoFormSector = (cabId) => {
     let responsiblePerson = null;
     const editContainer = document.querySelector('#edit-cab-info-form-container');
 
     if ($('#select-resp-person').length) {
-        console.log(editContainer);
+
+
+        console.log(cabId);
     } else {
         console.log('!');
     }
@@ -251,120 +232,17 @@ let registerCabinetRequestsSector = () => {
         });
     });
 }
-
-//function switchEditMode() {
-//    var parent = document.getElementById('cab-text-info');
-
-//    var cabInfo = new CabInfo();
-
-//    parent.childNodes.forEach(item => {
-//        var newElem;
-//        if (item.tagName == "P") {
-//            //редактирование
-//            newElem = document.createElement('input');
-//            newElem.value = item.textContent;
-
-//            cabInfo.setPropertyValue(item.id, item.value);
-//            newElem.setAttribute('type', 'text');
-//        }
-//        else if (item.tagName == "INPUT") {
-//            //сохранение
-//            newElem = document.createElement('p');
-
-//            newElem.textContent = item.value;
-//        }
-
-//        if (newElem != undefined) {
-//            newElem.setAttribute('id', item.id);
-
-//            parent.replaceChild(newElem, item);
-
-//            isEditMode = !isEditMode;
-//        }
-//    });
-//}
-
-/*function openImageForm(id) {
-    GetFormImages(id, imageType.form);
-}*/
-
 var GetFormImages = function(id, type) {
     const showFormButton = document.getElementById("show-image-form-button").content.cloneNode(true);
     const imageTemplate = document.getElementById("file-template");
 
     const imagePageList = document.getElementById("cab-photos");
-    const img = imagePageList.querySelectorAll('.file-container');//imagePageList.querySelectorAll('.skeleton');
-
-    /*const imageForm = document.getElementById('show-image-list');
-    const imageFormList = document.getElementById('image-list');*/
-
-    /*$.ajax({
-        type: "GET",
-        url: "http://localhost:5215/api/File/images/cabId=" + id,
-        dataType: "json",
-        headers: {
-            "Access-Control-Allow-Origin": "true"
-        },
-        success: function (data) {
-            if (type == imageType.page) {  
-                
-                var i = 0;
-
-                data.some((element, index) => {
-                    if (index < 3)
-                    {
-                        img[index].src = element;
-                        img[index].className = "";
-                    }
-                    else {
-                        i = index;
-                        return true;
-                    }
-                })
-
-                for (; i < img.length; i++) {
-                    imagePageList.removeChild(img[i]);
-                }
-
-                imagePageList.appendChild(showFormButton);
-            }
-
-            if (type == imageType.form) {
-                var images = [];
-                data.forEach(url => {
-                    var img = new Image();
-                    img.src = url;
-                    images.push(img);
-                });
-
-
-                imageFormList.replaceChildren(...images);
-
-                imageForm.style.visibility = "visible";
-            }
-        },
-        error: function (xhr, status, error) {
-            img.forEach(item => {
-                imagePageList.removeChild(item);
-            });
-
-            if (type == imageType.page) {
-                imagePageList.appendChild(showFormButton);
-            }
-
-            if (type == imageType.form) {
-                imageForm.style.visibility = "visible"
-            }
-
-            console.error(error);
-        }
-    });*/
+    const img = imagePageList.querySelectorAll('.file-container');
 
     switch (type) {
         case imageType.page:
             $.ajax({
                 type: "GET",
-                //url: "http://localhost:5215/api/File/images/cabId=" + id,
                 url: "http://localhost:5215/api/Cabinet/image/getImagesByCab=" + id,
                 dataType: "json",
                 headers: {
@@ -373,26 +251,7 @@ var GetFormImages = function(id, type) {
                 success: function (data) {
                     var i = 0;
 
-                    /*data.some((element, index, arr) => {
-                        if (index < 3) {
-                            let imageElement = img[index];
-
-                            imageElement.src = element;
-                            imageElement.className = "";
-                        }
-                        else {
-                            i = index;
-                            return true;
-                        }
-                    });
-
-                    for (; i < img.length; i++) {
-                        imagePageList.removeChild(img[i]);
-                    }*/
-
                     data.some((element, index, arr) => {
-                        //let imageContainer = imageTemplate.content.cloneNode(true);
-
                         if (index < 3) {
                             $(img[index]).css('background-image', 'url(' + element + ')');
 
@@ -407,7 +266,6 @@ var GetFormImages = function(id, type) {
                             i = index;
                             return true;
                         }
-                        //console.log(imageContainer);
                     });
 
                     for (; i < img.length; i++) {
@@ -420,7 +278,6 @@ var GetFormImages = function(id, type) {
                     initDownloadButton(img);
 
                     $("#open-image-form").on("click", function () {
-                        console.log("open");
                         var cookie = getCookie();
                         GetFormImages(parseInt(cookie.cabid), imageType.form);
                     });
@@ -445,15 +302,17 @@ var GetFormImages = function(id, type) {
                 },
                 success: (response) => {
                     $('body').append(response);
-
-                    const imgContainer = document.querySelector('#image-list');
-                    const images = imgContainer.querySelectorAll('.file-container');
-
-                    initDownloadButton(images);
-
                     $("#image-list-close").on("click", function () {
                         $("#show-image-list").remove();
                     });
+
+                    const imgContainer = document.getElementById("image-list");
+                    const images = imgContainer.querySelectorAll('.file-container');
+
+
+
+                    initDownloadButton(images);
+                    //console.log(images);
                 },
                 error: (error) => {
 

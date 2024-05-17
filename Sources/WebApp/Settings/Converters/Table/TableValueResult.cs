@@ -28,5 +28,10 @@
                 _tableResults[key] = value;
             }
         }
+
+        public bool HasValue(string key) 
+        {
+            return _tableResults.ContainsKey(key);
+        }
     }
 }

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Security.Claims;
+using System.Text.Json;
 using WebApp.Models.DTO;
 using WebApp.Settings;
 
@@ -14,19 +16,39 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<ActionResult> ShowCabinetsPhoto([FromHeader] int cabId)
         {
-            List<string>? imageHref = await AppStatics.ApiClient.GetFromJsonAsync<List<string>>($"api/Cabinet/image/getImagesByCab={cabId}");
+            //List<string>? imageHref = await AppStatics.ApiClient.GetFromJsonAsync<List<string>>($"api/Cabinet/image/getImagesByCab={cabId}");
 
-            return PartialView("CabInfo/ModalWindows/_CabinetImageFormPartial", imageHref);
+            return PartialView("CabInfo/ModalWindows/_CabinetImageFormPartial", cabId);
         }
 
         //!!!!!
         #region Форма отправки заявки
-        [HttpGet("show-request-from")]
+        [HttpGet("show-request-form")]
         [Authorize]
-        public async Task<ActionResult> ShowRequestForm([FromHeader] int cabId)
+        public async Task<ActionResult> ShowRequestForm([FromHeader] int cabId, [FromQuery] string r_equipmentIds)
         {
             CabinetDTO? cabinet = cabId != 0 ? await AppStatics.ApiClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/get/id={cabId}") : null;
+
+            List<int>? equipmentIds = JsonSerializer.Deserialize<List<int>>(r_equipmentIds);
+
             List<EquipmentDTO>? equipments = null;
+            if (cabId != 0)
+            {
+                AppStatics.ApiClient.DefaultRequestHeaders.Clear();
+
+                //var json = await JsonSerializer.SerializeAsync();
+
+                //AppStatics.ApiClient.DefaultRequestHeaders.Add("", "");
+                //equipments = equipmentId != 0 ? await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Equipment/get/id={equipmentId}") : null;
+                if(equipmentIds != null)
+                {
+                    foreach (var equipId in equipmentIds)
+                    {
+                        //Console.WriteLine(equipId);
+
+                    }
+                }
+            }
 
             return PartialView("RequestForm/_RequestFormPartial", (cabinet, equipments));
         }
@@ -104,7 +126,10 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<ActionResult> ShowCabinetEditForm([FromHeader] int cabId) 
         {
-            return PartialView("CabInfo/ModalWindows/EditInfoForm/_CabinetInfoEditFormPartial");
+            //http://localhost:5215/api/Cabinet/get/id=1
+            CabinetDTO? cabinet = await AppStatics.ApiClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/get/id={cabId}");
+
+            return PartialView("CabInfo/ModalWindows/EditInfoForm/_CabinetInfoEditFormPartial", cabinet);
         }
 
         [HttpGet("/show-cabinet-edit-form-resp-person")]

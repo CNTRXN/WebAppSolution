@@ -1,4 +1,7 @@
-﻿<div id="edit-cab-info">
+﻿@using WebApp.Models.DTO;
+@model CabinetDTO;
+
+<div id="edit-cab-info">
         <div class="black-screen"></div>
         <div id="edit-cab-info-form-container">
             <div id="edit-cab-info-form-container-header">
@@ -7,42 +10,55 @@
             <form id="edit-cab-info-form-container-content">
                 <div class="edit-cab-info-form-item">
                     <p>Номер кабинета</p>
-                    <input type="text" name="cabNumber" required>
+                    <input type="text" name="cabNumber" value="@Model.Num" required>
                 </div>
                 <div class="edit-cab-info-form-item">
                     <p>Номер кабинета по плану</p>
-                    <input type="text" name="cabPlanNumber" required>
+                    <input type="text" name="cabPlanNumber" value="@Model.PlanNum" required>
                 </div>
                 <div class="edit-cab-info-form-item">
                     <p>Этаж</p>
-                    <input type="text" name="floor" required>
+                    <input type="text" name="floor" value="@Model.Floor" required>
                 </div>
                 <div class="edit-cab-info-form-item">
                     <p>Ответственное лицо</p>
                     <div id="responsible-person-container">
                         <div id="select-resp-person">
-                            <div id="select-resp-person-content">
-
-                            </div>
-                            <button type="button" id="change-resp-person"></button>
-                            <button type="button" id="delete-resp-person"></button>
-                            <input type="hidden" name="person" required>
+                        @{
+                            if (Model.ResponsiblePerson is UserDTO respPers)
+                            {
+                                <div id="select-resp-person-content">
+                                    <p>
+                                        <span>@respPers.Name</span>
+                                        <span>@respPers.Surname</span>
+                                        <span>@respPers.Patronymic</span>
+                                    </p>
+                                </div>
+                                <button type="button" id="change-resp-person"></button>
+                                <button type="button" id="delete-resp-person"></button>
+                                <input type="hidden" name="person" value="@Model.ResponsiblePerson.Id">
+                            }
+                            else
+                            {
+                                
+                            }
+                        }
                         </div>
                     </div>
                 </div>
                 <div class="edit-cab-info-form-item">
                     <p>Длина</p>
-                    <input type="text" name="length" required>
+                    <input type="text" name="length" value="@Model.Length" required>
                 </div>
                 <div class="edit-cab-info-form-item">
                     <p>Ширина</p>
-                    <input type="text" name="width" required>
+                    <input type="text" name="width" value="@Model.Width" required>
                 </div>
                 <div class="edit-cab-info-form-item">
                     <p>Высота</p>
-                    <input type="text" name="height" required>
+                    <input type="text" name="height" value="@Model.Height" required>
                 </div>
-                <div class="edit-cab-info-form-item">
+               @*  <div class="edit-cab-info-form-item">
                     <p>Площадь пола/потолка</p>
                     <input type="text" name="squareFloor" required>
                 </div>
@@ -53,7 +69,7 @@
                 <div class="edit-cab-info-form-item">
                     <p>Площадь стены 2</p>
                     <input type="text" name="squereWall2" required>
-                </div>
+                </div> *@
 
                 <input class="defaultButton" type="submit">
             </form>

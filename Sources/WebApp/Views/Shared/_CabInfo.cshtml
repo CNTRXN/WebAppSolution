@@ -16,12 +16,14 @@
     @* <script type="module" src="~/js/Files.js"></script> *@
     <link href="~/css/RightMenu.css" rel="stylesheet" type="text/css" />
     <script src="~/js/RightMenu.js" type="text/javascript"></script>
+    <link href="~/css/RequestForm.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/RequestForm.js" type="text/javascript"></script>
 </head>
 <body>
 
     @* @await Html.PartialAsync("_RightMenuPartial", AppStatics.User) *@
 
-    @await Html.PartialAsync("_RightMenuPartial");
+    @await Html.PartialAsync("_RightMenuPartial")
     @await RenderSectionAsync("CabInfo")
 </body>
 </html>

@@ -11,68 +11,68 @@ var ContainerType = Object.freeze({
 const oncabinetchange = new Event("cabinetchange");
 const onequipmentchange = new Event("equipmentchange");
 window.onload = () => {
-    var cookie = getCookie();
+    //var cookie = getCookie();
 
 
-    //test button
-    const showRequestFormWithoutData = document.getElementById("show-request-form-without-data");
-    const showRequestFormWithCabId = document.getElementById("show-request-form-with-cabid");
+    ////test button
+    //const showRequestFormWithoutData = document.getElementById("show-request-form-without-data");
+    //const showRequestFormWithCabId = document.getElementById("show-request-form-with-cabid");
 
-    //test
-    showRequestFormWithoutData.addEventListener("click", (e) => {
-        //симуляция страницы без инфорамции о кабинете
-        deleteCookie("cabid");
+    ////test
+    //showRequestFormWithoutData.addEventListener("click", (e) => {
+    //    //симуляция страницы без инфорамции о кабинете
+    //    deleteCookie("cabid");
 
-        e.target.disabled = true;
+    //    e.target.disabled = true;
 
-        $.ajax({
-            url: '/show-request-from',
-            type: 'GET',
-            dataType: "html",
-            headers: {
-                "Access-Control-Allow-Origin": "true",
-            },
-            success: function (response) { 
-                $(document.body).append(response);
+    //    $.ajax({
+    //        url: '/show-request-from',
+    //        type: 'GET',
+    //        dataType: "html",
+    //        headers: {
+    //            "Access-Control-Allow-Origin": "true",
+    //        },
+    //        success: function (response) { 
+    //            $(document.body).append(response);
 
-                registerRequestFormEvents();
+    //            registerRequestFormEvents();
 
-                e.target.disabled = false;
-            },
-            error: function () {
-                console.log('error load request form');
-                e.target.disabled = false;
-            }
-        });
-    });
+    //            e.target.disabled = false;
+    //        },
+    //        error: function () {
+    //            console.log('error load request form');
+    //            e.target.disabled = false;
+    //        }
+    //    });
+    //});
 
-    showRequestFormWithCabId.addEventListener("click", (e) => {
-        //симуляция страницы с кабинетом
-        document.cookie = "cabid=1";
+    //showRequestFormWithCabId.addEventListener("click", (e) => {
+    //    //симуляция страницы с кабинетом
+    //    document.cookie = "cabid=1";
 
-        e.target.disabled = true;
+    //    e.target.disabled = true;
 
-        $.ajax({
-            url: '/show-request-from',
-            type: 'GET',
-            dataType: "html",
-            headers: {
-                "Access-Control-Allow-Origin": "true",
-                "cabId": cookie.cabid !== 0 ? parseInt(cookie.cabid) : 0
-            },
-            success: function (response) {
-                $(document.body).append(response);
+    //    $.ajax({
+    //        url: '/show-request-from',
+    //        type: 'GET',
+    //        dataType: "html",
+    //        headers: {
+    //            "Access-Control-Allow-Origin": "true",
+    //            "cabId": cookie.cabid !== 0 ? parseInt(cookie.cabid) : 0
+    //        },
+    //        success: function (response) {
+    //            $(document.body).append(response);
 
-                registerRequestFormEvents();
+    //            registerRequestFormEvents();
 
-                e.target.disabled = false;
-            },
-            error: function () {
-                console.log('error load request form');
-                e.target.disabled = false;
-            }
-        });
-    });
+    //            e.target.disabled = false;
+    //        },
+    //        error: function () {
+    //            console.log('error load request form');
+    //            e.target.disabled = false;
+    //        }
+    //    });
+    //});
 
     /*var deleteCabinet = document.getElementById("deleteCab");
     var selectedObject = document.getElementById("selected-object-temp");
@@ -82,6 +82,53 @@ window.onload = () => {
         deleteButton.id = "delteCabinet"
     });*/
 };
+
+function openRequestForm(equipmentId = null) {
+    var cookie = getCookie();
+    const cabId = cookie.cabid !== 0 ? parseInt(cookie.cabid) : 0;
+
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    $.ajax({
+        url: '/show-request-form',
+        type: 'GET',
+        dataType: "html",
+        contentType: 'application/json',
+        headers: {
+            "Access-Control-Allow-Origin": "true",
+            "cabId": cabId,
+        },
+        data: {
+            "r_equipmentIds": JSON.stringify(equipmentId)
+        },
+        
+        success: function (response) {
+            $(document.body).append(response);
+
+            //registerRequestFormEvents();
+
+            //e.target.disabled = false;
+        },
+        error: function () {
+            console.log('error load request form');
+            //e.target.disabled = false;
+        }
+    });
+
+    console.log('click!');
+}
 
 var registerRequestFormEvents = (response) => {
     const requestForm = document.getElementById("form-container");

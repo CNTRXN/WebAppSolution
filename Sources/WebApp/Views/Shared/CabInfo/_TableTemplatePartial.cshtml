@@ -36,7 +36,7 @@
         @{
             int i = 0;
 
-            int itemHeaderWidth = (int)(100 / equipmentMeta.PropsCount);
+            int itemHeaderWidth = (int)(100 / (equipmentMeta.PropsCount + 1));
 
             foreach (var item in equipmentMeta.PropName)
             {
@@ -76,13 +76,22 @@
                     @{
                         TableValueResult data = new();
                         if (equipmentMeta.Type == typeof(EquipmentDTO))
-                            data = equipmentMeta.GetValues<EquipmentDTO>(eqiup);
+                            data = equipmentMeta.GetValues<EquipmentDTO>(eqiup, withNotInclude: true);
 
                         if (equipmentMeta.Type == typeof(TestData))
                             data = equipmentMeta.GetValues<TestData>(eqiup);
 
+                        int equipId = 0;
+
                         foreach (var prop in eqiup.GetType().GetProperties())
                         {
+                            if (prop.Name == "Id")
+                                if (data.HasValue("Id"))
+                                {
+                                    equipId = int.Parse(data["Id"]?.ToString() ?? string.Empty);
+                                    continue;
+                                }
+
                             if (data[prop.Name] != null)
                             {
                                 <p class="table-prop-name"
@@ -105,6 +114,9 @@
 
                             j++;
                         }
+                        <p class="table-prop-name" style="width: @itemHeaderWidth%">
+                            <button onclick="openRequestForm([@equipId])"></button>@*@equipId*@
+                        </p>
                     }
                 </div>
 

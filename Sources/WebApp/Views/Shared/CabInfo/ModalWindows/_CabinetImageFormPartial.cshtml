@@ -1,5 +1,5 @@
 ﻿@using WebApp.Components;
-@model List<string>
+@model int
 
 <div id="show-image-list">
     <div class="black-screen"></div>
@@ -13,26 +13,10 @@
             </button>
         </div>
         <div id="image-list">
-            @* @{
-                foreach (var href in Model)
-                {
-                    // <img src="@href"/>
-                    <div class="file-container" style="background-image: url(@href)">
-                        <button>⭳</button>
-                    </div>
-                    
-                }
-            } *@
             @await Component.InvokeAsync("ImageLoad", new 
             { 
-                cabinetId = 1
+                cabinetId = Model
             })
         </div>
-
-        @* <template id="file-template">
-            <div class="file-container">
-                <button>⭳</button>
-            </div>
-        </template> *@
     </div>
 </div>
