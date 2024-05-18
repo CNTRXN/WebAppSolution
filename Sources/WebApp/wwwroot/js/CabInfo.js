@@ -175,12 +175,21 @@ $(window).on("load", () => {
 
 let registerEditInfoFormSector = (cabId) => {
     let responsiblePerson = null;
-    const editContainer = document.querySelector('#edit-cab-info-form-container');
+    const editForm = document.querySelector('#edit-cab-info');
+    //const editContainer = editForm.querySelector('#edit-cab-info-form-container');
+
+    $('#close-edit-cab-info-form').on("click", () => {
+        editForm.remove();
+    });
 
     if ($('#select-resp-person').length) {
+        $('#change-resp-person').on("click", () => {
+            console.log('edit pers');
+        });
 
-
-        console.log(cabId);
+        $('#delete-resp-person').on("click", () => {
+            console.log('delete pers');
+        });
     } else {
         console.log('!');
     }

@@ -21,9 +21,9 @@
                     if (Model.Item1 != null)
                     {
                         <label for="cabinet" class="single-element">
-                            <div class="single-element-content">
+                            <label class="single-element-content">
                                 <p>@Model.Item1.Num</p>
-                            </div>
+                            </label>
                             <button type="button" class="delete deleteButton">X</button>
                             <input type="hidden" id="cabinet" name="cabinet" value="@Model.Item1.Id" hidden>
                         </label>
@@ -46,8 +46,10 @@
                             foreach (var equip in equipments)
                             {
                                 <label for="equipment" class="single-element">
-                                    <div class="single-element-content">@equip.Name</div>
-                                    <button type="button" class="delete defaultButton">X</button>
+                                    <label class="single-element-content">
+                                        <p>@equip.Name</p>
+                                    </label>
+                                    <button type="button" class="delete deleteButton ">X</button>
                                     <input type="hidden" id="cabinet" name="equipment" value="1" hidden>
                                 </label>
                             }
@@ -61,8 +63,6 @@
                         }
                     }
                 }
-            </div>
-            <div>
             </div>
             <div id="descriptioncontainer">
                 <textarea id="description" name="description" placeholder="Описание" required></textarea>
@@ -91,9 +91,9 @@
     <!--Шаблон формы с выбраным объектом-->
     <template id="selected-object-temp">
         <label class="single-element">
-            <div class="single-element-content">
+            <label class="single-element-content">
 
-            </div>
+            </label>
             <button type="button" class="delete deleteButton">X</button>
             <input type="hidden" value="1" hidden>
         </label>

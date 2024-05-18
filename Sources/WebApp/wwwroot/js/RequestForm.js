@@ -8,6 +8,11 @@ var ContainerType = Object.freeze({
     equipment: 1
 });
 
+var invokeType = Object.freeze({
+    start: 0,
+    new: 1
+});
+
 const oncabinetchange = new Event("cabinetchange");
 const onequipmentchange = new Event("equipmentchange");
 window.onload = () => {
@@ -117,7 +122,7 @@ function openRequestForm(equipmentId = null) {
         success: function (response) {
             $(document.body).append(response);
 
-            //registerRequestFormEvents();
+            registerRequestFormEvents();
 
             //e.target.disabled = false;
         },
@@ -267,7 +272,7 @@ var setEmptyContainer = (containerOnChange, type) => {
     }
 }
 
-var setSelectedContainer = (containerOnChange, type, value) => {
+var setSelectedContainer = (containerOnChange, type, value, it = invokeType.start) => {
     var cookie = getCookie();
 
     switch (type) {
@@ -311,15 +316,19 @@ var setSelectedContainer = (containerOnChange, type, value) => {
             });
             break;
         case ContainerType.equipment:
-            var createdEquipmentTemplate = createObject(objectType.selected, ContainerType.equipment);
+            //let selectedElem = containerOnChange.querySelectorAll('.delete');
+            //!!!!
+            if (it == invokeType.new) {
+                var createdEquipmentTemplate = createObject(objectType.selected, ContainerType.equipment);
 
-            var valueElem = createdEquipmentTemplate.querySelector('input');
-            if ($(valueElem).val()) {
-                if (value != null)
-                    $(valueElem).val(value)
+                var valueElem = createdEquipmentTemplate.querySelector('input');
+                if ($(valueElem).val()) {
+                    if (value != null)
+                        $(valueElem).val(value)
+                }
+
+                containerOnChange.insertBefore(createdEquipmentTemplate, containerOnChange.firstElementChild);
             }
-
-            containerOnChange.insertBefore(createdEquipmentTemplate, containerOnChange.firstElementChild);
 
             var deleteEquipment = containerOnChange.querySelector(".delete");
 
@@ -327,7 +336,7 @@ var setSelectedContainer = (containerOnChange, type, value) => {
             deleteEquipment.addEventListener("click", () => {
                 deleteEquipment.parentElement.remove();
                 onSelectedEquipmentsChanged();
-            });              
+            });  
 
             addNewEquipmentButton(containerOnChange);
             break;
@@ -367,7 +376,7 @@ function onSelectObject(container, type) {
             if (type == ContainerType.cabinet) {
                 setSelectedContainer(container, ContainerType.cabinet, elem);
             } else if (type == ContainerType.equipment) {
-                setSelectedContainer(container, ContainerType.equipment, elem);
+                setSelectedContainer(container, ContainerType.equipment, elem, invokeType.new);
             }
         });
 

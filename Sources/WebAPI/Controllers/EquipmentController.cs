@@ -37,14 +37,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("get/byids")]
-        public async Task<IActionResult> GetEquipmentsById([FromBody] List<int> ids) 
+        public async Task<IActionResult> GetEquipmentsById([FromQuery] List<int> ids) 
         {
-            foreach (var id in ids) 
-            {
-                Console.WriteLine(id);
-            }
+            var equipments = await _equipmentService.GetEquipmentsById(ids);
 
-            return Ok();
+            if (equipments == null)
+                return BadRequest();
+
+            return Ok(equipments);
         }
 
         [HttpPost("new")]

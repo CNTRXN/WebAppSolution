@@ -42,11 +42,17 @@ namespace WebApp.Controllers
                 //equipments = equipmentId != 0 ? await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Equipment/get/id={equipmentId}") : null;
                 if(equipmentIds != null)
                 {
-                    foreach (var equipId in equipmentIds)
-                    {
-                        //Console.WriteLine(equipId);
+                    /*var queryString = string.Join("&", equipmentIds
+                        .Select(x => $"{Uri.EscapeDataString(x)}={Uri.EscapeDataString(x.Value)}"));*/
+                    var queryString = string.Join("&", equipmentIds
+                        .Select(x => $"ids={x}"));
 
-                    }
+                    equipments = await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Equipment/get/byids?{queryString}");
+                    /*foreach (var equipId in equipmentIds)
+                    {
+                    
+
+                    }*/
                 }
             }
 
