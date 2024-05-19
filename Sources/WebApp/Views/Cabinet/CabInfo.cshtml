@@ -66,17 +66,20 @@
                     <p class="cab-text-info-sign">S²</p>
                     <p id="squereWall2">@cabinet.SquareWall_2</p>
                 </div>
-                <button class="defaultButton" id="toProfile" onclick="window.location = '../profile=@respPerson?.Id'">
-                    <span>
-                        @{
-                            if (respPerson != null)
-                            {
-                                var respFullName = respPerson.Surname + " " + respPerson.Name + " " + respPerson.Patronymic;
-                                @respFullName
-                            }
-                        }
-                    </span>
-                </button>
+                @{
+                    if (respPerson is UserDTO resp)
+                    {
+                        <button class="defaultButton" id="toProfile" onclick="window.location = '../profile=@resp?.Id'">
+                            <span>
+                                @{
+
+                                    var respFullName = resp?.Surname + " " + resp?.Name + " " + resp?.Patronymic;
+                                    @respFullName
+                                }
+                            </span>
+                        </button>
+                    }
+                } 
             </div>
             <div id="cab-info-buttons">
                 <button class="defaultButton" title="edit-cab-info" id="cab-info-edit">

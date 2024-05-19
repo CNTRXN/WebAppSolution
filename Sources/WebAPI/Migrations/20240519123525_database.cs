@@ -121,7 +121,7 @@ namespace WebAPI.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Num = table.Column<int>(type: "integer", nullable: false),
                     PlanNum = table.Column<int>(type: "integer", nullable: false),
-                    ResponsiblePersonId = table.Column<int>(type: "integer", nullable: false),
+                    ResponsiblePersonId = table.Column<int>(type: "integer", nullable: true),
                     Floor = table.Column<int>(type: "integer", nullable: false),
                     Height = table.Column<double>(type: "double precision", nullable: false),
                     Length = table.Column<double>(type: "double precision", nullable: false),
@@ -134,8 +134,7 @@ namespace WebAPI.Migrations
                         name: "FK_Кабинеты_Пользователи_ResponsiblePersonId",
                         column: x => x.ResponsiblePersonId,
                         principalTable: "Пользователи",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -311,6 +310,50 @@ namespace WebAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Пользователи",
+                columns: new[] { "Id", "Birthday", "Login", "Name", "Password", "Patronymic", "PermissionId", "Surname" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1998, 5, 22, 0, 0, 0, 0, DateTimeKind.Utc), "login_1", "Name-1", "password_1", null, 1, "Surname-1" },
+                    { 2, new DateTime(1999, 3, 5, 0, 0, 0, 0, DateTimeKind.Utc), "login_2", "Name-2", "password_2", null, 1, "Surname-2" },
+                    { 3, new DateTime(1993, 3, 14, 0, 0, 0, 0, DateTimeKind.Utc), "login_3", "Name-3", "password_3", "Patronymic3", 1, "Surname-3" },
+                    { 4, new DateTime(2000, 3, 15, 0, 0, 0, 0, DateTimeKind.Utc), "login_4", "Name-4", "password_4", null, 1, "Surname-4" },
+                    { 5, new DateTime(1993, 1, 5, 0, 0, 0, 0, DateTimeKind.Utc), "login_5", "Name-5", "password_5", null, 1, "Surname-5" },
+                    { 6, new DateTime(1993, 11, 12, 0, 0, 0, 0, DateTimeKind.Utc), "login_6", "Name-6", "password_6", "Patronymic6", 1, "Surname-6" },
+                    { 7, new DateTime(1993, 6, 16, 0, 0, 0, 0, DateTimeKind.Utc), "login_7", "Name-7", "password_7", null, 1, "Surname-7" },
+                    { 8, new DateTime(1992, 8, 19, 0, 0, 0, 0, DateTimeKind.Utc), "login_8", "Name-8", "password_8", null, 1, "Surname-8" },
+                    { 9, new DateTime(1993, 6, 2, 0, 0, 0, 0, DateTimeKind.Utc), "login_9", "Name-9", "password_9", "Patronymic9", 1, "Surname-9" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Кабинеты",
+                columns: new[] { "Id", "Floor", "Height", "Length", "Num", "PlanNum", "ResponsiblePersonId", "Width" },
+                values: new object[,]
+                {
+                    { 1, 2, 498.0, 427.0, 216942, 21908, 5, 490.0 },
+                    { 2, 2, 223.0, 252.0, 213126, 18846, 6, 254.0 },
+                    { 3, 2, 469.0, 295.0, 156627, 37651, 2, 479.0 },
+                    { 4, 2, 180.0, 378.0, 149047, 19617, 7, 110.0 },
+                    { 5, 1, 216.0, 424.0, 105240, 25807, 1, 131.0 },
+                    { 6, 1, 234.0, 410.0, 201017, 31813, 4, 413.0 },
+                    { 7, 1, 474.0, 149.0, 265523, 23123, 3, 152.0 },
+                    { 8, 0, 300.0, 224.0, 103718, 15520, 8, 232.0 },
+                    { 9, 2, 373.0, 459.0, 336420, 22417, null, 320.0 },
+                    { 10, 1, 146.0, 376.0, 269124, 24520, null, 236.0 },
+                    { 11, 0, 444.0, 470.0, 115921, 34698, null, 107.0 },
+                    { 12, 1, 236.0, 159.0, 385824, 13328, null, 373.0 },
+                    { 13, 0, 293.0, 444.0, 162419, 12872, null, 376.0 },
+                    { 14, 2, 424.0, 338.0, 105449, 30734, null, 210.0 },
+                    { 15, 2, 374.0, 428.0, 288115, 10085, null, 251.0 },
+                    { 16, 0, 303.0, 118.0, 201943, 38005, null, 302.0 },
+                    { 17, 1, 347.0, 315.0, 218245, 20198, null, 374.0 },
+                    { 18, 0, 449.0, 258.0, 294913, 37823, null, 279.0 },
+                    { 19, 0, 425.0, 290.0, 237210, 29272, null, 276.0 }
+                });
+
+            
+
+            migrationBuilder.InsertData(
                 table: "Статус заявки",
                 columns: new[] { "Id", "StatusName" },
                 values: new object[,]
@@ -359,47 +402,7 @@ namespace WebAPI.Migrations
                     { 5, "Сис. требования: ", "12095", "Мышка", 1 }
                 });
 
-            migrationBuilder.InsertData(
-                table: "Пользователи",
-                columns: new[] { "Id", "Birthday", "Login", "Name", "Password", "Patronymic", "PermissionId", "Surname" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(1994, 11, 9, 0, 0, 0, 0, DateTimeKind.Utc), "login_1", "Name-1", "password_1", null, 1, "Surname-1" },
-                    { 2, new DateTime(2002, 10, 4, 0, 0, 0, 0, DateTimeKind.Utc), "login_2", "Name-2", "password_2", null, 1, "Surname-2" },
-                    { 3, new DateTime(1997, 6, 3, 0, 0, 0, 0, DateTimeKind.Utc), "login_3", "Name-3", "password_3", "Patronymic3", 1, "Surname-3" },
-                    { 4, new DateTime(1992, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc), "login_4", "Name-4", "password_4", "Patronymic4", 1, "Surname-4" },
-                    { 5, new DateTime(2002, 6, 18, 0, 0, 0, 0, DateTimeKind.Utc), "login_5", "Name-5", "password_5", "Patronymic5", 1, "Surname-5" },
-                    { 6, new DateTime(1991, 4, 6, 0, 0, 0, 0, DateTimeKind.Utc), "login_6", "Name-6", "password_6", null, 1, "Surname-6" },
-                    { 7, new DateTime(2002, 8, 12, 0, 0, 0, 0, DateTimeKind.Utc), "login_7", "Name-7", "password_7", null, 1, "Surname-7" },
-                    { 8, new DateTime(1993, 7, 13, 0, 0, 0, 0, DateTimeKind.Utc), "login_8", "Name-8", "password_8", null, 1, "Surname-8" },
-                    { 9, new DateTime(2000, 10, 14, 0, 0, 0, 0, DateTimeKind.Utc), "login_9", "Name-9", "password_9", "Patronymic9", 1, "Surname-9" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Кабинеты",
-                columns: new[] { "Id", "Floor", "Height", "Length", "Num", "PlanNum", "ResponsiblePersonId", "Width" },
-                values: new object[,]
-                {
-                    { 1, 2, 492.0, 271.0, 216942, 17153, 5, 101.0 },
-                    { 2, 0, 364.0, 260.0, 131915, 30890, 7, 198.0 },
-                    { 3, 1, 353.0, 191.0, 387825, 14127, 2, 355.0 },
-                    { 4, 1, 492.0, 486.0, 120843, 36253, 6, 201.0 },
-                    { 5, 0, 419.0, 116.0, 349217, 28042, 8, 460.0 },
-                    { 6, 2, 340.0, 386.0, 264117, 32163, 4, 157.0 },
-                    { 7, 0, 172.0, 234.0, 182818, 37773, 2, 465.0 },
-                    { 8, 2, 147.0, 479.0, 257319, 21704, 3, 185.0 },
-                    { 9, 2, 360.0, 336.0, 282626, 22834, 8, 183.0 },
-                    { 10, 0, 423.0, 272.0, 287714, 23280, 5, 194.0 },
-                    { 11, 0, 201.0, 386.0, 202442, 34131, 2, 416.0 },
-                    { 12, 1, 403.0, 265.0, 277010, 21945, 8, 267.0 },
-                    { 13, 0, 471.0, 146.0, 269427, 22937, 1, 489.0 },
-                    { 14, 1, 287.0, 427.0, 207723, 30789, 8, 264.0 },
-                    { 15, 2, 147.0, 163.0, 199818, 31432, 6, 402.0 },
-                    { 16, 0, 374.0, 226.0, 331841, 33241, 7, 135.0 },
-                    { 17, 1, 364.0, 267.0, 274838, 37085, 4, 345.0 },
-                    { 18, 1, 143.0, 138.0, 335516, 28513, 1, 357.0 },
-                    { 19, 0, 343.0, 324.0, 101813, 19403, 2, 438.0 }
-                });
+            
 
             migrationBuilder.InsertData(
                 table: "Оборудование в кабинетах",
@@ -407,7 +410,7 @@ namespace WebAPI.Migrations
                 values: new object[,]
                 {
                     { 1, 1, 1 },
-                    { 2, 1, 1 }
+                    { 2, 1, 4 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -445,7 +448,8 @@ namespace WebAPI.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Кабинеты_ResponsiblePersonId",
                 table: "Кабинеты",
-                column: "ResponsiblePersonId");
+                column: "ResponsiblePersonId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Оборудование_InventoryNumber",
@@ -493,6 +497,18 @@ namespace WebAPI.Migrations
                 name: "IX_Права доступа_Name",
                 table: "Права доступа",
                 column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Статус заявки_StatusName",
+                table: "Статус заявки",
+                column: "StatusName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Тип заявки_TypeName",
+                table: "Тип заявки",
+                column: "TypeName",
                 unique: true);
 
             migrationBuilder.CreateIndex(

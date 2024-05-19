@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.Json;
@@ -39,30 +40,26 @@ namespace WebAPI.DataContext
             #region Права доступа
             modelBuilder
                 .Entity<Permission>()
-                .HasData(Init_Permissions());
+                .HasIndex(p => p.Name)
+                .IsUnique();
 
             modelBuilder
                 .Entity<Permission>()
-                .HasIndex(p => p.Name)
-                .IsUnique();
+                .HasData(Init_Permissions());
             #endregion
 
             #region Пользователи
             modelBuilder
                 .Entity<User>()
-                .HasData(Init_Users());
+                .HasIndex(u => u.Login)
+                .IsUnique();
 
             modelBuilder
                 .Entity<User>()
-                .HasIndex(u => u.Login)
-                .IsUnique();
+                .HasData(Init_Users());
             #endregion
 
             #region Кабинет
-            modelBuilder
-                .Entity<Cabinet>()
-                .HasData(Init_Cabs());
-
             modelBuilder
                 .Entity<Cabinet>()
                 .HasIndex(c => c.Num)
@@ -72,28 +69,37 @@ namespace WebAPI.DataContext
                 .Entity<Cabinet>()
                 .HasIndex(c => c.PlanNum)
                 .IsUnique();
+
+            modelBuilder
+                .Entity<Cabinet>()
+                .HasIndex(c => c.ResponsiblePersonId)
+                .IsUnique();
+
+            modelBuilder
+                .Entity<Cabinet>()
+                .HasData(Init_Cabs());
             #endregion
 
             #region Типы оборудования
             modelBuilder
                 .Entity<EquipmentType>()
-                .HasData(Init_EquipmentType());
+                .HasIndex(et => et.Name)
+                .IsUnique();
 
             modelBuilder
                 .Entity<EquipmentType>()
-                .HasIndex(et => et.Name)
-                .IsUnique();
+                .HasData(Init_EquipmentType());
             #endregion
 
             #region Оборудование
             modelBuilder
                 .Entity<Equipment>()
-                .HasData(Init_Equipments());
+                .HasIndex(e => e.InventoryNumber)
+                .IsUnique();
 
             modelBuilder
                 .Entity<Equipment>()
-                .HasIndex(e => e.InventoryNumber)
-                .IsUnique();
+                .HasData(Init_Equipments());
             #endregion
 
             modelBuilder
@@ -119,26 +125,26 @@ namespace WebAPI.DataContext
             #region Тип заявки
             modelBuilder
                 .Entity<RequestType>()
-                .HasData(Init_RequestTypes());
+                .HasIndex(r => r.TypeName)
+                .IsUnique();
 
             modelBuilder
                 .Entity<RequestType>()
-                .HasIndex(r => r.TypeName)
-                .IsUnique();
+                .HasData(Init_RequestTypes());
             #endregion
 
             #region Статус заявки
             modelBuilder
                 .Entity<RequestStatus>()
-                .HasData(Init_RequestsStatus());
+                .HasIndex(rs => rs.StatusName)
+                .IsUnique();
 
             modelBuilder
                 .Entity<RequestStatus>()
-                .HasIndex(rs => rs.StatusName)
-                .IsUnique();
+                .HasData(Init_RequestsStatus());
             #endregion
 
-            static List<Permission> Init_Permissions()
+            List<Permission> Init_Permissions()
             {
                 List<Permission> permissions = InitData<Permission>("PermissionsData");
 
@@ -168,14 +174,13 @@ namespace WebAPI.DataContext
                 return users;
             }
 
-            static List<Cabinet> Init_Cabs()
+            List<Cabinet> Init_Cabs()
             {
                 List<Cabinet> cabinets = [];
 
-                int i = 1;
-                for (; i < 20; i++)
+                for (int i = 1; i < 20; i++)
                 {
-                    var cabinet = new Cabinet()
+                    var cabinet = new Cabinet
                     {
                         Id = i,
                         Floor = new Random().Next(0, 3),
@@ -184,10 +189,11 @@ namespace WebAPI.DataContext
                         Length = new Random().Next(100, 500),
                         Width = new Random().Next(100, 500),
                         PlanNum = new Random().Next(10000, 40000),
-                        ResponsiblePersonId = new Random().Next(1, Init_Users().Count)
+                        //ResponsiblePersonId = (i < Init_Users().Count) ? i : null,
+                        ResponsiblePersonId = ResponsiblePerson(i),
+                        //cabinet.Num = new Random().Next(10, 50) + (cabinet.Group * 100);
+                        Num = i == 1 ? 216942 : GenerateNum(new Random().Next(1000, 4000) * 100)
                     };
-                    //cabinet.Num = new Random().Next(10, 50) + (cabinet.Group * 100);
-                    cabinet.Num = i == 1 ? 216942 : GenerateNum(new Random().Next(1000, 4000) * 100);
 
                     cabinets.Add(cabinet);
                 }
@@ -206,44 +212,64 @@ namespace WebAPI.DataContext
                             return num;
                     }
                 }
+
+
+
+                int? ResponsiblePerson(int currentIteration)
+                {
+                    while (true)
+                    {
+                        if (currentIteration >= Init_Users().Count)
+                            break;
+
+                        var person = new Random().Next(1, Init_Users().Count);
+
+                        var numIsExist = cabinets.Where(c => c.ResponsiblePersonId == person).Any();
+
+                        if (!numIsExist)
+                            return person;
+                    }
+
+                    return null;
+                }
             }
 
-            static List<EquipmentType> Init_EquipmentType() 
+            List<EquipmentType> Init_EquipmentType() 
             {
                 List<EquipmentType> equipmentTypes = InitData<EquipmentType>("EquipmentTypeData");    
 
                 return equipmentTypes;
             }
         
-            static List<Equipment> Init_Equipments() 
+            List<Equipment> Init_Equipments() 
             {
                 List<Equipment> equipments = InitData<Equipment>("EquipmentsData");
 
                 return equipments;
             }
 
-            static List<CabinetEquipment> Init_CabEquipments() 
+            List<CabinetEquipment> Init_CabEquipments() 
             {
                 List<CabinetEquipment> cabEquipments = InitData<CabinetEquipment>("CabinetEquipments");
 
                 return cabEquipments;
             }
 
-            static List<RequestType> Init_RequestTypes() 
+            List<RequestType> Init_RequestTypes() 
             {
                 List<RequestType> requestTypes = InitData<RequestType>("RequestTypesData");
 
                 return requestTypes;
             }
 
-            static List<RequestStatus> Init_RequestsStatus() 
+            List<RequestStatus> Init_RequestsStatus() 
             {
                 List<RequestStatus> requestStatuses = InitData<RequestStatus>("RequestStatusesData");
 
                 return requestStatuses;
             }
 
-            static List<T> InitData<T>(string fileName) 
+            List<T> InitData<T>(string fileName) 
             {
                 List<T> datas = [];
 

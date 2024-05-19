@@ -23,27 +23,29 @@
                 <div class="edit-cab-info-form-item">
                     <p>Ответственное лицо</p>
                     <div id="responsible-person-container">
-                        <div id="select-resp-person">
                         @{
                             if (Model.ResponsiblePerson is UserDTO respPers)
                             {
-                                <div id="select-resp-person-content">
-                                    <p>
-                                        <span>@respPers.Name</span>
-                                        <span>@respPers.Surname</span>
-                                        <span>@respPers.Patronymic</span>
-                                    </p>
+                                <div id="select-resp-person">
+                                    <div id="select-resp-person-content">
+                                        <p>
+                                            <span>@respPers.Name</span>
+                                            <span>@respPers.Surname</span>
+                                            <span>@respPers.Patronymic</span>
+                                        </p>
+                                    </div>
+                                    <button type="button" id="change-resp-person"></button>
+                                    <button type="button" id="delete-resp-person"></button>
+                                    <input type="hidden" name="person" value="@Model.ResponsiblePerson.Id">
                                 </div>
-                                <button type="button" id="change-resp-person"></button>
-                                <button type="button" id="delete-resp-person"></button>
-                                <input type="hidden" name="person" value="@Model.ResponsiblePerson.Id">
                             }
                             else
                             {
-                                
+                                <div class="non-selected">
+                                    
+                                </div>
                             }
                         }
-                        </div>
                     </div>
                 </div>
                 <div class="edit-cab-info-form-item">

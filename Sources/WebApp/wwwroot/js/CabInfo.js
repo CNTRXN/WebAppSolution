@@ -6,35 +6,6 @@ const allSkeleton = document.querySelectorAll('.skeleton');
 var isEditMode = false;
 const anim_time = 300;
 
-class CabInfo {
-    id;
-    num;
-    planNum;
-    responsiblePerson;
-    group;
-    floor;
-    height;
-    length;
-    width;
-    squareFloor = this.width * this.length;
-    squareWall1 = this.length * this.height;
-    squareWall2 = this.width * this.height;
-
-    setPropertyValue(propName, value) {
-        if (this.hasOwnProperty(propName)) {
-            this[propName] = value;
-        }
-    }
-
-    getPropertyValue(propName) {
-        if (this.hasOwnProperty(propName)) {
-            return this[propName];
-        } else {
-            return undefined;
-        }
-    }
-}
-
 $(window).on("load", () => {
     var cookie = getCookie();
 
@@ -183,18 +154,39 @@ let registerEditInfoFormSector = (cabId) => {
     });
 
     if ($('#select-resp-person').length) {
+        //отв. лицо есть в кабинете
         $('#change-resp-person').on("click", () => {
-            console.log('edit pers');
+            $.ajax({
+                url: "/show-cabinet-edit-form-resp-person",
+                type: 'GET',
+                dataType: "html",
+                headers: {
+                    "Access-Control-Allow-Origin": "true"
+                }, success: function (response) {
+                    $("#edit-cab-info-form-container").append(response);
+
+                    $("#close-change-responsible-person-form").on("click", () => {
+                        $("#change-responsible-person-form-container").remove();
+                    });
+                },
+                error: function () {
+
+                }
+            });
         });
 
         $('#delete-resp-person').on("click", () => {
-            console.log('delete pers');
+            changeResponsiblePerson();
         });
     } else {
+        //отв. лицо нет в кабинете
         console.log('!');
     }
 
     //if()
+    function changeResponsiblePerson() {
+        console.log('delete pers');
+    }
 };
 
 let registerCabinetRequestsSector = () => {
@@ -243,7 +235,7 @@ let registerCabinetRequestsSector = () => {
 }
 var GetFormImages = function(id, type) {
     const showFormButton = document.getElementById("show-image-form-button").content.cloneNode(true);
-    const imageTemplate = document.getElementById("file-template");
+    //const imageTemplate = document.getElementById("file-template");
 
     const imagePageList = document.getElementById("cab-photos");
     const img = imagePageList.querySelectorAll('.file-container');
@@ -317,8 +309,6 @@ var GetFormImages = function(id, type) {
 
                     const imgContainer = document.getElementById("image-list");
                     const images = imgContainer.querySelectorAll('.file-container');
-
-
 
                     initDownloadButton(images);
                     //console.log(images);
