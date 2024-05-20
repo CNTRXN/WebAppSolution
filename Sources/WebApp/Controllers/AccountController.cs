@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApp.Models.PageModels;
-using WebApp.Models.DTO;
+using ModelLib.DTO;
 using WebApp.Settings;
 using System.Net;
 using Microsoft.AspNetCore.Authentication;
@@ -79,7 +79,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("registration")]
-        public async Task<IActionResult> Registration(UserRegDTO userRegData, string rpassword) 
+        public async Task<IActionResult> Registration(NewUserDTO userRegData, string rpassword) 
         {
             string errorMessage = string.Empty;
             string succesfulMessage = string.Empty;

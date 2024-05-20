@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebAPI.DataContext;
-using WebAPI.DataContext.DTO;
-using WebAPI.DataContext.Models;
-using WebAPI.Models;
+using ModelLib.Model;
+using ModelLib.DTO;
 using WebAPI.Services.FileService;
-using WebAPI.Services.RequestService;
 
 namespace WebAPI.Services.RequestService
 {

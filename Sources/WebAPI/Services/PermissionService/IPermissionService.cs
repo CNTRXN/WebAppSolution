@@ -1,5 +1,5 @@
-﻿using WebAPI.DataContext.DTO;
-using WebAPI.DataContext.Models;
+﻿using ModelLib.Model;
+using ModelLib.DTO;
 
 namespace WebAPI.Services.PermissionService
 {
@@ -8,7 +8,7 @@ namespace WebAPI.Services.PermissionService
         Task<IEnumerable<Permission>> GetPermissions();
         Task<Permission?> GetPermission(string name);
         Task<Permission?> GetPermission(int id);
-        Task<Permission?> AddPermission(PermissionDTO newPermission);
+        Task<Permission?> AddPermission(string newPermission);
         Task<bool> DeletePermission(int id);
     }
 }

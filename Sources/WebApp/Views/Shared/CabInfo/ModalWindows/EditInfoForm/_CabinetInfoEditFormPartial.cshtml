@@ -1,4 +1,5 @@
-﻿@using WebApp.Models.DTO;
+﻿@using ModelLib.DTO;
+
 @model CabinetDTO;
 
 <div id="edit-cab-info">
@@ -34,15 +35,17 @@
                                             <span>@respPers.Patronymic</span>
                                         </p>
                                     </div>
-                                    <button type="button" id="change-resp-person"></button>
-                                    <button type="button" id="delete-resp-person"></button>
+                                    <button type="button" class="defaultButton" id="change-resp-person"></button>
+                                    <button type="button" class="defaultButton" id="delete-resp-person"></button>
                                     <input type="hidden" name="person" value="@Model.ResponsiblePerson.Id">
                                 </div>
                             }
                             else
                             {
-                                <div class="non-selected">
-                                    
+                                <div id="non-select-resp-person">
+                                    <button type="button" class="defaultButton" id="select-new-responsible-person">
+                                        <p>Прикрепить ответственное лицо</p>
+                                    </button>
                                 </div>
                             }
                         }
@@ -81,7 +84,9 @@
 
         <template id="non-select-resp-person-template">
             <div id="non-select-resp-person">
-                <button type="button" id="select-new-responsible-person"></button>
+                <button type="button" class="defaultButton" id="change-resp-person">
+                    <p>Прикрепить ответственное лицо</p>
+                </button>
                 <input type="hidden" name="person">
             </div>
         </template>

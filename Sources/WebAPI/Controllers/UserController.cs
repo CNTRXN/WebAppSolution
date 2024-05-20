@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.DataContext;
-using WebAPI.DataContext.DTO;
-using WebAPI.DataContext.Models;
+using ModelLib.Model;
+using ModelLib.DTO;
 using EncryptLib;
 using System.Text;
 using WebAPI.Services.UserService;

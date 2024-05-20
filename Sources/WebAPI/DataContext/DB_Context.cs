@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using WebAPI.DataContext.Models;
+//using WebAPI.DataContext.Models;
+using ModelLib.Model;
 using ConfigurationManager = System.Configuration;
 
 namespace WebAPI.DataContext
@@ -23,7 +24,6 @@ namespace WebAPI.DataContext
         #region Пользователи
         public DbSet<User> Users { get; set; }
         public DbSet<Permission> Permissions { get; set; }
-        public DbSet<AccountStat> AccountStats { get; set; }
         #endregion
 
         #region Заявки

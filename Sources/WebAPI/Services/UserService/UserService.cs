@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebAPI.DataContext;
-using WebAPI.DataContext.DTO;
-using WebAPI.DataContext.Models;
+using ModelLib.Model;
+using ModelLib.DTO;
 
 namespace WebAPI.Services.UserService
 {

@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
 using WebAPI.DataContext;
-using WebAPI.DataContext.DTO;
-using WebAPI.DataContext.Models;
+using ModelLib.Model;
+using ModelLib.DTO;
 using WebAPI.Services.PermissionService;
 
 namespace WebAPI.Controllers
@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("new")]
-        public async Task<IActionResult> AddUserPremission([FromBody] PermissionDTO newPermission)
+        public async Task<IActionResult> AddUserPremission([FromBody] string newPermission)
         {
             var premission = await _permissionService.AddPermission(newPermission);
 

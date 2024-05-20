@@ -168,6 +168,8 @@ let registerEditInfoFormSector = (cabId) => {
                     $("#close-change-responsible-person-form").on("click", () => {
                         $("#change-responsible-person-form-container").remove();
                     });
+
+                    
                 },
                 error: function () {
 
@@ -176,16 +178,52 @@ let registerEditInfoFormSector = (cabId) => {
         });
 
         $('#delete-resp-person').on("click", () => {
-            changeResponsiblePerson();
+            changeResponsiblePerson("non-selected");
         });
     } else {
-        //отв. лицо нет в кабинете
-        console.log('!');
+        $('#change-resp-person').on("click", () => {
+            $.ajax({
+                url: "/show-cabinet-edit-form-resp-person",
+                type: 'GET',
+                dataType: "html",
+                headers: {
+                    "Access-Control-Allow-Origin": "true"
+                }, success: function (response) {
+                    $("#edit-cab-info-form-container").append(response);
+
+                    $("#close-change-responsible-person-form").on("click", () => {
+                        $("#change-responsible-person-form-container").remove();
+                    });
+
+                    changeResponsiblePerson("selected");
+
+                    //
+                },
+                error: function () {
+
+                }
+            });
+        });
     }
 
     //if()
-    function changeResponsiblePerson() {
-        console.log('delete pers');
+    function changeResponsiblePerson(changeTo) {
+        const selectedTempo = document.getElementById("select-resp-person-template").content.cloneNode(true);
+        const nonSelectedTempo = document.getElementById("non-select-resp-person-template").content.cloneNode(true);
+
+        //console.log('delete pers');
+        switch (changeTo) {
+            case "selected":
+                $("#responsible-person-container").html(selectedTempo);
+                break;
+            case "non-selected":
+                $("#responsible-person-container").html(nonSelectedTempo);
+                break;
+        }
+    }
+
+    function openSelectRespPersonForm() {
+        //сделать  запрос для открытия формы выбора
     }
 };
 

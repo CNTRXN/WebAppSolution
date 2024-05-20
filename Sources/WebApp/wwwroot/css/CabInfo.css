@@ -676,14 +676,20 @@
     height: 100%;
 }
 
-    #non-select-resp-person > button {
-        width: 90%;
-        height: 80%;
-        position: relative;
-        left: 50%;
-        margin: 0;
-        margin-right: -50%;
-        transform: translate(-50%, 0%);
+#change-resp-person {
+    width: 90%;
+    height: 80%;
+    position: relative;
+    left: 50%;
+    margin: 0;
+    margin-right: -50%;
+    transform: translate(-50%, 0%);
+    border-radius: 10px;
+    border: none;
+}
+
+    #change-resp-person > p {
+        font-size: 14pt;
     }
 
 #select-resp-person {

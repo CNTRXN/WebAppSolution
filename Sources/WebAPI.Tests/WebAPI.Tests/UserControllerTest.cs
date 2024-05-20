@@ -2,7 +2,7 @@ using AutoFixture;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebAPI.Controllers;
-using WebAPI.DataContext.Models;
+using ModelLib.Model;
 using WebAPI.Services.UserService;
 
 namespace WebAPI.Tests

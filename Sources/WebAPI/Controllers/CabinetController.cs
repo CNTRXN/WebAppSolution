@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebAPI.DataContext.DTO;
-using WebAPI.Models;
+using ModelLib.Model;
+using ModelLib.DTO;
 using WebAPI.Services.CabinetService;
 using WebAPI.Services.FileService;
 

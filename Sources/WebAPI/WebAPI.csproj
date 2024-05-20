@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ModelLib\ModelLib.csproj" />
     <ProjectReference Include="..\EncryptLib\EncryptLib\EncryptLib.csproj" />
   </ItemGroup>
 

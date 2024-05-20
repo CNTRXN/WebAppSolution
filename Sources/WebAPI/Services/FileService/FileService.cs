@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebAPI.DataContext;
-using WebAPI.DataContext.DTO;
-using WebAPI.DataContext.Models;
-using WebAPI.Models;
-using static System.Net.Mime.MediaTypeNames;
+using ModelLib.Model;
 
 namespace WebAPI.Services.FileService
 {
@@ -384,19 +381,64 @@ namespace WebAPI.Services.FileService
             return cabinetsImages;
         }
 
-        public Task<string> GetRequestFile(int requestId, int fileId)
+        public async Task<string?> GetRequestFile(int requestId, int fileId)
         {
-            throw new NotImplementedException();
+            var request = await context.Requests
+                .Where(r => r.Id == requestId)
+                .FirstOrDefaultAsync();
+
+            if (request == null)
+                return null;
+
+            var requestFile = await context.RequestFiles
+                .Where(rf => rf.RequestId == request.Id && rf.Id == fileId)
+                .Select(rf => rf.FilePath)
+                .FirstOrDefaultAsync();
+
+            if (requestFile == null)
+                return null;
+
+            return requestFile;
         }
 
-        public Task<IEnumerable<string>> GetRequestFiles(int requestId)
+        public async Task<IEnumerable<string>?> GetRequestFiles(int requestId)
         {
-            throw new NotImplementedException();
+            var request = await context.Requests
+                .Where(r => r.Id == requestId)
+                .FirstOrDefaultAsync();
+
+            if (request == null)
+                return null;
+
+            var requestFile = await context.RequestFiles
+                .Where(rf => rf.RequestId == request.Id)
+                .Select(rf => rf.FilePath)
+                .ToListAsync();
+
+            if (requestFile == null)
+                return null;
+
+            return requestFile;
         }
 
-        public Task<string> GetRequestImage(int requestId, int imageId)
+        public async Task<string?> GetRequestImage(int requestId, int imageId)
         {
-            throw new NotImplementedException();
+            var request = await context.Requests
+                .Where(r => r.Id == requestId)
+                .FirstOrDefaultAsync();
+
+            if (request == null)
+                return null;
+
+            var requestFile = await context.RequestFiles
+                .Where(rf => rf.RequestId == request.Id && rf.Id == imageId)
+                .Select(rf => rf.FilePath)
+                .FirstOrDefaultAsync();
+
+            if (requestFile == null)
+                return null;
+
+            return requestFile;
         }
 
         public Task<IEnumerable<string>> GetRequestImages(int requestId)

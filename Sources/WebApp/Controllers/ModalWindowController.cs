@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Text.Json;
-using WebApp.Models.DTO;
+using WebApp.Models.TableModels;
 using WebApp.Settings;
 
 namespace WebApp.Controllers

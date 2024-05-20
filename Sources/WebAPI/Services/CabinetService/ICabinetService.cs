@@ -1,5 +1,5 @@
-﻿using WebAPI.DataContext.DTO;
-using WebAPI.DataContext.Models;
+﻿using ModelLib.Model;
+using ModelLib.DTO;
 
 namespace WebAPI.Services.CabinetService
 {

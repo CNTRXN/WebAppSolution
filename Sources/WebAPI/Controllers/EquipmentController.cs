@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebAPI.DataContext;
-using WebAPI.DataContext.DTO;
-using WebAPI.DataContext.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using ModelLib.Model;
+using ModelLib.DTO;
 using WebAPI.Services.EquipmentService;
 
 namespace WebAPI.Controllers

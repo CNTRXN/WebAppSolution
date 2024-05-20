@@ -1,5 +1,5 @@
-﻿using WebAPI.DataContext.DTO;
-using WebAPI.DataContext.Models;
+﻿using ModelLib.DTO;
+using ModelLib.Model;
 
 namespace WebAPI.Services.EquipmentService
 {

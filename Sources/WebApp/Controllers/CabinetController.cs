@@ -1,30 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Models.DTO;
-using WebApp.Models.EquipData;
 using WebApp.Models.PageModels;
+using WebApp.Models.TableModels;
 using WebApp.Settings;
 
 namespace WebApp.Controllers
 {
     public class CabinetController : Controller
     {
-        readonly List<Equipment> tableData = [];
-
-        public CabinetController()
-        {
-            for (int i = 0; i < 20; i++)
-            {
-                tableData.Add(new Equipment()
-                {
-                    Id = i,
-                    //Count = new Random().Next(0, 100),
-                    Description = $"Table-{i}",
-                    Name = $"Name-{i}",
-                    TypeId = new Random().Next(0, 4)
-                });
-            }
-        }
         //Action для загрузки страницы кабинетов
         [HttpGet("cabinets")]
         [Authorize]
@@ -116,6 +99,7 @@ namespace WebApp.Controllers
         public async Task<ActionResult> ShowCabinetRequests([FromHeader] int cabId) 
         {
             Console.WriteLine(cabId);
+
 
             return PartialView("CabInfo/_CabinetRequestsPartial");
         }

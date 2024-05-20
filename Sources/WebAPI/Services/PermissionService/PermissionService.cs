@@ -1,24 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using WebAPI.DataContext;
-using WebAPI.DataContext.DTO;
-using WebAPI.DataContext.Models;
+using ModelLib.Model;
+using ModelLib.DTO;
 
 namespace WebAPI.Services.PermissionService
 {
     public class PermissionService(DB_Context context) : IPermissionService
     {
-        public async Task<Permission?> AddPermission(PermissionDTO newPermission)
+        public async Task<Permission?> AddPermission(string newPermission)
         {
             var premissionIsExist = await context.Permissions
-                .AnyAsync(p => p.Name.Equals(newPermission.Name, StringComparison.CurrentCultureIgnoreCase));
+                .AnyAsync(p => p.Name.Equals(newPermission, StringComparison.CurrentCultureIgnoreCase));
 
             if (premissionIsExist)
                 return null;
 
             var addedPermission = await context.Permissions.AddAsync(new Permission()
             {
-                Name = newPermission.Name
+                Name = newPermission
             });
 
             await context.SaveChangesAsync();

@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using WebAPI.DataContext.DTO;
-using WebAPI.Models;
+﻿using ModelLib.DTO;
+using ModelLib.Model;
 
 namespace WebAPI.Services.FileService
 {
