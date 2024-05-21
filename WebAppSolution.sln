@@ -4,14 +4,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "Sources\WebAPI\WebAPI.csproj", "{06A5957D-393E-4569-BF7E-41036E8E8594}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6665BF6D-1378-417E-BD04-0BB890D0E771} = {6665BF6D-1378-417E-BD04-0BB890D0E771}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI.Tests", "Sources\WebAPI.Tests\WebAPI.Tests\WebAPI.Tests.csproj", "{FF05489D-7441-4E6B-BC5A-C3AC4BD6AC14}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6665BF6D-1378-417E-BD04-0BB890D0E771} = {6665BF6D-1378-417E-BD04-0BB890D0E771}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "Sources\WebApp\WebApp.csproj", "{F14C3DAA-A526-4F92-BD45-1EC6030CA64A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6665BF6D-1378-417E-BD04-0BB890D0E771} = {6665BF6D-1378-417E-BD04-0BB890D0E771}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncryptLib", "Sources\EncryptLib\EncryptLib\EncryptLib.csproj", "{B7B59913-363F-44C8-8592-7C379537B1D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelLib", "ModelLib\ModelLib.csproj", "{96A1DD98-EB84-4C02-AED8-D630D95CB7DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelLib", "Sources\ModelLib\ModelLib.csproj", "{6665BF6D-1378-417E-BD04-0BB890D0E771}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +44,10 @@ Global
 		{B7B59913-363F-44C8-8592-7C379537B1D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7B59913-363F-44C8-8592-7C379537B1D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7B59913-363F-44C8-8592-7C379537B1D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{96A1DD98-EB84-4C02-AED8-D630D95CB7DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96A1DD98-EB84-4C02-AED8-D630D95CB7DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96A1DD98-EB84-4C02-AED8-D630D95CB7DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96A1DD98-EB84-4C02-AED8-D630D95CB7DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6665BF6D-1378-417E-BD04-0BB890D0E771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6665BF6D-1378-417E-BD04-0BB890D0E771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6665BF6D-1378-417E-BD04-0BB890D0E771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6665BF6D-1378-417E-BD04-0BB890D0E771}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
