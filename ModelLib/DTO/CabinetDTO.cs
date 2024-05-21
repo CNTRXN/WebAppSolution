@@ -1,20 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ModelLib.Convert.Table;
+using ModelLib.Attributes;
 
 namespace ModelLib.DTO
 {
-    public class CabinetDTO
+    [AlternativeName("Кабинеты")]
+    public class CabinetDTO : IMetaData
     {
+        [InclusionInHeader(HeaderInclusion.NotInclude)]
         public int Id { get; set; }
-        public int Num { get; set; }//Номер кабиента
-        public int PlanNum { get; set; }//Номер кабинета по плану
+
+        [AlternativeName("Номер кабинета")]
+        public int Num { get; set; }
+
+        [AlternativeName("Номер кабинета по плану")]
+        public int PlanNum { get; set; }
+
+        [AlternativeName("Ответственное лицо")]
         public UserDTO? ResponsiblePerson { get; set; }
-        public int Floor { get; set; }//Этаж
-        public double Height { get; set; }//Высота
-        public double Length { get; set; }//Длина
-        public double Width { get; set; }//Ширина
+
+        [AlternativeName("Этаж")]
+        public int Floor { get; set; }
+
+        [AlternativeName("Высота"), InclusionInHeader(HeaderInclusion.NotInclude)]
+        public double Height { get; set; }
+
+        [AlternativeName("Длинна"), InclusionInHeader(HeaderInclusion.NotInclude)]
+        public double Length { get; set; }
+
+        [AlternativeName("Ширина"), InclusionInHeader(HeaderInclusion.NotInclude)]
+        public double Width { get; set; }
+
+        [AlternativeName("Площадь потолка и пола"), InclusionInHeader(HeaderInclusion.NotInclude)]
+        public double SquareFloor => Width * Length;
+        
+        [AlternativeName("Площадь стен 1"), InclusionInHeader(HeaderInclusion.NotInclude)]
+        public double SquareWall_1 => Length * Height;
+        
+        [AlternativeName("Площадь стен 2"), InclusionInHeader(HeaderInclusion.NotInclude)]
+        public double SquareWall_2 => Width * Height;
     }
 }

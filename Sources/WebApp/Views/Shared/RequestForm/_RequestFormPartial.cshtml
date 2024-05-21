@@ -1,6 +1,5 @@
-﻿@    using WebApp.Models.DTO;
-@    using System.Text.Json;
-    using WebApp.Models.TableModels;
+﻿@using System.Text.Json;
+@using ModelLib.DTO;
 
 @model (CabinetDTO, List<EquipmentDTO>);
 
@@ -42,7 +41,7 @@
                 @{
                     if (Model.Item1 != null)
                     {
-                        if (Model.Item2 is List<EquipmentDTO> equipments)
+                        if (Model.Item2 is IEnumerable<EquipmentDTO> equipments)
                         {
                             foreach (var equip in equipments)
                             {

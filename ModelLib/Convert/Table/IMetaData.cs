@@ -1,6 +1,6 @@
-﻿using WebApp.Attributes;
+﻿using ModelLib.Attributes;
 
-namespace WebApp.Settings.Converters.Table
+namespace ModelLib.Convert.Table
 {
     [AlternativeName("Необходимо наследовать IMetaData от класса данных")]
     public interface IMetaData

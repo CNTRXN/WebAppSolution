@@ -1,12 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text.Json;
-using WebApp.Models;
-using WebApp.Models.DTO;
-using WebApp.Settings;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.Controllers
 {

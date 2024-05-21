@@ -1,4 +1,4 @@
-﻿namespace WebApp.Attributes
+﻿namespace ModelLib.Attributes
 {
     public enum HeaderInclusion 
     {

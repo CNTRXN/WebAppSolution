@@ -1,12 +1,7 @@
-﻿@using WebApp.Models.DTO
-@using System.Security.Claims;
-@*@model UserDTO;*@
+﻿@using System.Security.Claims;
 
 @{
-    //var userModel = Model;//ViewData["UserModel"] as UserDTO;
-
     dynamic? userModel = null;
-
 
     var userIsAuth = Context.User.Identity != null && Context.User.Identity.IsAuthenticated;//&& userModel != null;
 

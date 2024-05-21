@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using WebApp.Models.DTO;
-using WebApp.Settings;
 
 namespace WebApp.Controllers
 {

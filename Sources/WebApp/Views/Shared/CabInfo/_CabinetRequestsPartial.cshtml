@@ -1,10 +1,19 @@
-﻿
+﻿@using ModelLib.DTO;
+
+@model IEnumerable<RequestDTO>;
+
 <div id="cab-requests">
     <div class="request-categories open" id="category-1">
         <div class="request-categories-header">
             <span class="request-categories-header-sign">ᐱ</span>
         </div>
         <div class="cab-requests-container">
+            @{
+                foreach (var request in Model)
+                {
+                    Console.WriteLine(request.Id);
+                }
+            }
             <div class="request-categories-item request-new">
             </div>
             <div class="request-categories-item request-in-processing">

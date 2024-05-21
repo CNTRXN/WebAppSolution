@@ -1,4 +1,4 @@
-﻿namespace WebApp.Settings.Converters.Table
+﻿namespace ModelLib.Convert.Table
 {
     public class TableValueResult
     {
@@ -29,7 +29,7 @@
             }
         }
 
-        public bool HasValue(string key) 
+        public bool HasValue(string key)
         {
             return _tableResults.ContainsKey(key);
         }

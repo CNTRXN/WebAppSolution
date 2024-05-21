@@ -1,4 +1,4 @@
-﻿using WebApp.Models.TableModels;
+﻿using ModelLib.DTO;
 
 namespace WebApp.Models.PageModels
 {

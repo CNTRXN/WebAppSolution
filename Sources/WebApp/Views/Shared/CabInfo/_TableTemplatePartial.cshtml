@@ -1,12 +1,10 @@
-﻿@    using ModelLib.Model
-@    using WebApp.Models.DTO;
-@    using WebApp.Settings;
-@    using WebApp.Models;
-@    using WebApp.Models.EquipData;
-@    using System.Collections;
-@    using WebApp.Settings.Converters.Table;
-@    using WebApp.Models.PageModels;
-    using WebApp.Models.TableModels;
+﻿@using ModelLib.Model
+@using WebApp.Settings;
+@using WebApp.Models;
+@using System.Collections;
+@using WebApp.Models.PageModels;
+@using ModelLib.Convert.Table;
+@using ModelLib.DTO;
 
 @model CabInfoPage;
 
@@ -19,9 +17,9 @@
         case "Equipment":
             equipmentMeta.Assign<EquipmentDTO>();
             break;
-        case "TestData":
-            equipmentMeta.Assign<TestData>();
-            break;
+        // case "TestData":
+        //     equipmentMeta.Assign<TestData>();
+        //     break;
     }
 }
 
@@ -63,7 +61,7 @@
             int j = 0;
             int h = 0;
 
-            List<dynamic> currentList = Model.SelectedList switch
+            IEnumerable<dynamic> currentList = Model.SelectedList switch
             {
                 "Equipment" => Model.Equipments.Cast<dynamic>().ToList(),
                 "TestData" => Model.Equipments.Cast<dynamic>().ToList(),
@@ -80,8 +78,8 @@
                         if (equipmentMeta.Type == typeof(EquipmentDTO))
                             data = equipmentMeta.GetValues<EquipmentDTO>(eqiup, withNotInclude: true);
 
-                        if (equipmentMeta.Type == typeof(TestData))
-                            data = equipmentMeta.GetValues<TestData>(eqiup);
+                        // if (equipmentMeta.Type == typeof(TestData))
+                        //     data = equipmentMeta.GetValues<TestData>(eqiup);
 
                         int equipId = 0;
 

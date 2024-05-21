@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.HttpLogging;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using WebApp.Attributes;
-using WebApp.Models;
+﻿using System.Collections;
+using ModelLib.Attributes;
 
-namespace WebApp.Settings.Converters.Table
+namespace ModelLib.Convert.Table
 {
 
 

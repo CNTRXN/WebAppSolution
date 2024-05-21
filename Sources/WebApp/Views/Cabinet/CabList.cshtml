@@ -1,11 +1,9 @@
-﻿@using WebApp.Models
-@using WebApp.Models.EquipData
-@using WebApp.Settings;
+﻿@using WebApp.Settings;
+@using ModelLib.Attributes;
+@using ModelLib.Convert.Table;
 @using ModelLib.DTO;
-@using WebApp.Attributes;
-@using WebApp.Settings.Converters.Table;
 
-@model List<CabinetDTO>;
+@model IEnumerable<CabinetDTO>;
 
 @{
     Layout = "_CabList";
@@ -53,7 +51,7 @@
                                 <td>@cabPlanNum</td>
                             }
 
-                            if (values[nameof(cabinet.ResponsiblePerson)] is UserDTO resp)
+                            if (values[nameof(cabinet.ResponsiblePerson)] is ModelLib.DTO.UserDTO resp)
                             {
                                 <td>
                                     <button onclick="window.location = '../profile=@resp.Id'">

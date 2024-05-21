@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ModelLib.DTO;
+using System.Net.Http.Json;
 using WebApp.Models.PageModels;
-using WebApp.Models.TableModels;
 using WebApp.Settings;
 
 namespace WebApp.Controllers
@@ -70,11 +71,11 @@ namespace WebApp.Controllers
             });
         }
 
-        [HttpGet("show-test")]
+        /*[HttpGet("show-test")]
         [Authorize]
         public async Task<ActionResult> ShowTestTable() 
         {
-            var testTable = new List<TestData>() 
+            var testTable = new List<WebApp.Models.TableModels.TestData>() 
             {
                 new()
                 {
@@ -92,7 +93,7 @@ namespace WebApp.Controllers
                 Equipments = testTable.Cast<dynamic>().ToList() ?? [],
                 SelectedList = "TestData"
             });
-        }
+        }*/
 
         [HttpGet("show-cabinet-requests")]
         [Authorize(Roles = "Master, Admin")]
@@ -100,8 +101,11 @@ namespace WebApp.Controllers
         {
             Console.WriteLine(cabId);
 
+            //http://localhost:5215/api/Request/requests/cabid=1
+            List<RequestDTO>? requests = await AppStatics.ApiClient.GetFromJsonAsync<List<RequestDTO>>($"api/Request/requests/cabid={cabId}");
 
-            return PartialView("CabInfo/_CabinetRequestsPartial");
+
+            return PartialView("CabInfo/_CabinetRequestsPartial", requests);
         }
 
 
