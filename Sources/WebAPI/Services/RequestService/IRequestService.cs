@@ -5,6 +5,7 @@ namespace WebAPI.Services.RequestService
 {
     public interface IRequestService
     {
+        #region Заявки
         Task<IEnumerable<Request>?> GetAllRequests();
         Task<RequestDTO?> GetRequestBy_Id(int requestId);
         Task<IEnumerable<RequestDTO>?> GetRequestsBy_UserId(int userId);
@@ -17,5 +18,10 @@ namespace WebAPI.Services.RequestService
         Task<IEnumerable<RequestDTO>?> GetRequestsBy_CabinetId_And_StatusId_And_TypeId(int cabinetId, int statusId, int typeId);
 
         Task<bool> AddRepairRequest(int cabinetId, int? userId, List<int> equipmentsIds, string Title, string Description, List<IFormFile> images);
+        #endregion
+
+        #region Виды статуса заявки
+        Task<IEnumerable<RequestStatus>> GetAllRequestsStatuses();
+        #endregion
     }
 }

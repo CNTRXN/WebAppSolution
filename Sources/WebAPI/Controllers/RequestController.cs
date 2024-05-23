@@ -15,6 +15,12 @@ namespace WebAPI.Controllers
             return Ok(await requestService.GetAllRequests());
         }
 
+        [HttpGet("all-statuses")]
+        public async Task<IActionResult> GetAllRequestsStatuses()
+        {
+            return Ok(await requestService.GetAllRequestsStatuses());
+        }
+
         [HttpGet("requests/cabid={cabid}")]
         public async Task<IActionResult> GetRequestByCabinetId([FromRoute] int cabid)
         {

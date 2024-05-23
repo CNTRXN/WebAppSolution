@@ -132,10 +132,18 @@ $(window).on("load", () => {
                 "cabId": parseInt(cookie.cabid)
             },
             success: function (response) {
-                // При успешном получении ответа, обновляем содержимое контейнера с partial view
                 $("#main-table").html(response);
 
                 registerCabinetRequestsSector();
+
+                var requestChangeStatus = document.getElementsByClassName('request-change-status');
+
+
+                Array.from(requestChangeStatus).forEach(elem => {
+                    $(elem).on("change", () => {
+                        //!! get id
+                    });
+                });
             },
             error: function () {
                 console.log('error load');

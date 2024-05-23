@@ -1,4 +1,6 @@
-﻿namespace ModelLib.DTO
+﻿using ModelLib.Model;
+
+namespace ModelLib.DTO
 {
     public class RequestDTO
     {
@@ -7,8 +9,8 @@
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? CompleteDate { get; set; }
-        public int RequestTypeId { get; set; }
-        public int RequestStatusId { get; set; }
+        public RequestType RequestType { get; set; }
+        public RequestStatus RequestStatus { get; set; }
         public UserDTO? FromUser { get; set; }
         public CabinetDTO Cabinet { get; set; }
         public List<string> Images { get; set; }

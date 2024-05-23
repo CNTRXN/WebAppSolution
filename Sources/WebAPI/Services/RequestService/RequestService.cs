@@ -8,6 +8,7 @@ namespace WebAPI.Services.RequestService
 {
     public class RequestService(DB_Context context, IFileService fileService) : IRequestService
     {
+        #region Заявки
         public async Task<bool> AddRepairRequest(int cabinetId, int? userId, List<int> equipmentsIds, string Title, string Description, List<IFormFile> images)
         {
             #region Проверка на существование
@@ -87,10 +88,12 @@ namespace WebAPI.Services.RequestService
             return true;
         }
 
+
         public async Task<IEnumerable<Request>?> GetAllRequests()
         {
             return await context.Requests.ToListAsync();
         }
+
 
         [Obsolete("Не доделан")]
         public async Task<RequestDTO?> GetRequestBy_Id(int requestId)
@@ -148,8 +151,8 @@ namespace WebAPI.Services.RequestService
                     CompleteDate = r.CompleteDate,
                     CreatedDate = r.CreatedDate,
                     Description = r.Description,
-                    RequestStatusId = r.RequestStatusId,
-                    RequestTypeId = r.RequestTypeId,
+                    RequestStatus = context.RequestStatuses.Where(rs => rs.Id == r.RequestStatusId).First(),
+                    RequestType = context.RequestTypes.Where(rt => rt.Id == r.RequestTypeId).First(),
                     Title = r.Title
                 })
                 .FirstOrDefaultAsync();
@@ -163,6 +166,9 @@ namespace WebAPI.Services.RequestService
 
             return request;
         }
+
+
+
 
         public async Task<IEnumerable<RequestDTO>?> GetRequestsBy_CabinetId(int cabinetId)
         {
@@ -180,8 +186,8 @@ namespace WebAPI.Services.RequestService
                     Description = r.Description,
                     CreatedDate = r.CreatedDate,
                     CompleteDate = r.CompleteDate,
-                    RequestStatusId = r.RequestStatusId,
-                    RequestTypeId = r.RequestTypeId,
+                    RequestStatus = context.RequestStatuses.Where(rs => rs.Id == r.RequestStatusId).First(),
+                    RequestType = context.RequestTypes.Where(rt => rt.Id == r.RequestTypeId).First(),
                     FromUser = context.Users
                         .Where(u => u.Id == r.FromId)
                         .Select(u => new UserDTO() 
@@ -257,8 +263,8 @@ namespace WebAPI.Services.RequestService
                     Description = r.Description,
                     CreatedDate = r.CreatedDate,
                     CompleteDate = r.CompleteDate,
-                    RequestStatusId = r.RequestStatusId,
-                    RequestTypeId = r.RequestTypeId,
+                    RequestStatus = context.RequestStatuses.Where(rs => rs.Id == r.RequestStatusId).First(),
+                    RequestType = context.RequestTypes.Where(rt => rt.Id == r.RequestTypeId).First(),
                     FromUser = context.Users
                         .Where(u => u.Id == r.FromId)
                         .Select(u => new UserDTO()
@@ -328,8 +334,8 @@ namespace WebAPI.Services.RequestService
                     Description = r.Description,
                     CreatedDate = r.CreatedDate,
                     CompleteDate = r.CompleteDate,
-                    RequestStatusId = r.RequestStatusId,
-                    RequestTypeId = r.RequestTypeId,
+                    RequestStatus = context.RequestStatuses.Where(rs => rs.Id == r.RequestStatusId).First(),
+                    RequestType = context.RequestTypes.Where(rt => rt.Id == r.RequestTypeId).First(),
                     FromUser = context.Users
                         .Where(u => u.Id == r.FromId)
                         .Select(u => new UserDTO()
@@ -399,8 +405,8 @@ namespace WebAPI.Services.RequestService
                     Description = r.Description,
                     CreatedDate = r.CreatedDate,
                     CompleteDate = r.CompleteDate,
-                    RequestStatusId = r.RequestStatusId,
-                    RequestTypeId = r.RequestTypeId,
+                    RequestStatus = context.RequestStatuses.Where(rs => rs.Id == r.RequestStatusId).First(),
+                    RequestType = context.RequestTypes.Where(rt => rt.Id == r.RequestTypeId).First(),
                     FromUser = context.Users
                         .Where(u => u.Id == r.FromId)
                         .Select(u => new UserDTO()
@@ -470,8 +476,8 @@ namespace WebAPI.Services.RequestService
                     Description = r.Description,
                     CreatedDate = r.CreatedDate,
                     CompleteDate = r.CompleteDate,
-                    RequestStatusId = r.RequestStatusId,
-                    RequestTypeId = r.RequestTypeId,
+                    RequestStatus = context.RequestStatuses.Where(rs => rs.Id == r.RequestStatusId).First(),
+                    RequestType = context.RequestTypes.Where(rt => rt.Id == r.RequestTypeId).First(),
                     FromUser = context.Users
                         .Where(u => u.Id == r.FromId)
                         .Select(u => new UserDTO()
@@ -536,8 +542,8 @@ namespace WebAPI.Services.RequestService
                     Description = r.Description,
                     CreatedDate = r.CreatedDate,
                     CompleteDate = r.CompleteDate,
-                    RequestStatusId = r.RequestStatusId,
-                    RequestTypeId = r.RequestTypeId,
+                    RequestStatus = context.RequestStatuses.Where(rs => rs.Id == r.RequestStatusId).First(),
+                    RequestType = context.RequestTypes.Where(rt => rt.Id == r.RequestTypeId).First(),
                     FromUser = context.Users
                         .Where(u => u.Id == r.FromId)
                         .Select(u => new UserDTO()
@@ -602,8 +608,8 @@ namespace WebAPI.Services.RequestService
                     Description = r.Description,
                     CreatedDate = r.CreatedDate,
                     CompleteDate = r.CompleteDate,
-                    RequestStatusId = r.RequestStatusId,
-                    RequestTypeId = r.RequestTypeId,
+                    RequestStatus = context.RequestStatuses.Where(rs => rs.Id == r.RequestStatusId).First(),
+                    RequestType = context.RequestTypes.Where(rt => rt.Id == r.RequestTypeId).First(),
                     FromUser = context.Users
                         .Where(u => u.Id == r.FromId)
                         .Select(u => new UserDTO()
@@ -668,8 +674,8 @@ namespace WebAPI.Services.RequestService
                     Description = r.Description,
                     CreatedDate = r.CreatedDate,
                     CompleteDate = r.CompleteDate,
-                    RequestStatusId = r.RequestStatusId,
-                    RequestTypeId = r.RequestTypeId,
+                    RequestStatus = context.RequestStatuses.Where(rs => rs.Id == r.RequestStatusId).First(),
+                    RequestType = context.RequestTypes.Where(rt => rt.Id == r.RequestTypeId).First(),
                     FromUser = context.Users
                         .Where(u => u.Id == r.FromId)
                         .Select(u => new UserDTO()
@@ -717,5 +723,14 @@ namespace WebAPI.Services.RequestService
 
             return requests;
         }
+
+        #endregion
+
+        #region Виды статуса заявки
+        public async Task<IEnumerable<RequestStatus>> GetAllRequestsStatuses() 
+        {
+            return await context.RequestStatuses.ToListAsync();
+        }
+        #endregion
     }
 }

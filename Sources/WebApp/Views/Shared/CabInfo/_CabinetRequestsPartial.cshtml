@@ -1,4 +1,6 @@
 ﻿@using ModelLib.DTO;
+@using ModelLib.Model;
+@using WebApp.Settings;
 
 @model IEnumerable<RequestDTO>;
 
@@ -11,10 +13,76 @@
             @{
                 foreach (var request in Model)
                 {
-                    Console.WriteLine(request.Id);
+                    string styleClassRequest = string.Empty;
+                    string requestTitle = request.RequestStatus.StatusName;
+
+                    styleClassRequest = request.RequestStatus.Id switch
+                    {
+                        1 => "request-new",
+                        2 => "request-in-processing",
+                        3 => "request-materials-waiting",
+                        4 => "request-in-progress",
+                        5 => "request-in-completed",
+                        6 => "request-rejected",
+                        7 => "request-postponed",
+                        8 => "request-overdue",
+                        _ => string.Empty
+                    };
+
+                    <div class="request-categories-item @styleClassRequest">
+                        <div class="request-meta-info">
+                            <input class="request-id" type="hidden" value="@request.Id"/>
+                            <p class="request-status-title">
+                                @requestTitle
+                            </p>
+                            <div class="request-sender">
+                                @{
+                                    if (request.FromUser is UserDTO sender)
+                                    {
+                                        <p class="request-sender-title">Профиль отправителя</p>
+                                        <button class="request-sender-profile defaultButton" onclick="window.location = '../profile=@sender.Id'">
+                                            @{
+                                                string senderName = $"{sender.Surname} {sender.Name} {sender.Patronymic}";
+                                                @senderName
+                                            }
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <p class="request-sender-title">Неизвестный отправитель</p>
+                                    }
+                                }
+                            </div>
+                            <div class="request-detail-info">
+                                <p class="request-send-date">@request.CreatedDate</p>
+                                <p class="request-title">@request.Title</p>
+                                <p class="request-description">@request.Description</p>
+                            </div>
+                            <div class="request-control-button">
+                                <select class="request-change-status">
+                                    @{
+                                    // <option>Новая</option>
+                                        // <option>Ожидание материалов</option>
+                                        // <option>3</option>
+
+                                        var requestsStatuses = await AppStatics.ApiClient.GetFromJsonAsync<List<RequestStatus>>("api/Request/all-statuses");
+
+                                        if (requestsStatuses != null)
+                                        {
+                                            foreach (var requestsStatus in requestsStatuses)
+                                            {
+                                                <option value="@requestsStatus.Id" @(requestsStatus.Id != request.RequestStatus.Id ? null : "selected")>@requestsStatus.StatusName</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    //Console.WriteLine(request.Id);
                 }
             }
-            <div class="request-categories-item request-new">
+           @*  <div class="request-categories-item request-new">
             </div>
             <div class="request-categories-item request-in-processing">
             </div>
@@ -29,7 +97,7 @@
             <div class="request-categories-item request-postponed">
             </div>
             <div class="request-categories-item request-overdue">
-            </div>
+            </div> *@
         </div>
     </div>
     <div class="request-categories open" id="category-2">

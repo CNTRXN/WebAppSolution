@@ -1,4 +1,6 @@
-﻿#cab-info-container {
+﻿@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+#cab-info-container {
     display: grid;
     grid-template-columns: repeat(14, 100px);
     grid-template-rows: repeat(14, 100px);
@@ -563,7 +565,10 @@
     color: #9C9CFF;
 }
 
-.request-categories-item {
+
+
+
+/*.request-categories-item {
     height: 200px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -571,7 +576,131 @@
     margin-right: 20px;
 
     border-radius: 10px;
+}*/
+
+/*#region in test*/
+
+
+.request-categories-item {
+    height: 200px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 10px 1fr 10px;
+    grid-template-rows: 10px 1fr 10px;
+
+    font-family: "Roboto", sans-serif;
 }
+
+    .request-categories-item > .request-meta-info {
+        display: grid;
+        grid-template-columns: 300px 310px 100px;
+        grid-template-rows: 100px 1fr;
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+
+.request-meta-info > .request-status-title {
+    grid-row: 1;
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+
+/*#region Настройки заголовка статуса заявки 
+в зависимости от статуса*/
+
+.request-new > .request-meta-info > .request-status-title {
+    margin-left: 30px;
+}
+
+.request-in-processing > .request-meta-info > .request-status-title {
+    margin-left: 30px;
+}
+
+
+/*#endregion*/
+
+
+.request-meta-info > .request-sender {
+    grid-row: 2;
+}
+
+.request-sender > .request-sender-title {
+    margin: 0;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.request-sender > .request-sender-profile {
+    margin: 0;
+    margin-left: 10px;
+    margin-top: 10px;
+    height: 50px;
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.request-meta-info > .request-detail-info {
+    grid-column: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 30px 30px 1fr;
+}
+
+.request-detail-info > p {
+    grid-row: 1;
+    margin: 0;
+    height: 20px;
+}
+
+.request-detail-info > .request-send-date {
+    grid-row: 1;
+}
+
+.request-detail-info > .request-title {
+    grid-row: 2;
+}
+
+.request-detail-info > .request-description {
+    grid-row: 3;
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.request-meta-info > .request-control-button {
+    grid-column: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    background-color: rebeccapurple;
+    width: 130px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.request-control-button > select {
+    grid-row: 2;
+    height: 30px;
+    width: 100px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/*#endregion*/
+
+
 
 .cab-requests-container {
     overflow: scroll;

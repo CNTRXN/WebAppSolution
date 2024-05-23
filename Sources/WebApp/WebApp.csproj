@@ -8,12 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Content\**" />
+    <Compile Remove="Data\**" />
+    <Content Remove="Content\**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Content\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Content\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Settings\TranslateNames.cs~RF4f9ff20.TMP" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Content\" />
-    <Folder Include="Data\" />
     <Folder Include="wwwroot\img\avatars\" />
     <Folder Include="wwwroot\img\request\" />
   </ItemGroup>
