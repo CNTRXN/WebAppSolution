@@ -14,7 +14,7 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<ActionResult> CabList()
         {
-            var cabs = await AppStatics.ApiClient.GetFromJsonAsync<List<CabinetDTO>>("api/Cabinet/all");
+            var cabs = await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "all")); //"api/Cabinet/all");
 
             return View(cabs);
         }
@@ -62,7 +62,7 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<ActionResult> ShowEquipments([FromHeader] int cabId)
         {
-            List<EquipmentDTO>? equipment = await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/cabid={cabId}");
+            List<EquipmentDTO>? equipment = await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get-equip/cabid={cabId}"));//$"api/Cabinet/get-equip/cabid={cabId}");
 
             return PartialView("CabInfo/_TableTemplatePartial", new CabInfoPage()
             {
@@ -102,7 +102,7 @@ namespace WebApp.Controllers
             Console.WriteLine(cabId);
 
             //http://localhost:5215/api/Request/requests/cabid=1
-            List<RequestDTO>? requests = await AppStatics.ApiClient.GetFromJsonAsync<List<RequestDTO>>($"api/Request/requests/cabid={cabId}");
+            List<RequestDTO>? requests = await AppSettings.Api.Client.GetFromJsonAsync<List<RequestDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Request, $"requests/cabid={cabId}")); //$"api/Request/requests/cabid={cabId}");
 
 
             return PartialView("CabInfo/_CabinetRequestsPartial", requests);
@@ -113,7 +113,7 @@ namespace WebApp.Controllers
 
         private static async Task<CabInfoPage> GetCabinetInfo(int cabId) 
         {
-            var cabinet = await AppStatics.ApiClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/get/id={cabId}");
+            var cabinet = await AppSettings.Api.Client.GetFromJsonAsync<CabinetDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get/id={cabId}"));//$"api/Cabinet/get/id={cabId}");
             //List<EquipmentDTO>? equipment = await apiHttpClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}");
 
             return new CabInfoPage()

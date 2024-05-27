@@ -16,7 +16,8 @@ namespace WebApp.Controllers
             if (HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value is string userIdAsString)
                 userId = int.Parse(userIdAsString);
 
-            return Redirect($"../profile={userId}");
+            //return Redirect($"../profile={userId}");
+            return Redirect($"../cabinets");
         }
     }
 }

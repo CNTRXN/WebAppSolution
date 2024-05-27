@@ -47,14 +47,28 @@ namespace WebAPI.Services.UserService
             return true;
         }
 
-        public async Task<User?> GetUser(int id)
+        public async Task<UserDTO?> GetUser(int id)
         {
             var foundedUser = await context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
             if (foundedUser == null)
                 return null;
 
-            return foundedUser;
+            var userPost = await context.Permissions
+                .Where(p => p.Id == foundedUser.PermissionId)
+                .FirstAsync();
+
+            var user = new UserDTO()
+            {
+                Id = foundedUser.Id,
+                Name = foundedUser.Name,
+                Surname = foundedUser.Surname,
+                Patronymic = foundedUser.Patronymic,
+                Birthday = foundedUser.Birthday,
+                Permission = userPost
+            };
+
+            return user;
         }
 
         public async Task<UserDTO?> GetUser(string login, string password)
@@ -77,7 +91,7 @@ namespace WebAPI.Services.UserService
                 Surname = foundedUser.Surname,
                 Patronymic = foundedUser.Patronymic,
                 Birthday = foundedUser.Birthday,
-                PermissionName = userPost.Name
+                Permission = userPost
             };
 
             return user;

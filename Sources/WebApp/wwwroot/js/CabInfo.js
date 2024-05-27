@@ -122,6 +122,8 @@ $(window).on("load", () => {
         });
     }
 
+
+
     function showRequests() {
         $.ajax({
             url: "/show-cabinet-requests",
@@ -136,14 +138,16 @@ $(window).on("load", () => {
 
                 registerCabinetRequestsSector();
 
-                var requestChangeStatus = document.getElementsByClassName('request-change-status');
+                //var requestCategories = document.querySelectorAll('.request-categories');
+                //var requestCategoriesItems = requestCategories.querySelectorAll('.request-categories-item');
+                //var requestChangeStatus = requestCategoriesItems.querySelectorAll('.request-change-status');
 
 
-                Array.from(requestChangeStatus).forEach(elem => {
+                /*Array.from(requestChangeStatus).forEach(elem => {
                     $(elem).on("change", () => {
-                        //!! get id
+                        console.log(elem);
                     });
-                });
+                });*/
             },
             error: function () {
                 console.log('error load');

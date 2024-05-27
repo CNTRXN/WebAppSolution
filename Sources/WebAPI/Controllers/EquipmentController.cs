@@ -7,7 +7,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EquipmentController(IEquipmentService equipmentService) : Controller
+    public class EquipmentController(IEquipmentService equipmentService) : ControllerBase
     {
         private readonly IEquipmentService _equipmentService = equipmentService;
 

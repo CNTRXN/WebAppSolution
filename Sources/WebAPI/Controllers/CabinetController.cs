@@ -10,7 +10,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CabinetController(ICabinetService cabinetService, IFileService fileService) : Controller
+    public class CabinetController(ICabinetService cabinetService, IFileService fileService) : ControllerBase
     {
         //Контроллер для получения всех записей кабинета
         [HttpGet("all")]

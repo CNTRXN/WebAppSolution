@@ -1,4 +1,4 @@
-﻿using ModelLib.Attributes;
+﻿using ModelLib.Convert.Attributes;
 using ModelLib.Convert.Table;
 using ModelLib.Model;
 
@@ -19,7 +19,7 @@ namespace ModelLib.DTO
         [AlternativeName("Инвентарный номер")]
         public string InventoryNumber { get; set; }
 
-        [AlternativeName("Тип")]
+        [AlternativeName("Тип"), SelectedValue(true)]
         public EquipmentType EquipmentType { get; set; }
     }
 }

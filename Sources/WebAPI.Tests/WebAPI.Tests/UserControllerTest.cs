@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using WebAPI.Controllers;
 using ModelLib.Model;
+using ModelLib.DTO;
 using WebAPI.Services.UserService;
 
 namespace WebAPI.Tests
@@ -23,7 +24,7 @@ namespace WebAPI.Tests
         [TearDown]
         public void TearDown() 
         {
-            _controller.Dispose();
+            //_controller.Dispose();
         }
 
         [Test]
@@ -44,7 +45,7 @@ namespace WebAPI.Tests
         [Test]
         public async Task GetUser_Return_BadRequest()
         {
-            var user = _fixture.Create<User>();
+            var user = _fixture.Create<UserDTO>();
 
             int userId = 4;
 

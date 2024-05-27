@@ -119,9 +119,28 @@ namespace WebAPI.Services.EquipmentService
             return i;
         }
 
-        public async Task<Equipment?> GetEquipment(int id)
+        public async Task<EquipmentDTO?> GetEquipment(int id)
         {
-            return await context.Equipments.FirstOrDefaultAsync(e => e.Id == id);
+            var foundedEquipment = await context.Equipments.FirstOrDefaultAsync(e => e.Id == id);
+
+            if (foundedEquipment == null)
+                return null;
+
+            var equipmentType = await context.EquipmentTypes.FirstOrDefaultAsync(et => et.Id == foundedEquipment.TypeId);
+
+            if (equipmentType == null)
+                return null;
+
+            EquipmentDTO equipment = new()
+            {
+                Id = foundedEquipment.Id,
+                Description = foundedEquipment.Description,
+                InventoryNumber = foundedEquipment.InventoryNumber,
+                Name = foundedEquipment.Name,
+                EquipmentType = equipmentType
+            };
+
+            return equipment;
         }
 
         public async Task<List<EquipmentDTO>?> GetEquipmentsById(IEnumerable<int> equipmentIds)

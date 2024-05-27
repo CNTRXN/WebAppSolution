@@ -1,5 +1,5 @@
 ﻿using ModelLib.Convert.Table;
-using ModelLib.Attributes;
+using ModelLib.Convert.Attributes;
 
 namespace ModelLib.DTO
 {

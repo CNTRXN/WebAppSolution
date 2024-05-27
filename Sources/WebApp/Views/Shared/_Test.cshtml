@@ -7,15 +7,24 @@
     <link href="~/css/RequestForm.css" rel="stylesheet" type="text/css" />
     <script src="~/js/RequestForm.js"></script>
     <link href="~/css/ElementsStyle.css" rel="stylesheet" type="text/css" />
+
+    <script src="~/js/InfoEditor.js"></script>
+    <link href="~/css/InfoEditor.css" rel="stylesheet" type="text/css" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
     @RenderBody()
+    <p>This is test page</p>
     <div>
-        <p>This is test page</p>
+        <p>Request</p>
         <button id="show-request-form-without-data">show empty request form</button>
         <button id="show-request-form-with-cabid">show request form with cab</button>
         <button id="show-request-form-with-cabid-and-equipments">show request form with cab and equipments</button>
+    </div>
+    <div>
+        <p>Editor</p>
+        <button onclick="openEditor(infoType.equipment, 1)">equipment-click</button>
+        <button onclick="openEditor(infoType.user, 1)">user-click</button>
     </div>
     @{
         // while (true)

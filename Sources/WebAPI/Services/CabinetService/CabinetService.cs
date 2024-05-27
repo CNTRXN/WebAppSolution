@@ -116,9 +116,8 @@ namespace WebAPI.Services.CabinetService
                         Patronymic = u.Patronymic,
                         Surname = u.Surname,
                         Birthday = u.Birthday,
-                        PermissionName = context.Permissions
-                            .Where(p => p.Id == u.PermissionId)
-                            .Select(p => p.Name).First(),
+                        Permission = context.Permissions
+                            .Where(p => p.Id == u.PermissionId).First(),
                     }).FirstOrDefaultAsync()
             };
 
@@ -183,7 +182,9 @@ namespace WebAPI.Services.CabinetService
                         Birthday = u.Birthday,
                         Name = u.Name,
                         Patronymic = u.Patronymic,
-                        PermissionName = u.Patronymic ?? string.Empty,
+                        Permission = context.Permissions
+                            .Where(p => p.Id == u.PermissionId)
+                            .First(),
                         Surname = u.Surname
                     })
                     .FirstOrDefaultAsync();

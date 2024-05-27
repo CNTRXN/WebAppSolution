@@ -24,15 +24,15 @@ namespace WebApp.Controllers
             var tempLogin = await Encrypting.Encrypt(Login);
             var tempPassword = await Encrypting.Encrypt(Password);
 
-            AppStatics.ApiClient.DefaultRequestHeaders.Clear();
-            AppStatics.ApiClient.DefaultRequestHeaders.Add("login", Convert.ToBase64String(tempLogin));
-            AppStatics.ApiClient.DefaultRequestHeaders.Add("password", Convert.ToBase64String(tempPassword));
+            AppSettings.Api.Client.DefaultRequestHeaders.Clear();
+            AppSettings.Api.Client.DefaultRequestHeaders.Add("login", Convert.ToBase64String(tempLogin));
+            AppSettings.Api.Client.DefaultRequestHeaders.Add("password", Convert.ToBase64String(tempPassword));
 
             string errorMessage = string.Empty;
 
             try
             {
-                var response = await AppStatics.ApiClient.GetAsync("api/User/get");
+                var response = await AppSettings.Api.Client.GetAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "get"));//"api/User/get");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -49,7 +49,7 @@ namespace WebApp.Controllers
                             new("Patronymic", user.Patronymic ?? string.Empty),
                             new(ClaimTypes.DateOfBirth, user.Birthday.ToShortDateString()),
                             new(ClaimTypes.NameIdentifier, Login),
-                            new(ClaimTypes.Role, user.PermissionName ?? "User")
+                            new(ClaimTypes.Role, user.Permission.Name ?? "User")
                         };
 
                         ClaimsIdentity identity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -107,7 +107,7 @@ namespace WebApp.Controllers
 
                     Console.WriteLine(newUser.Name);
 
-                    var response = await AppStatics.ApiClient.PostAsJsonAsync("api/User/registration", newUser);
+                    var response = await AppSettings.Api.Client.PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "registration"), newUser);//"api/User/registration", newUser);
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
@@ -145,7 +145,7 @@ namespace WebApp.Controllers
 
             try
             {
-                var result = await AppStatics.ApiClient.GetFromJsonAsync<UserDTO>("api/User/get/id=" + id);
+                var result = await AppSettings.Api.Client.GetFromJsonAsync<UserDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, $"get/id={id}"));//"api/User/get/id=" + id);
 
                 if (result != null) 
                 {

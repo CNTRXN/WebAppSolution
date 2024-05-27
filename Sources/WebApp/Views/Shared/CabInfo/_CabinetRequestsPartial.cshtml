@@ -61,11 +61,11 @@
                             <div class="request-control-button">
                                 <select class="request-change-status">
                                     @{
-                                    // <option>Новая</option>
+                                        // <option>Новая</option>
                                         // <option>Ожидание материалов</option>
                                         // <option>3</option>
 
-                                        var requestsStatuses = await AppStatics.ApiClient.GetFromJsonAsync<List<RequestStatus>>("api/Request/all-statuses");
+                                        var requestsStatuses = await AppSettings.Api.Client.GetFromJsonAsync<List<RequestStatus>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.RequestStatus, "all"));// "api/Request/all-statuses");
 
                                         if (requestsStatuses != null)
                                         {

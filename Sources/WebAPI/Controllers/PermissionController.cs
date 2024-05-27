@@ -10,7 +10,7 @@ namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PermissionController(IPermissionService permissionService) : Controller
+    public class PermissionController(IPermissionService permissionService) : ControllerBase
     {
         private readonly IPermissionService _permissionService = permissionService;
 

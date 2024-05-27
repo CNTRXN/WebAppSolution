@@ -6,7 +6,7 @@ namespace WebAPI.Services.EquipmentService
     public interface IEquipmentService
     {
         Task<IEnumerable<Equipment>> GetEquipments();
-        Task<Equipment?> GetEquipment(int equipmentId);
+        Task<EquipmentDTO?> GetEquipment(int equipmentId);
         Task<List<EquipmentDTO>?> GetEquipmentsById(IEnumerable<int> equipmentIds);
         Task<int> GetEuipmentCountByType(string typeName);
         Task<Equipment?> AddNewEquipment(NewEquipmentDTO newEquipments);

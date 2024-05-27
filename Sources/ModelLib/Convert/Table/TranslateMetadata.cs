@@ -1,10 +1,8 @@
 ﻿using System.Collections;
-using ModelLib.Attributes;
+using ModelLib.Convert.Attributes;
 
 namespace ModelLib.Convert.Table
 {
-
-
     public class TranslateMetadata<T>
     {
         public string? TableName { get; private set; }

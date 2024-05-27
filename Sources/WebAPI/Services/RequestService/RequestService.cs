@@ -8,15 +8,14 @@ namespace WebAPI.Services.RequestService
 {
     public class RequestService(DB_Context context, IFileService fileService) : IRequestService
     {
-        #region Заявки
-        public async Task<bool> AddRepairRequest(int cabinetId, int? userId, List<int> equipmentsIds, string Title, string Description, List<IFormFile> images)
+        public async Task<Request?> AddRepairRequest(int cabinetId, int? userId, List<int> equipmentsIds, string Title, string Description, List<IFormFile> images)
         {
             #region Проверка на существование
             //проверка на существование кабинета
             var cabinet = await context.Cabinets.Where(c => c.Id == cabinetId).FirstOrDefaultAsync();
 
             if (cabinet == null)
-                return false;
+                return null;
 
             //проверка на существование оборудования
             List<Equipment> equipments = [];
@@ -54,7 +53,7 @@ namespace WebAPI.Services.RequestService
                 FromId = user?.Id
             };
 
-            await context.Requests.AddAsync(request);
+            var addedRequest = await context.Requests.AddAsync(request);
             await context.SaveChangesAsync();
 
             //Прикрепление оборудования
@@ -82,10 +81,10 @@ namespace WebAPI.Services.RequestService
                 }
 
                 if (!await fileService.AddNewRequestImages(fileOnUpload, request.Id))
-                    return false;
+                    return null;
             }
 
-            return true;
+            return addedRequest.Entity;
         }
 
 
@@ -125,10 +124,9 @@ namespace WebAPI.Services.RequestService
                                     Name = u.Name,
                                     Patronymic = u.Patronymic,
                                     Surname = u.Surname,
-                                    PermissionName = context.Permissions
+                                    Permission = context.Permissions
                                         .Where(p => p.Id == u.PermissionId)
-                                        .Select(p => p.Name)
-                                        .First()
+                                        .First(),
                                 })
                                 .First()
                         })
@@ -142,10 +140,9 @@ namespace WebAPI.Services.RequestService
                             Name = u.Name,
                             Patronymic = u.Patronymic,
                             Surname = u.Surname,
-                            PermissionName = context.Permissions
-                                        .Where(p => p.Id == u.PermissionId)
-                                        .Select(p => p.Name)
-                                        .First()
+                            Permission = context.Permissions
+                                .Where(p => p.Id == u.PermissionId)
+                                .First(),
                         })
                         .FirstOrDefault(),
                     CompleteDate = r.CompleteDate,
@@ -196,7 +193,7 @@ namespace WebAPI.Services.RequestService
                             Birthday = u.Birthday,
                             Name = u.Name,
                             Patronymic = u.Patronymic,
-                            PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                            Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                             Surname = u.Surname
                         })
                         .FirstOrDefault(),
@@ -223,7 +220,7 @@ namespace WebAPI.Services.RequestService
                                     Birthday = u.Birthday,
                                     Name = u.Name,
                                     Patronymic = u.Patronymic,
-                                    PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                                    Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                                     Surname = u.Surname
                                 })
                                 .FirstOrDefault()
@@ -273,7 +270,7 @@ namespace WebAPI.Services.RequestService
                             Birthday = u.Birthday,
                             Name = u.Name,
                             Patronymic = u.Patronymic,
-                            PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                            Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                             Surname = u.Surname
                         })
                         .FirstOrDefault(),
@@ -300,7 +297,7 @@ namespace WebAPI.Services.RequestService
                                     Birthday = u.Birthday,
                                     Name = u.Name,
                                     Patronymic = u.Patronymic,
-                                    PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                                    Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                                     Surname = u.Surname
                                 })
                                 .FirstOrDefault()
@@ -344,7 +341,7 @@ namespace WebAPI.Services.RequestService
                             Birthday = u.Birthday,
                             Name = u.Name,
                             Patronymic = u.Patronymic,
-                            PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                            Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                             Surname = u.Surname
                         })
                         .FirstOrDefault(),
@@ -371,7 +368,7 @@ namespace WebAPI.Services.RequestService
                                     Birthday = u.Birthday,
                                     Name = u.Name,
                                     Patronymic = u.Patronymic,
-                                    PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                                    Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                                     Surname = u.Surname
                                 })
                                 .FirstOrDefault()
@@ -415,7 +412,7 @@ namespace WebAPI.Services.RequestService
                             Birthday = u.Birthday,
                             Name = u.Name,
                             Patronymic = u.Patronymic,
-                            PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                            Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                             Surname = u.Surname
                         })
                         .FirstOrDefault(),
@@ -442,7 +439,7 @@ namespace WebAPI.Services.RequestService
                                     Birthday = u.Birthday,
                                     Name = u.Name,
                                     Patronymic = u.Patronymic,
-                                    PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                                    Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                                     Surname = u.Surname
                                 })
                                 .FirstOrDefault()
@@ -486,7 +483,7 @@ namespace WebAPI.Services.RequestService
                             Birthday = u.Birthday,
                             Name = u.Name,
                             Patronymic = u.Patronymic,
-                            PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                            Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                             Surname = u.Surname
                         })
                         .FirstOrDefault(),
@@ -513,7 +510,7 @@ namespace WebAPI.Services.RequestService
                                     Birthday = u.Birthday,
                                     Name = u.Name,
                                     Patronymic = u.Patronymic,
-                                    PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                                    Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                                     Surname = u.Surname
                                 })
                                 .FirstOrDefault()
@@ -552,7 +549,7 @@ namespace WebAPI.Services.RequestService
                             Birthday = u.Birthday,
                             Name = u.Name,
                             Patronymic = u.Patronymic,
-                            PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                            Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                             Surname = u.Surname
                         })
                         .FirstOrDefault(),
@@ -579,7 +576,7 @@ namespace WebAPI.Services.RequestService
                                     Birthday = u.Birthday,
                                     Name = u.Name,
                                     Patronymic = u.Patronymic,
-                                    PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                                    Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                                     Surname = u.Surname
                                 })
                                 .FirstOrDefault()
@@ -618,7 +615,7 @@ namespace WebAPI.Services.RequestService
                             Birthday = u.Birthday,
                             Name = u.Name,
                             Patronymic = u.Patronymic,
-                            PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                            Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                             Surname = u.Surname
                         })
                         .FirstOrDefault(),
@@ -645,7 +642,7 @@ namespace WebAPI.Services.RequestService
                                     Birthday = u.Birthday,
                                     Name = u.Name,
                                     Patronymic = u.Patronymic,
-                                    PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                                    Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                                     Surname = u.Surname
                                 })
                                 .FirstOrDefault()
@@ -684,7 +681,7 @@ namespace WebAPI.Services.RequestService
                             Birthday = u.Birthday,
                             Name = u.Name,
                             Patronymic = u.Patronymic,
-                            PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                            Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                             Surname = u.Surname
                         })
                         .FirstOrDefault(),
@@ -711,7 +708,7 @@ namespace WebAPI.Services.RequestService
                                     Birthday = u.Birthday,
                                     Name = u.Name,
                                     Patronymic = u.Patronymic,
-                                    PermissionName = context.Permissions.Where(p => p.Id == u.PermissionId).Select(p => p.Name).First(),
+                                    Permission = context.Permissions.Where(p => p.Id == u.PermissionId).First(),
                                     Surname = u.Surname
                                 })
                                 .FirstOrDefault()
@@ -723,14 +720,5 @@ namespace WebAPI.Services.RequestService
 
             return requests;
         }
-
-        #endregion
-
-        #region Виды статуса заявки
-        public async Task<IEnumerable<RequestStatus>> GetAllRequestsStatuses() 
-        {
-            return await context.RequestStatuses.ToListAsync();
-        }
-        #endregion
     }
 }

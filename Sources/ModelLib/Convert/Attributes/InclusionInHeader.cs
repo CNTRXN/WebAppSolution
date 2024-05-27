@@ -1,4 +1,4 @@
-﻿namespace ModelLib.Attributes
+﻿namespace ModelLib.Convert.Attributes
 {
     public enum HeaderInclusion 
     {

@@ -6,6 +6,7 @@ using WebAPI.Services.EquipmentService;
 using WebAPI.Services.FileService;
 using WebAPI.Services.PermissionService;
 using WebAPI.Services.RequestService;
+using WebAPI.Services.RequestStatusesService;
 using WebAPI.Services.UserService;
 
 namespace WebAPI
@@ -48,6 +49,7 @@ namespace WebAPI
             builder.Services.AddTransient<ICabinetService, CabinetService>();
             builder.Services.AddTransient<IPermissionService, PermissionService>();
             builder.Services.AddTransient<IRequestService, RequestService>();
+            builder.Services.AddTransient<IRequestStatusService, RequestStatusService>();
             builder.Services.AddTransient<IFileService, FileService>();
 
             var app = builder.Build();

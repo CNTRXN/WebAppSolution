@@ -15,12 +15,6 @@ namespace WebAPI.Controllers
             return Ok(await requestService.GetAllRequests());
         }
 
-        [HttpGet("all-statuses")]
-        public async Task<IActionResult> GetAllRequestsStatuses()
-        {
-            return Ok(await requestService.GetAllRequestsStatuses());
-        }
-
         [HttpGet("requests/cabid={cabid}")]
         public async Task<IActionResult> GetRequestByCabinetId([FromRoute] int cabid)
         {
@@ -43,7 +37,7 @@ namespace WebAPI.Controllers
         {
             var request = await requestService.AddRepairRequest(cabinetId, userId, equipmentsIds, Title, Description, images);
 
-            if (!request)
+            if (request == null)
                 return BadRequest();
 
             return Ok();

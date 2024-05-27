@@ -13,7 +13,7 @@ namespace WebApp.Components
             Console.WriteLine(cabinetId);
 
             //http://localhost:5215/api/Cabinet/image/getImagesByCab=
-            var list = await AppStatics.ApiClient.GetFromJsonAsync<List<string>>("http://localhost:5215/api/Cabinet/image/getImagesByCab=" + cabinetId);
+            var list = await AppSettings.Api.Client.GetFromJsonAsync<List<string>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"image/getImagesByCab={cabinetId}"));
 
             return View("_ImageContainerPartial", list);
         }

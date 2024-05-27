@@ -8,6 +8,7 @@ using System.Text.Json;
 //using WebApp.Models.TableModels;
 using ModelLib.DTO;
 using WebApp.Settings;
+using WebApp.Models.PageModels;
 
 namespace WebApp.Controllers
 {
@@ -28,14 +29,14 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<ActionResult> ShowRequestForm([FromHeader] int cabId, [FromQuery] string r_equipmentIds)
         {
-            CabinetDTO? cabinet = cabId != 0 ? await AppStatics.ApiClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/get/id={cabId}") : null;
+            CabinetDTO? cabinet = cabId != 0 ? await AppSettings.Api.Client.GetFromJsonAsync<CabinetDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get/id={cabId}")) : null;//$"api/Cabinet/get/id={cabId}") : null;
 
             List<int>? equipmentIds = JsonSerializer.Deserialize<List<int>>(r_equipmentIds);
 
             List<EquipmentDTO>? equipments = null;
             if (cabId != 0)
             {
-                AppStatics.ApiClient.DefaultRequestHeaders.Clear();
+                AppSettings.Api.Client.DefaultRequestHeaders.Clear();
 
                 //var json = await JsonSerializer.SerializeAsync();
 
@@ -48,7 +49,7 @@ namespace WebApp.Controllers
                     var queryString = string.Join("&", equipmentIds
                         .Select(x => $"ids={x}"));
 
-                    equipments = await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Equipment/get/byids?{queryString}");
+                    equipments = await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, $"get/byids?{queryString}"));//$"api/Equipment/get/byids?{queryString}");
                     /*foreach (var equipId in equipmentIds)
                     {
                     
@@ -66,9 +67,9 @@ namespace WebApp.Controllers
         {
             dynamic? getData = getType switch
             {
-                "cabinets" => cabId != 0 ? await AppStatics.ApiClient.GetFromJsonAsync<List<CabinetDTO>>($"api/Cabinet/get/cabid={cabId}")
-                    : await AppStatics.ApiClient.GetFromJsonAsync<List<CabinetDTO>>($"api/Cabinet/all"),
-                "equipments" => await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/cabid={cabId}"),
+                "cabinets" => cabId != 0 ? await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get/cabid={cabId}"))//$"api/Cabinet/get/cabid={cabId}")
+                    : await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "all")),//$"api/Cabinet/all"),
+                "equipments" => await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get-equip/cabid={cabId}")),//$"api/Cabinet/get-equip/cabid={cabId}"),
                 _ => null
             };
 
@@ -129,21 +130,50 @@ namespace WebApp.Controllers
         #endregion
 
         #region Форма редактирования информации о кабинете
-        [HttpGet("/show-cabinet-edit-form")]
+        [HttpGet("show-cabinet-edit-form")]
         [Authorize]
         public async Task<ActionResult> ShowCabinetEditForm([FromHeader] int cabId) 
         {
             //http://localhost:5215/api/Cabinet/get/id=1
-            CabinetDTO? cabinet = await AppStatics.ApiClient.GetFromJsonAsync<CabinetDTO>($"api/Cabinet/get/id={cabId}");
+
+            CabinetDTO? cabinet = await AppSettings.Api.Client.GetFromJsonAsync<CabinetDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get/id={cabId}")); //$"api/Cabinet/get/id={cabId}");
 
             return PartialView("CabInfo/ModalWindows/EditInfoForm/_CabinetInfoEditFormPartial", cabinet);
         }
 
-        [HttpGet("/show-cabinet-edit-form-resp-person")]
+        [HttpGet("show-cabinet-edit-form-resp-person")]
         [Authorize]
         public async Task<ActionResult> ShowResponsiblePersonsList() 
         {
             return PartialView("CabInfo/ModalWindows/EditInfoForm/_CabinetInfoEditFormResposiblePersonPartial");
+        }
+        #endregion
+
+        //Форма добавления/изменения информации
+        #region Форма добавления/изменения информации
+        [HttpGet("show-add-edit-form")]
+        [Authorize]
+        public async Task<ActionResult> ShowAddEditForm([FromHeader] int infoTypeCode, [FromHeader] int? itemId) 
+        {
+            Console.WriteLine($"code: {infoTypeCode}\nid: {itemId}");
+
+            DataEditor data = new() 
+            {
+                TypeName = infoTypeCode switch
+                {
+                    2 => "EquipmentDTO",
+                    3 => "UserDTO",
+                    _ => string.Empty
+                },
+                DataValue = infoTypeCode switch 
+                {
+                    2 => await AppSettings.Api.Client.GetFromJsonAsync<EquipmentDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, $"get/id={itemId}")),
+                    3 => await AppSettings.Api.Client.GetFromJsonAsync<UserDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, $"get/id={itemId}")),
+                    _ => null
+                }
+            };
+
+            return PartialView("_EditInfoForm", data);
         }
         #endregion
     }
