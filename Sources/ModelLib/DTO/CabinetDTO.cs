@@ -1,33 +1,34 @@
 ﻿using ModelLib.Convert.Table;
 using ModelLib.Convert.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModelLib.DTO
 {
     [AlternativeName("Кабинеты")]
     public class CabinetDTO : IMetaData
     {
-        [InclusionInHeader(HeaderInclusion.NotInclude)]
+        [InclusionInHeader(HeaderInclusion.NotInclude), Required]
         public int Id { get; set; }
 
-        [AlternativeName("Номер кабинета")]
+        [AlternativeName("Номер кабинета"), Required]
         public int Num { get; set; }
 
-        [AlternativeName("Номер кабинета по плану")]
+        [AlternativeName("Номер кабинета по плану"), Required]
         public int PlanNum { get; set; }
 
         [AlternativeName("Ответственное лицо")]
         public UserDTO? ResponsiblePerson { get; set; }
 
-        [AlternativeName("Этаж")]
+        [AlternativeName("Этаж"), Required]
         public int Floor { get; set; }
 
-        [AlternativeName("Высота"), InclusionInHeader(HeaderInclusion.NotInclude)]
+        [AlternativeName("Высота"), InclusionInHeader(HeaderInclusion.NotInclude), Required]
         public double Height { get; set; }
 
-        [AlternativeName("Длинна"), InclusionInHeader(HeaderInclusion.NotInclude)]
+        [AlternativeName("Длинна"), InclusionInHeader(HeaderInclusion.NotInclude), Required]
         public double Length { get; set; }
 
-        [AlternativeName("Ширина"), InclusionInHeader(HeaderInclusion.NotInclude)]
+        [AlternativeName("Ширина"), InclusionInHeader(HeaderInclusion.NotInclude), Required]
         public double Width { get; set; }
 
         [AlternativeName("Площадь потолка и пола"), InclusionInHeader(HeaderInclusion.NotInclude)]

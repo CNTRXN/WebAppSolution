@@ -6,9 +6,11 @@ namespace ModelLib.Model
     [Table("Оборудование заявок")]
     public class RequestEquipment
     {
-        [Key]
+        [Key, Required]
         public int Id { get; set; }
+        [Required]
         public int RequestId { get; set; }
+        [Required]
         public int EquipmentId { get; set; }
 
         [ForeignKey("RequestId")]

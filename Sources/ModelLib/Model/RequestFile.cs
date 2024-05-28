@@ -6,9 +6,11 @@ namespace ModelLib.Model
     [Table("Файлы заявки")]
     public class RequestFile
     {
-        [Key]
+        [Key, Required]
         public int Id { get; set; }
+        [Required]
         public int RequestId { get; set; }
+        [Required]
         public string FilePath { get; set; }
         
         [ForeignKey("RequestId")]

@@ -6,15 +6,21 @@ namespace ModelLib.Model
     [Table("Заявки")]
     public class Request
     {
-        [Key]
+        [Key, Required]
         public int Id { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public DateTime CreatedDate { get; set; }
         public DateTime? CompleteDate { get; set; }
+        [Required]
         public int RequestTypeId { get; set; }
+        [Required]
         public int RequestStatusId { get; set; }
         public int? FromId { get; set; }
+        [Required]
         public int CabId { get; set; }
 
 

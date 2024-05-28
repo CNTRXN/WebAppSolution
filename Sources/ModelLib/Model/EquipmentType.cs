@@ -6,8 +6,9 @@ namespace ModelLib.Model
     [Table("Типы оборудования")]
     public class EquipmentType
     {
-        [Key]
+        [Key, Required]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
     }
 }

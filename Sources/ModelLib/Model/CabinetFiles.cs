@@ -6,9 +6,11 @@ namespace ModelLib.Model
     [Table("Файлы кабинета")]
     public class CabinetFiles
     {
-        [Key]
+        [Key, Required]
         public int Id { get; set; }
+        [Required]
         public int CabinetId { get; set; }
+        [Required]
         public string FilePath { get; set; }
         public int? FileAuthor { get; set; }
 

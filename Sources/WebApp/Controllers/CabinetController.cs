@@ -108,6 +108,24 @@ namespace WebApp.Controllers
             return PartialView("CabInfo/_CabinetRequestsPartial", requests);
         }
 
+        [HttpPost("send-edit-data-equipment")]
+        [Authorize]
+        public async Task<ActionResult> SendEditedEquipment([FromForm] EquipmentDTO equipment, [FromForm] int EquipmentType) 
+        {
+            equipment.EquipmentType = new()
+            {
+                Id = EquipmentType
+            };
+
+            Console.WriteLine($"" +
+               $"{equipment.Id}\n" +
+               $"{equipment.Name}\n" +
+               $"{equipment.Description}\n" +
+               $"{equipment.InventoryNumber}\n" +
+               $"{equipment.EquipmentType.Id}");
+
+            return Ok();
+        }
 
 
 

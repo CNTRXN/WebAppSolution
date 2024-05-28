@@ -2,8 +2,10 @@
 @using ModelLib.Convert.Table;
 @using ModelLib.DTO;
 @using ModelLib.Model;
+@using WebApp.Extensions;
 @using WebApp.Models.PageModels;
 @using WebApp.Settings;
+@using System.ComponentModel.DataAnnotations;
 
 @model DataEditor;
 
@@ -11,19 +13,25 @@
     TranslateMetadata<IMetaData> meta = new();
     TableValueResult? result = new();
 
+    string routing = string.Empty;
+
     switch (Model.TypeName)
     {
         case nameof(EquipmentDTO):
             meta.Assign<EquipmentDTO>();
 
             if (Model.DataValue != null)
-                result = meta.GetValues<EquipmentDTO>(Model.DataValue);
+                result = meta.GetValues<EquipmentDTO>(Model.DataValue, withNotInclude: true);
+
+            routing = "send-edit-data-equipment";
             break;
         case nameof(UserDTO):
             meta.Assign<UserDTO>();
 
             if (Model.DataValue != null)
-                result = meta.GetValues<UserDTO>(Model.DataValue);
+                result = meta.GetValues<UserDTO>(Model.DataValue, withNotInclude: true);
+
+            routing = "send-edit-data-user";
             break;
     }
 }
@@ -37,108 +45,84 @@
             <button class="defaultButton" id="close-add-edit-form">X</button>
         </div>
 
-        <form id="add-edit-form">
+        <form id="add-edit-form" method="post" action="@routing">
             @{
                 if (result != null)
-                foreach (var property in meta.PropName)
                 {
-                    if (meta.HasAttribute<SelectedValue>(property.Key))
+                    <input value="@result["Id"]" name="Id" type="hidden" required/>
+
+                    foreach (var property in meta.PropName)
                     {
-                        <div class="add-edit-select-container">
-                            <p class="add-edit-row-title">@property.Value</p>
-                            <div class="custom-select">
-                                <select>
-                                @{
-                                    var res = result[property.Key];
-                                    int? currentValue = (int)res?.GetType().GetProperties()[0].GetValue(res, null);
+                        if (meta.HasAttribute<SelectedValue>(property.Key))
+                        {
+                            <div class="add-edit-select-container">
+                                <p class="add-edit-row-title">@property.Value</p>
+                                <div class="custom-select">
+                                    <select name="@property.Key" required>
+                                        @{
+                                            var res = result[property.Key];
+                                            int? currentValue = (int)res?.GetType().GetProperties()[0].GetValue(res, null);
 
-                                    if (res?.GetType().Name is string typeName)
-                                    {
-                                        var selections = await GetEditFormSelectionValues(typeName);
-                                        if (selections != null)
-                                        {
-                                            foreach (var selection in selections)
+                                            if (res?.GetType().Name is string typeName)
                                             {
-                                                var type = selection.GetType();
-                                                var props = type.GetProperties();
-
-                                                int id = props[0].GetValue(selection, null);
-                                                string name = props[1].GetValue(selection, null);
-
-                                                bool isSelected = currentValue == id;
-
-                                                if (isSelected)
+                                                var selections = await GetEditFormSelectionValues(typeName);
+                                                if (selections != null)
                                                 {
-                                                    <option value="@id" selected>@name</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@id">@name</option>
+                                                    foreach (var selection in selections)
+                                                    {
+                                                        var type = selection.GetType();
+                                                        var props = type.GetProperties();
+
+                                                        int id = props[0].GetValue(selection, null);
+                                                        string name = props[1].GetValue(selection, null);
+
+                                                        bool isSelected = currentValue == id;
+
+                                                        if (isSelected)
+                                                        {
+                                                            <option value="@id" selected>@name</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@id">@name</option>
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                }
-                                </select>
+                                    </select>
+                                </div>
                             </div>
-                            <input class="selected-item" type="hidden" />
-                        </div>
+                        }
+                        else
+                        {
+                            if (result[property.Key] is DateTime dateTime) 
+                            {
+                                <div class="add-edit-input-value-container">
+                                    <p class="add-edit-row-title">@property.Value</p>
+                                    <input type="date" name="@property.Key" class="add-edit-row-input-value" value="@dateTime.ToString("yyyy-MM-dd")" required>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="add-edit-input-value-container">
+                                    <p class="add-edit-row-title">@property.Value</p>
+                                    @{
+                                        if (meta.HasAttribute<RequiredAttribute>(property.Key))
+                                        {
+                                            <input type="text" name="@property.Key" class="add-edit-row-input-value" value="@result[property.Key]" required />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" name="@property.Key" class="add-edit-row-input-value" value="@result[property.Key]" />
+                                        }
+                                    }
+                                </div>
+                            }
+                        }
                     }
-                    else
-                    {
-                        <div class="add-edit-input-value-container">
-                            <p class="add-edit-row-title">@property.Value</p>
-                            <input type="text" class="add-edit-row-input-value" value="@result[property.Key]">
-                        </div>
-                    }
-
-                    // if (property.GetType().IsClass)
-                    // {
-                    //     <div class="add-edit-select-container">
-                    //         <p class="add-edit-row-title">@property.Name</p>
-                    //         <div class="custom-select">
-                    //             <select>
-                    //                 <option value="">Open this select menu</option>
-                    //                 <option value="">GitHub</option>
-                    //                 <option value="">Instagram</option>
-                    //                 <option value="">Facebook</option>
-                    //                 <option value="">LinkedIn</option>
-                    //                 <option value="">Twitter</option>
-                    //                 <option value="">Reddit</option>
-                    //             </select>
-                    //         </div>
-                    //         <input class="selected-item" type="hidden" />
-                    //     </div>
-                    // }
-                    // else
-                    // {
-                    //     <div class="add-edit-input-value-container">
-                    //         <p class="add-edit-row-title">@property.Name</p>
-                    //         <input class="add-edit-row-input-value">
-                    //     </div>
-                    // }
                 }
             }
-            @* <div class="add-edit-input-value-container">
-                <p class="add-edit-row-title">test-1</p>
-                <input class="add-edit-row-input-value">
-            </div>
-
-            <div class="add-edit-select-container">
-                <p class="add-edit-row-title">test-1</p>
-                <div class="custom-select">
-                    <select>
-                        <option value="">Open this select menu</option>
-                        <option value="">GitHub</option>
-                        <option value="">Instagram</option>
-                        <option value="">Facebook</option>
-                        <option value="">LinkedIn</option>
-                        <option value="">Twitter</option>
-                        <option value="">Reddit</option>
-                    </select>
-                </div>
-                <input class="selected-item" type="hidden"/>
-            </div> *@
         </form>
 
         <div id="add-edit-form-buttons">

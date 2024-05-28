@@ -6,8 +6,9 @@ namespace ModelLib.Model
     [Table("Статус заявки")]
     public class RequestStatus
     {
-        [Key]
+        [Key, Required]
         public int Id { get; set; }
+        [Required]
         public string StatusName { get; set; }
     }
 }

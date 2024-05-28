@@ -6,11 +6,15 @@ namespace ModelLib.Model
     [Table("Оборудование")]
     public class Equipment
     {
-        [Key]
+        [Key, Required]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public string InventoryNumber { get; set; }
+        [Required]
         public int TypeId { get; set; }
         //public int Count { get; set; }
 

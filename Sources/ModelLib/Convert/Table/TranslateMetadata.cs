@@ -156,10 +156,22 @@ namespace ModelLib.Convert.Table
         {
             bool isSubclass = typeof(B).IsSubclassOf(typeof(T)) || typeof(B).GetInterfaces().Contains(typeof(T));
 
+            Console.WriteLine("Before");
+            foreach (var typeProp in typeof(B).GetProperties())
+            {
+                Console.WriteLine($"Type {typeProp.PropertyType} of {typeof(B).Name}");
+            }
+
             if (isSubclass)
                 Type = typeof(B);
             else
                 Type = typeof(T);
+
+            Console.WriteLine("After");
+            foreach (var typeProp in Type.GetProperties()) 
+            {
+                Console.WriteLine($"Type {typeProp.ReflectedType} of {Type.Name}");
+            }
 
             Translate();
         }

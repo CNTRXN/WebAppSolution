@@ -6,8 +6,9 @@ namespace ModelLib.Model
     [Table("Права доступа")]
     public class Permission
     {
-        [Key]
+        [Key, Required]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
     }
 }
