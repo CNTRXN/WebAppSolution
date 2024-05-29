@@ -176,6 +176,31 @@ namespace WebAPI.Services.EquipmentService
             return await context.Equipments.ToListAsync();
         }
 
+        public async Task<bool> UpdateEquipment(int equipmentId, NewEquipmentDTO updateEquipment)
+        {
+            var foundedEquipment = await context.Equipments.FirstOrDefaultAsync(e => e.Id == equipmentId);
+
+            if (foundedEquipment == null)
+                return false;
+
+            var inventoryNumberIsExist = await context.Equipments.AnyAsync(e => e.InventoryNumber == updateEquipment.InventoryNumber && e.Id != equipmentId);
+
+            if (inventoryNumberIsExist)
+                return false;
+
+            foundedEquipment.Description = updateEquipment.Description;
+            foundedEquipment.InventoryNumber = updateEquipment.InventoryNumber;
+            foundedEquipment.Name = updateEquipment.Name;
+
+            if(updateEquipment.TypeId > 0)
+                foundedEquipment.TypeId = updateEquipment.TypeId;
+
+            context.Equipments.Update(foundedEquipment);
+            await context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<EquipmentType?> GetEquipmentType(int equipmentTypeId)
         {
             return await context.EquipmentTypes.FirstOrDefaultAsync(et => et.Id == equipmentTypeId);

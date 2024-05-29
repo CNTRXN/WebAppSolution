@@ -2,6 +2,7 @@
 using ModelLib.Model;
 using ModelLib.DTO;
 using WebAPI.Services.EquipmentService;
+using ModelLib.Debug;
 
 namespace WebAPI.Controllers
 {
@@ -9,12 +10,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class EquipmentController(IEquipmentService equipmentService) : ControllerBase
     {
-        private readonly IEquipmentService _equipmentService = equipmentService;
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAllEquipment()
         {
-            var equipments = await _equipmentService.GetEquipments();
+            var equipments = await equipmentService.GetEquipments();
 
             if (equipments == null)
                 return BadRequest("В базе данных нет записей с оборудованием");
@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         [HttpGet("get/id={id}")]
         public async Task<IActionResult> GetEquipmentById([FromRoute] int id)
         {
-            var equipment = await _equipmentService.GetEquipment(id);
+            var equipment = await equipmentService.GetEquipment(id);
 
             if (equipment == null)
                 return BadRequest($"Оборудование с id '{id}' не найден");
@@ -36,7 +36,7 @@ namespace WebAPI.Controllers
         [HttpGet("get/byids")]
         public async Task<IActionResult> GetEquipmentsById([FromQuery] List<int> ids) 
         {
-            var equipments = await _equipmentService.GetEquipmentsById(ids);
+            var equipments = await equipmentService.GetEquipmentsById(ids);
 
             if (equipments == null)
                 return BadRequest();
@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
         [HttpPost("new")]
         public async Task<IActionResult> AddNewEquipments([FromBody] List<NewEquipmentDTO> equipments) 
         {
-            var addedCount = await _equipmentService.AddNewEquipments(equipments);
+            var addedCount = await equipmentService.AddNewEquipments(equipments);
 
             if (addedCount == null)
                 return BadRequest("Не удалось добавить записи");
@@ -58,12 +58,25 @@ namespace WebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteEquipment([FromBody] List<EquipmentDTO> equipments)
         {
-            var deletedEquipments = await _equipmentService.DeleteEquipments(equipments);
+            var deletedEquipments = await equipmentService.DeleteEquipments(equipments);
 
             if (deletedEquipments == null)
                 return BadRequest("Не удалось удалить записи");
 
             return Ok($"Удалено {deletedEquipments} записи");
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateEquipment([FromHeader] int id, [FromBody] NewEquipmentDTO updateEquipment) 
+        {
+            var updateEquipmentResult = await equipmentService.UpdateEquipment(id, updateEquipment);
+
+            if (!updateEquipmentResult)
+                return BadRequest("Не удалось обновить запись");
+
+            //ApiDebug.ConsoleOutput(updateEquipment);
+
+            return Ok($"Запис успешно обновлена");
         }
     }
 }

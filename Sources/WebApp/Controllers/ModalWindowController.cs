@@ -151,9 +151,9 @@ namespace WebApp.Controllers
 
         //Форма добавления/изменения информации
         #region Форма добавления/изменения информации
-        [HttpGet("show-add-edit-form")]
-        [Authorize]
-        public async Task<ActionResult> ShowAddEditForm([FromHeader] int infoTypeCode, [FromHeader] int? itemId) 
+        [HttpGet("show-editor-form")]
+        [Authorize(Roles = "Master, Admin")]
+        public async Task<ActionResult> ShowAddEditForm([FromHeader] int infoTypeCode, [FromHeader] int? itemId, [FromHeader] int sendType) 
         {
             Console.WriteLine($"code: {infoTypeCode}\nid: {itemId}");
 
@@ -162,14 +162,20 @@ namespace WebApp.Controllers
                 TypeName = infoTypeCode switch
                 {
                     2 => "EquipmentDTO",
-                    3 => "UserDTO",
+                    3 => "UpdateUserDTO",
                     _ => string.Empty
                 },
                 DataValue = infoTypeCode switch 
                 {
                     2 => await AppSettings.Api.Client.GetFromJsonAsync<EquipmentDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, $"get/id={itemId}")),
-                    3 => await AppSettings.Api.Client.GetFromJsonAsync<UserDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, $"get/id={itemId}")),
+                    3 => await AppSettings.Api.Client.GetFromJsonAsync<UpdateUserDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, $"get-detail={itemId}")),
                     _ => null
+                },
+                SendType = sendType switch 
+                {
+                    1 => SendType.New,
+                    2 => SendType.Edit,
+                    _ => SendType.New
                 }
             };
 

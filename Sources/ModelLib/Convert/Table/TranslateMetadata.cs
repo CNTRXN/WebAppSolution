@@ -152,6 +152,64 @@ namespace ModelLib.Convert.Table
             return false;
         }
 
+        public object? GetAttributeValue<AttrT>(string name, string attrPropertyName)
+            where AttrT : Attribute
+        {
+            var property = Type?
+                .GetProperty(name);
+
+            object? foundedValue = null;
+
+            if (property != null) 
+            {
+                var propertyAttrs = property.GetCustomAttributes(true).ToList();
+
+                foreach (var attr in propertyAttrs) 
+                {
+                    if (attr is AttrT) 
+                    {
+                        var attrProperties = attr.GetType().GetProperties();
+
+                        foreach (var attrProp in attrProperties) 
+                        {
+                            if (attrProp.Name == attrPropertyName) 
+                            {
+                                foundedValue = attrProp.GetValue(attr, null);
+                            }
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            return foundedValue;
+        }
+
+        public bool CompareAttributesValues<AttrT>(string name, string attrPropertyName, object value)
+            where AttrT : Attribute
+        {
+            var foundResult = GetAttributeValue<AttrT>(name, attrPropertyName);
+
+            bool isEquals = false;
+
+            if (foundResult != null) 
+            {
+                if (foundResult is IEnumerable listResult) 
+                {
+                    foreach (var item in listResult) 
+                    {
+                        if (item.ToString() == value.ToString())
+                            isEquals = true;
+
+                        break;
+                    }
+                }
+            }
+
+            return isEquals;
+        }
+
         public void Assign<B>()
         {
             bool isSubclass = typeof(B).IsSubclassOf(typeof(T)) || typeof(B).GetInterfaces().Contains(typeof(T));

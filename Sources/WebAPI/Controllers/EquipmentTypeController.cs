@@ -7,12 +7,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class EquipmentTypeController(IEquipmentService equipmentService) : ControllerBase
     {
-        private readonly IEquipmentService _equipmentService = equipmentService;
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAllEquipmentType() 
         {
-            var equipmentsType = await _equipmentService.GetEquipmentTypes();
+            var equipmentsType = await equipmentService.GetEquipmentTypes();
 
             if (equipmentsType == null)
                 return BadRequest("В базе данных нет записей с типами оборудования");
@@ -23,7 +22,7 @@ namespace WebAPI.Controllers
         [HttpGet("get/id={id}")]
         public async Task<IActionResult> GetEquipmentType([FromRoute] int id) 
         {
-            var equipmentType = await _equipmentService.GetEquipment(id);
+            var equipmentType = await equipmentService.GetEquipment(id);
 
             if (equipmentType == null)
                 return BadRequest($"В базе данных нет записей с '{id}' типа оборудования");
@@ -34,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpPost("new-equipmentT")]
         public async Task<IActionResult> AddNewEquipmentType(string typeName)
         {
-            var equipmentType = await _equipmentService.AddNewEquipmentType(typeName);
+            var equipmentType = await equipmentService.AddNewEquipmentType(typeName);
 
             if (equipmentType)
                 return BadRequest($"Не удалось добавить тип оборудования '{typeName}'");

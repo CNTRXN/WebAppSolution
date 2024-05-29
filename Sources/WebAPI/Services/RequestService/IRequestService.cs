@@ -16,6 +16,11 @@ namespace WebAPI.Services.RequestService
         Task<IEnumerable<RequestDTO>?> GetRequestsBy_CabinetId_And_TypeId(int cabinetId, int typeId);
         Task<IEnumerable<RequestDTO>?> GetRequestsBy_CabinetId_And_StatusId_And_TypeId(int cabinetId, int statusId, int typeId);
 
-        Task<Request?> AddRepairRequest(int cabinetId, int? userId, List<int> equipmentsIds, string Title, string Description, List<IFormFile> images);
+        //Task<Request?> AddRepairRequest(int cabinetId, int? userId, List<int> equipmentsIds, string Title, string Description, List<IFormFile> images);
+        Task<Request?> AddRepairRequest(NewRequestDTO newRequest);
+        Task<bool> DeleteRequest(int id);
+        Task<bool> UpdateRequest(int id, Request updateRequest);
+
+        //request delete images
     }
 }

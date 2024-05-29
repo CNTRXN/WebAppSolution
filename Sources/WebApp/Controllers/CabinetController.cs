@@ -108,21 +108,36 @@ namespace WebApp.Controllers
             return PartialView("CabInfo/_CabinetRequestsPartial", requests);
         }
 
-        [HttpPost("send-edit-data-equipment")]
+        [HttpPost("send-data-equipment")]
         [Authorize]
-        public async Task<ActionResult> SendEditedEquipment([FromForm] EquipmentDTO equipment, [FromForm] int EquipmentType) 
+        public async Task<ActionResult> SendEditedEquipment([FromForm] EquipmentDTO equipment, [FromForm] int EquipmentType, [FromForm] SendType sendType) 
         {
             equipment.EquipmentType = new()
             {
                 Id = EquipmentType
             };
 
-            Console.WriteLine($"" +
+            Console.WriteLine(sendType.ToString());
+
+            /*Console.WriteLine($"" +
                $"{equipment.Id}\n" +
                $"{equipment.Name}\n" +
                $"{equipment.Description}\n" +
                $"{equipment.InventoryNumber}\n" +
-               $"{equipment.EquipmentType.Id}");
+               $"{equipment.EquipmentType.Id}");*/
+
+            AppSettings.Api.Client.DefaultRequestHeaders.Clear();
+            AppSettings.Api.Client.DefaultRequestHeaders.Add("id", equipment.Id.ToString());
+
+            NewEquipmentDTO updateEquipment = new()
+            {
+                Description = equipment.Description,
+                InventoryNumber = equipment.InventoryNumber,
+                Name = equipment.Name,
+                TypeId = EquipmentType
+            };
+
+            await AppSettings.Api.Client.PutAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, "update"), updateEquipment);
 
             return Ok();
         }

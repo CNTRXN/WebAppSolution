@@ -8,7 +8,9 @@ namespace WebAPI.Services.UserService
         Task<IEnumerable<User>> GetUsers();
         Task<UserDTO?> GetUser(int id);
         Task<UserDTO?> GetUser(string login, string password);
+        Task<UpdateUserDTO?> GetDetailUserInfo(int id);
         Task<User?> AddUser(NewUserDTO newUser);
         Task<bool> DeleteUser(int id);
+        Task<bool> UpdateUser(int id, NewUserDTO updateUser);
     }
 }

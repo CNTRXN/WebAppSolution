@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Services.FileService;
 using WebAPI.Services.RequestService;
+using ModelLib.DTO;
 
 namespace WebAPI.Controllers
 {
@@ -35,7 +36,15 @@ namespace WebAPI.Controllers
             [FromForm] List<int> equipmentsIds,
             [FromForm] List<IFormFile> images)
         {
-            var request = await requestService.AddRepairRequest(cabinetId, userId, equipmentsIds, Title, Description, images);
+            var request = await requestService.AddRepairRequest(new NewRequestDTO() 
+            {
+                CabinetId = cabinetId, 
+                UserId = userId, 
+                EquipmentsIds = equipmentsIds, 
+                Title = Title, 
+                Description = Description, 
+                Images = images
+            });
 
             if (request == null)
                 return BadRequest();

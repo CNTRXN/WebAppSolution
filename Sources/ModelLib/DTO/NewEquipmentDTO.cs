@@ -12,7 +12,7 @@ namespace ModelLib.DTO
         public string InventoryNumber { get; set; }
         [Required]
         public int TypeId { get; set; }
-        [Required]
-        public int Count { get; set; }
+        /*[Required]
+        public int Count { get; set; }*/
     }
 }

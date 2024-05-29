@@ -15,6 +15,6 @@ namespace ModelLib.DTO
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
-        public int PostId { get; set; } = 1;
+        public int PermissionId { get; set; } = 1;
     }
 }

@@ -102,7 +102,7 @@ namespace WebApp.Controllers
                         Surname = userRegData.Surname,
                         Birthday = userRegData.Birthday,
                         Patronymic = userRegData.Patronymic,
-                        PostId = 1,
+                        PermissionId = 1,
                     };
 
                     Console.WriteLine(newUser.Name);
@@ -160,6 +160,7 @@ namespace WebApp.Controllers
             return View(user);
         }
 
+        //TODO: my requests
         [HttpGet("myRequests")]
         public async Task<IActionResult> ShowMyRequests([FromRoute] int profileId) 
         {

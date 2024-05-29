@@ -24,6 +24,8 @@ namespace WebAPI.Controllers
             return Ok(cabinets);
         }
 
+        //
+
         //Контроллер для получения кабинета по id записи
         [HttpGet("get/id={id}")]
         public async Task<IActionResult> GetCabinetById([FromRoute] int id)
@@ -87,6 +89,17 @@ namespace WebAPI.Controllers
                 return BadRequest($"Кабинета с '{id}' не существует");
 
             return Ok("Кабинет удалён");
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateCabinet([FromHeader] int id, [FromBody] NewCabinetDTO updateCabinet) 
+        {
+            var updateCabinetResult = await cabinetService.UpdateCabinet(id, updateCabinet);
+
+            if(!updateCabinetResult)
+                return BadRequest($"Ошибка обновления записи");
+
+            return Ok("Запись успешно удалена");
         }
 
         #region Изображения и файлы

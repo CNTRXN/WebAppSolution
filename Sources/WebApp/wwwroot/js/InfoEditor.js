@@ -6,15 +6,21 @@
     "requestStatus": 6
 });
 
-function openEditor(info_type, item_id = null) {
+const sendType = Object.freeze({
+    "new": 1,
+    "edit" : 2
+});
+
+function openEditor(info_type, send_type, item_id = null) {
     $.ajax({
-        url: "/show-add-edit-form",
+        url: "/show-editor-form",
         type: 'GET',
         dataType: "html",
         headers: {
             "Access-Control-Allow-Origin": "true",
             "infoTypeCode": info_type,
-            "itemId": item_id
+            "itemId": item_id,
+            "sendType": send_type
         },
         success: function (response) {
             // При успешном получении ответа, обновляем содержимое контейнера с partial view

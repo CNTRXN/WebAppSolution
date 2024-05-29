@@ -11,5 +11,6 @@ namespace WebAPI.Services.CabinetService
         Task<IEnumerable<EquipmentDTO>> GetCabinetEquipments(int cabId);
         Task<int> AddEquipmentsToCabinet(int cabId, IEnumerable<int> equipmentsIds);
         Task<bool> DeleteCabinet(int id);
+        Task<bool> UpdateCabinet(int id, NewCabinetDTO updateCabinet);
     }
 }

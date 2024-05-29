@@ -197,5 +197,37 @@ namespace WebAPI.Services.CabinetService
 
             return result;
         }
+
+
+        public async Task<bool> UpdateCabinet(int id, NewCabinetDTO updateCabinet) 
+        {
+            var foundedCabinet = await context.Cabinets.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (foundedCabinet == null)
+                return false;
+
+            foundedCabinet.Floor = updateCabinet.Floor;
+            foundedCabinet.Length = updateCabinet.Length;
+            foundedCabinet.Height = updateCabinet.Height;
+            foundedCabinet.Width = updateCabinet.Width;
+
+            if (updateCabinet.ResponsiblePersonId > 0)
+            {
+                var responsiblePersonIsExist = await context.Users.AnyAsync(u => u.Id == updateCabinet.ResponsiblePersonId);
+
+                if (!responsiblePersonIsExist)
+                    return false;
+
+                foundedCabinet.ResponsiblePersonId = updateCabinet.ResponsiblePersonId;
+            }
+
+            foundedCabinet.PlanNum = updateCabinet.PlanNum;
+            foundedCabinet.Num = updateCabinet.Num;
+
+            context.Cabinets.Update(foundedCabinet);
+            await context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace WebAPI.Services.EquipmentService
         Task<int> AddNewEquipments(IEnumerable<NewEquipmentDTO> newEquipments);
         Task<bool> DeleteEquipment(int equipmentId);
         Task<int> DeleteEquipments(IEnumerable<EquipmentDTO> deletedEquipments);
+        Task<bool> UpdateEquipment(int equipmentId, NewEquipmentDTO updateEquipment);
 
         Task<IEnumerable<EquipmentType>> GetEquipmentTypes();
         Task<EquipmentType?> GetEquipmentType(int equipmentTypeId);

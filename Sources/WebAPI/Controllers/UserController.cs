@@ -7,6 +7,7 @@ using ModelLib.DTO;
 using EncryptLib;
 using System.Text;
 using WebAPI.Services.UserService;
+using ModelLib.Debug;
 
 namespace WebAPI.Controllers
 {
@@ -14,12 +15,10 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class UserController(IUserService userService) : ControllerBase
     {
-        private readonly IUserService _userService = userService;
-
         [HttpGet("all")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = (await _userService.GetUsers()).ToList();
+            var users = (await userService.GetUsers()).ToList();
 
             if (users.Count == 0)
                 return BadRequest("В БД нет записей пользователей");
@@ -30,7 +29,7 @@ namespace WebAPI.Controllers
         [HttpGet("get/id={id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var foundedUser = await _userService.GetUser(id);
+            var foundedUser = await userService.GetUser(id);
 
             if (foundedUser == null)
                 return BadRequest($"Пользователь с id '{id}' не найден");
@@ -44,7 +43,18 @@ namespace WebAPI.Controllers
             login = await Encrypting.Decrypt(Convert.FromBase64String(login));
             password = await Encrypting.Decrypt(Convert.FromBase64String(password));
 
-            var foundedUser = await _userService.GetUser(login, password);
+            var foundedUser = await userService.GetUser(login, password);
+
+            if (foundedUser == null)
+                return BadRequest("Пользователь не найден");
+
+            return Ok(foundedUser);
+        }
+
+        [HttpGet("get-detail={id}")]
+        public async Task<IActionResult> GetDetailUserInfo([FromRoute] int id) 
+        {
+            var foundedUser = await userService.GetDetailUserInfo(id);
 
             if (foundedUser == null)
                 return BadRequest("Пользователь не найден");
@@ -55,7 +65,7 @@ namespace WebAPI.Controllers
         [HttpPost("registration")]
         public async Task<IActionResult> AddUser([FromBody] NewUserDTO newUser) 
         {
-            var addedUser = await _userService.AddUser(newUser);
+            var addedUser = await userService.AddUser(newUser);
 
             if (addedUser == null)
                 return BadRequest("Не удалось добавить пользователя!");
@@ -66,7 +76,7 @@ namespace WebAPI.Controllers
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteUser([FromHeader] int id)
         {
-            var deletedUser = await _userService.DeleteUser(id);
+            var deletedUser = await userService.DeleteUser(id);
 
             if (!deletedUser)
                 return BadRequest("Не удалось удалить пользователя");
@@ -74,17 +84,15 @@ namespace WebAPI.Controllers
             return Ok($"Пользователь с id '{id}' удалён");
         }
 
-        /*[HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] NewUserDTO user)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateUser([FromHeader] int id, [FromBody] NewUserDTO updateUser) 
         {
-            var userOnChange = await _context.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            var updateUserResult = await userService.UpdateUser(id, updateUser);
 
-            if (userOnChange == null)
-                return NotFound($"Пользователь с id '{id}' не найден");
-            else 
-            {
+            if (!updateUserResult)
+                return BadRequest("Ошибка обновления записи");
 
-            }
-        }*/
+            return Ok("Запись успешно обновлена");
+        }
     }
 }

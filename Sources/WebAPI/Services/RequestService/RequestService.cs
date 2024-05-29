@@ -8,18 +8,18 @@ namespace WebAPI.Services.RequestService
 {
     public class RequestService(DB_Context context, IFileService fileService) : IRequestService
     {
-        public async Task<Request?> AddRepairRequest(int cabinetId, int? userId, List<int> equipmentsIds, string Title, string Description, List<IFormFile> images)
+        public async Task<Request?> AddRepairRequest(NewRequestDTO newRequest)
         {
             #region Проверка на существование
             //проверка на существование кабинета
-            var cabinet = await context.Cabinets.Where(c => c.Id == cabinetId).FirstOrDefaultAsync();
+            var cabinet = await context.Cabinets.Where(c => c.Id == newRequest.CabinetId).FirstOrDefaultAsync();
 
             if (cabinet == null)
                 return null;
 
             //проверка на существование оборудования
             List<Equipment> equipments = [];
-            foreach (var equipmentsId in equipmentsIds) 
+            foreach (var equipmentsId in newRequest.EquipmentsIds) 
             {
                 var equipment = await context.Equipments
                     .Where(e => e.Id == equipmentsId)
@@ -33,19 +33,19 @@ namespace WebAPI.Services.RequestService
              Если пользователь введён, то проверяем его на существование
              */
             User? user = null;
-            if(userId != null)
-                user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if(newRequest.UserId != null)
+                user = await context.Users.FirstOrDefaultAsync(u => u.Id == newRequest.UserId);
             #endregion
 
             //Если пустое название заявки
-            if (Title.Length == 0)
-                Title = $"new_request_{DateTime.Now:s}";
+            if (newRequest.Title.Length == 0)
+                newRequest.Title = $"new_request_{DateTime.Now:s}";
 
             //Создание заявки
             Request request = new()
             {
-                Title = Title,
-                Description = Description,
+                Title = newRequest.Title,
+                Description = newRequest.Description,
                 CreatedDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc),
                 RequestStatusId = 1,
                 RequestTypeId = 1,
@@ -67,11 +67,11 @@ namespace WebAPI.Services.RequestService
             await context.SaveChangesAsync();
 
             //Прикрепление фотографий
-            if (images.Count > 0)
+            if (newRequest.Images.Count > 0)
             {
                 List<FileUploadModel> fileOnUpload = [];
 
-                foreach (var image in images) 
+                foreach (var image in newRequest.Images) 
                 {
                     fileOnUpload.Add(new FileUploadModel() 
                     {
@@ -85,6 +85,76 @@ namespace WebAPI.Services.RequestService
             }
 
             return addedRequest.Entity;
+        }
+
+        public async Task<bool> DeleteRequest(int id)
+        {
+            var foundedRequest = await context.Requests.FirstOrDefaultAsync(r => r.Id == id);
+
+            if (foundedRequest == null)
+                return false;
+
+            context.Requests.Remove(foundedRequest);
+            await context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> UpdateRequest(int id, Request updateRequest) 
+        {
+            var foundedRequest = await context.Requests.FirstOrDefaultAsync(r => r.Id == id);
+
+            if (foundedRequest == null)
+                return false;
+
+            foundedRequest.CompleteDate = foundedRequest.CompleteDate;
+            foundedRequest.Description = foundedRequest.Description;
+            foundedRequest.Title = foundedRequest.Title;
+
+            if (updateRequest.CabId > 0) 
+            {
+                var cabinetIsExist = await context.Cabinets.AnyAsync(c => c.Id == updateRequest.CabId);
+
+                if (!cabinetIsExist)
+                    return false;
+
+                foundedRequest.CabId = updateRequest.CabId;
+            }
+
+            if (updateRequest.FromId > 0)
+            {
+                var userIsExist = await context.Users.AnyAsync(u => u.Id == updateRequest.FromId);
+
+                if (!userIsExist)
+                    return false;
+
+                foundedRequest.FromId = updateRequest.FromId;
+            }
+
+            if (updateRequest.RequestTypeId > 0)
+            {
+                var typeIsExist = await context.RequestTypes.AnyAsync(rt => rt.Id == updateRequest.RequestTypeId);
+
+                if (!typeIsExist)
+                    return false;
+
+                foundedRequest.RequestTypeId = updateRequest.RequestTypeId;
+            }
+
+            if(updateRequest.RequestStatusId > 0)
+            {
+                var statusIsExist = await context.RequestStatuses.AnyAsync(rt => rt.Id == updateRequest.RequestStatusId);
+
+                if (!statusIsExist)
+                    return false;
+
+                foundedRequest.RequestStatusId = updateRequest.RequestStatusId;
+            }
+
+            context.Requests.Update(foundedRequest);
+            await context.SaveChangesAsync();
+
+            return true;
         }
 
 
