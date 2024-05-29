@@ -5,6 +5,7 @@
 @using WebApp.Models.PageModels;
 @using ModelLib.Convert.Table;
 @using ModelLib.DTO;
+@using ModelLib.Convert.Attributes;
 
 @model CabInfoPage;
 
@@ -36,9 +37,11 @@
         @{
             int i = 0;
 
+            var tableProp = equipmentMeta.GetTablePropName();
+
             int itemHeaderWidth = (int)(100 / (equipmentMeta.PropsCount + 1));
 
-            foreach (var item in equipmentMeta.PropName)
+            foreach (var item in tableProp)
             {
                 <button class="table-header"
                         id="table-header-@i"

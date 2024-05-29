@@ -7,9 +7,9 @@ namespace ModelLib.Convert.Table
     {
         public string? TableName { get; private set; }
 
-        public Dictionary<string, string> PropName { get; private set; } = [];
+        //private Dictionary<string, string> PropName { get; set; } = [];
 
-        public int PropsCount => PropName.Count;
+        public int PropsCount { get; private set; }
 
         private Type? _type;
         public Type? Type
@@ -30,16 +30,6 @@ namespace ModelLib.Convert.Table
             }
         }
 
-        public TranslateMetadata()
-        {
-
-        }
-
-        public TranslateMetadata(string lang)
-        {
-
-        }
-
         private void Translate()
         {
             //Имя таблицы
@@ -51,7 +41,7 @@ namespace ModelLib.Convert.Table
             TableName ??= Type?.Name;
 
             //Значения
-            Type?.GetProperties().ToList().ForEach(prop =>
+            /*Type?.GetProperties().ToList().ForEach(prop =>
             {
                 bool isHaveAttr = false;
 
@@ -64,7 +54,7 @@ namespace ModelLib.Convert.Table
                     //NotInclude - не будет в шапке
                     if (attr is InclusionInHeader inclusion)
                     {
-                        if (inclusion.HeaderInclusion == HeaderInclusion.NotInclude)
+                        if (inclusion.HeaderInclusion == PropertyInclusion.NotInclude)
                         {
                             if (PropName.Any(pn => pn.Key == prop.Name))
                                 PropName.Remove(prop.Name);
@@ -88,8 +78,9 @@ namespace ModelLib.Convert.Table
                     PropName.Add(prop.Name, prop.Name);
 
                 isHaveAttr = false;
-            });
+            });*/
         }
+
 
         public TableValueResult? GetValues<ConT>(ConT convObj, bool withoutCheck = false, bool withNotInclude = false)
         {
@@ -115,7 +106,7 @@ namespace ModelLib.Convert.Table
                 {
                     if (attr is InclusionInHeader inclusion)
                     {
-                        if (inclusion.HeaderInclusion == HeaderInclusion.NotInclude)
+                        if (inclusion.HeaderInclusion == PropertyInclusion.NotInclude)
                         {
                             include = false;
                             break;
@@ -131,6 +122,164 @@ namespace ModelLib.Convert.Table
 
             return includedValues;
         }
+
+        public Dictionary<string, string> GetPropName(PropertyInclusion headerInclusion, bool includeAll = false)
+        {
+            Dictionary<string, string> foundedProps = [];
+
+            Type?.GetProperties().ToList().ForEach(prop => 
+            {
+                bool isHaveAttr = false;
+
+                var propertyAttrs = prop.GetCustomAttributes(true).ToList();
+
+                foreach (var attr in propertyAttrs)
+                {
+                    if (attr is InclusionInHeader inclusion)
+                    {
+                        if(!includeAll)
+                        if (inclusion.HeaderInclusion == PropertyInclusion.NotInclude)
+                        {
+                            if (foundedProps.Any(pn => pn.Key == prop.Name))
+                                foundedProps.Remove(prop.Name);
+
+                            isHaveAttr = true;
+
+                            break;
+                        }
+                    }
+
+                    //Если есть атрибут AlternativeName, то ИМЯ по значению атрибута
+                    if (attr is AlternativeName name)
+                    {
+                        foundedProps.Add(prop.Name, name.Name);
+                        isHaveAttr = true;
+                    }
+                }
+
+                //Если нет атрибута AlternativeName, то ИМЯ по названию свойства
+                if (!isHaveAttr)
+                    foundedProps.Add(prop.Name, prop.Name);
+
+                isHaveAttr = false;
+            });
+
+            return foundedProps;
+        }
+
+
+        public Dictionary<string, string> GetFormPropName() 
+        {
+            Dictionary<string, string> formProperties = [];
+
+            Type?.GetCustomAttributes(true).ToList().ForEach(attr =>
+            {
+                if (attr is AlternativeName name)
+                    TableName = name.Name;
+            });
+            TableName ??= Type?.Name;
+
+            //Значения
+            Type?.GetProperties().ToList().ForEach(prop =>
+            {
+                bool isHaveAttr = false;
+
+                var propertyAttrs = prop.GetCustomAttributes(true).ToList();
+
+                foreach (var attr in propertyAttrs)
+                {
+                    //Если есть аттрибут InclusionInHeader:
+                    //Include - будет в шапке
+                    //NotInclude - не будет в шапке
+                    if (attr is InclusionInForm inclusion)
+                    {
+                        if (inclusion.HeaderInclusion == PropertyInclusion.NotInclude)
+                        {
+                            if (formProperties.Any(pn => pn.Key == prop.Name))
+                                formProperties.Remove(prop.Name);
+
+                            isHaveAttr = true;
+
+                            break;
+                        }
+                    }
+
+                    //Если есть атрибут AlternativeName, то ИМЯ по значению атрибута
+                    if (attr is AlternativeName name)
+                    {
+                        formProperties.Add(prop.Name, name.Name);
+                        isHaveAttr = true;
+                    }
+                }
+
+                //Если нет атрибута AlternativeName, то ИМЯ по названию свойства
+                if (!isHaveAttr)
+                    formProperties.Add(prop.Name, prop.Name);
+
+                isHaveAttr = false;
+            });
+
+            PropsCount = formProperties.Count;
+
+            return formProperties;
+        }
+
+        public Dictionary<string, string> GetTablePropName() 
+        {
+            Dictionary<string, string> tableProperties = [];
+
+            Type?.GetCustomAttributes(true).ToList().ForEach(attr =>
+            {
+                if (attr is AlternativeName name)
+                    TableName = name.Name;
+            });
+            TableName ??= Type?.Name;
+
+            //Значения
+            Type?.GetProperties().ToList().ForEach(prop =>
+            {
+                bool isHaveAttr = false;
+
+                var propertyAttrs = prop.GetCustomAttributes(true).ToList();
+
+                foreach (var attr in propertyAttrs)
+                {
+                    //Если есть аттрибут InclusionInHeader:
+                    //Include - будет в шапке
+                    //NotInclude - не будет в шапке
+                    if (attr is InclusionInHeader inclusion)
+                    {
+                        if (inclusion.HeaderInclusion == PropertyInclusion.NotInclude)
+                        {
+                            if (tableProperties.Any(pn => pn.Key == prop.Name))
+                                tableProperties.Remove(prop.Name);
+
+                            isHaveAttr = true;
+
+                            break;
+                        }
+                    }
+
+                    //Если есть атрибут AlternativeName, то ИМЯ по значению атрибута
+                    if (attr is AlternativeName name)
+                    {
+                        tableProperties.Add(prop.Name, name.Name);
+                        isHaveAttr = true;
+                    }
+                }
+
+                //Если нет атрибута AlternativeName, то ИМЯ по названию свойства
+                if (!isHaveAttr)
+                    tableProperties.Add(prop.Name, prop.Name);
+
+                isHaveAttr = false;
+            });
+
+            PropsCount = tableProperties.Count;
+
+            return tableProperties;
+        }
+
 
         public bool HasAttribute<AttrT>(string name)
             where AttrT : Attribute
@@ -214,22 +363,10 @@ namespace ModelLib.Convert.Table
         {
             bool isSubclass = typeof(B).IsSubclassOf(typeof(T)) || typeof(B).GetInterfaces().Contains(typeof(T));
 
-            Console.WriteLine("Before");
-            foreach (var typeProp in typeof(B).GetProperties())
-            {
-                Console.WriteLine($"Type {typeProp.PropertyType} of {typeof(B).Name}");
-            }
-
             if (isSubclass)
                 Type = typeof(B);
             else
                 Type = typeof(T);
-
-            Console.WriteLine("After");
-            foreach (var typeProp in Type.GetProperties()) 
-            {
-                Console.WriteLine($"Type {typeProp.ReflectedType} of {Type.Name}");
-            }
 
             Translate();
         }

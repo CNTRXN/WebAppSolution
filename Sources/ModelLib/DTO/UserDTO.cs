@@ -8,7 +8,7 @@ namespace ModelLib.DTO
     [AlternativeName("Пользователи")]
     public class UserDTO : IMetaData
     {
-        [InclusionInHeader(HeaderInclusion.NotInclude), Required]
+        [InclusionInHeader(PropertyInclusion.NotInclude), InclusionInForm(PropertyInclusion.NotInclude), Required]
         public int Id { get; set; }
         [AlternativeName("Имя"), Required]
         public string Name { get; set; }

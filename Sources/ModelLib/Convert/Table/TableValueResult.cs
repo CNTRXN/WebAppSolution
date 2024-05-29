@@ -1,4 +1,7 @@
-﻿namespace ModelLib.Convert.Table
+﻿using System.Collections;
+using System.Linq;
+
+namespace ModelLib.Convert.Table
 {
     public class TableValueResult
     {
@@ -33,5 +36,23 @@
         {
             return _tableResults.ContainsKey(key);
         }
+
+        public Dictionary<string, object?> GetValues() 
+        {
+            return _tableResults;
+        }
     }
+
+    /*public static class TableValueResultExtensions 
+    {
+        public static IEnumerable<T>? Select<T>(this TableValueResult list, Func<T, bool> func) 
+        {
+            var result = list.Items.Cast<T>().Where(func).ToList();
+
+            if (result == null)
+                return null;
+
+            return result;
+        }
+    }*/
 }

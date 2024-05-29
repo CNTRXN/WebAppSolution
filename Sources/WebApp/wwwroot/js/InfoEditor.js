@@ -1,4 +1,5 @@
 ﻿const infoType = Object.freeze({
+    "cabinet": 1,
     "equipment": 2,
     "user": 3,
     "permission": 4,

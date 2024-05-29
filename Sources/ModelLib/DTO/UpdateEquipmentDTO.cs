@@ -1,16 +1,16 @@
 ﻿using ModelLib.Convert.Attributes;
-using ModelLib.Convert.Table;
 using ModelLib.Model;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ModelLib.DTO
 {
-    [AlternativeName("Оборудование")]
-    public class EquipmentDTO : IMetaData
+    public class UpdateEquipmentDTO
     {
-        [InclusionInHeader(PropertyInclusion.NotInclude), InclusionInForm(PropertyInclusion.NotInclude), Required]
-        public int Id { get; set; }
-
         [AlternativeName("Имя"), Required]
         public string Name { get; set; }
 
@@ -20,7 +20,7 @@ namespace ModelLib.DTO
         [AlternativeName("Инвентарный номер"), Required]
         public string InventoryNumber { get; set; }
 
-        [AlternativeName("Тип"), SelectedValue(true), Required]
+        [AlternativeName("Тип"), SelectedValue(true), Required, ShowPermission("Master, Admin")]
         public EquipmentType EquipmentType { get; set; }
     }
 }

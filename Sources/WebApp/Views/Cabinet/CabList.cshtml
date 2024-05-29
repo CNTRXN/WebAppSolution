@@ -19,7 +19,7 @@
         </tr>
         <tr>
             @{
-                foreach (var header in meta.PropName)
+                foreach (var header in meta.GetPropName(PropertyInclusion.Include))
                 {
                     <th>@header.Value</th>
                 }

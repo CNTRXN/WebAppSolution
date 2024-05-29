@@ -31,6 +31,14 @@
 
     switch (Model.TypeName)
     {
+        case nameof(CabinetDTO):
+            meta.Assign<CabinetDTO>();
+
+            if (Model.DataValue != null)
+                result = meta.GetValues<CabinetDTO>(Model.DataValue, withNotInclude: true);
+
+            routing = "send-data-cabinet";
+            break;
         case nameof(EquipmentDTO):
             meta.Assign<EquipmentDTO>();
 
@@ -71,7 +79,9 @@
                     <input value="@result["Id"]" name="Id" type="hidden" required/>
                     <input value="@Model.SendType" name="sendType" type="hidden" required />
 
-                    foreach (var property in meta.PropName)
+                    var formProperties = meta.GetFormPropName();
+
+                    foreach (var property in formProperties)
                     {
                         if (meta.HasAttribute<ShowPermission>(property.Key))
                             if (!meta.CompareAttributesValues<ShowPermission>(property.Key, "Permissions", userModel.PermissionName))
@@ -97,8 +107,19 @@
                                                         var type = selection.GetType();
                                                         var props = type.GetProperties();
 
-                                                        int id = props[0].GetValue(selection, null);
-                                                        string name = props[1].GetValue(selection, null);
+                                                        int id = 0;
+                                                        string name = string.Empty;
+
+                                                        if (type is UserDTO user)
+                                                        {
+                                                            id = user.Id;
+                                                            name = $"{user.Surname} {user.Name} {user.Patronymic}";
+                                                        }
+                                                        else
+                                                        {
+                                                            id = props[0].GetValue(selection, null);
+                                                            name = props[1].GetValue(selection, null);
+                                                        }
 
                                                         bool isSelected = currentValue == id;
 
@@ -165,6 +186,7 @@
         {
             "EquipmentType" => (await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentType>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.EquipmentType, "all")))?.Cast<dynamic>().ToList(),
             "Permission" => (await AppSettings.Api.Client.GetFromJsonAsync<List<Permission>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Permission, "all")))?.Cast<dynamic>().ToList(),
+            "UserDTO" => (await AppSettings.Api.Client.GetFromJsonAsync<List<User>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "all")))?.Cast<dynamic>().ToList(),
             _ => null
         };
 
