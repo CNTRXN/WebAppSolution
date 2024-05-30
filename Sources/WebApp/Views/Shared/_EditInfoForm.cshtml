@@ -94,43 +94,55 @@
                                 <div class="custom-select">
                                     <select name="@property.Key" required>
                                         @{
+                                            string typeName = property.Key;
+                                            int? currentValue = null;
+
                                             var res = result[property.Key];
-                                            int? currentValue = (int)res?.GetType().GetProperties()[0].GetValue(res, null);
 
-                                            if (res?.GetType().Name is string typeName)
+                                            if (res != null)
                                             {
-                                                var selections = await GetEditFormSelectionValues(typeName);
-                                                if (selections != null)
+                                                currentValue = (int)res?.GetType().GetProperties()[0].GetValue(res, null);
+                                            }
+                                            // var res = result[property.Key];
+
+                                            // if (res?.GetType().Name is string typeName)
+                                            // {
+                                            //     int? currentValue = (int)res?.GetType().GetProperties()[0].GetValue(res, null);
+
+                                                
+                                            // }
+
+                                            var selections = await GetEditFormSelectionValues(typeName);
+                                            if (selections != null)
+                                            {
+                                                foreach (var selection in selections)
                                                 {
-                                                    foreach (var selection in selections)
+                                                    var type = selection.GetType();
+                                                    var props = type.GetProperties();
+
+                                                    int id = 0;
+                                                    string name = string.Empty;
+
+                                                    if (type is UserDTO user)
                                                     {
-                                                        var type = selection.GetType();
-                                                        var props = type.GetProperties();
+                                                        id = user.Id;
+                                                        name = $"{user.Surname} {user.Name} {user.Patronymic}";
+                                                    }
+                                                    else
+                                                    {
+                                                        id = props[0].GetValue(selection, null);
+                                                        name = props[1].GetValue(selection, null);
+                                                    }
 
-                                                        int id = 0;
-                                                        string name = string.Empty;
+                                                    bool isSelected = currentValue.HasValue ? currentValue == id : false;
 
-                                                        if (type is UserDTO user)
-                                                        {
-                                                            id = user.Id;
-                                                            name = $"{user.Surname} {user.Name} {user.Patronymic}";
-                                                        }
-                                                        else
-                                                        {
-                                                            id = props[0].GetValue(selection, null);
-                                                            name = props[1].GetValue(selection, null);
-                                                        }
-
-                                                        bool isSelected = currentValue == id;
-
-                                                        if (isSelected)
-                                                        {
-                                                            <option value="@id" selected>@name</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@id">@name</option>
-                                                        }
+                                                    if (isSelected)
+                                                    {
+                                                        <option value="@id" selected>@name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@id">@name</option>
                                                     }
                                                 }
                                             }

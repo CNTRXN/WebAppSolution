@@ -118,7 +118,9 @@
                             j++;
                         }
                         <div class="table-prop-name" style="width: @itemHeaderWidth%">
-                            <button class="defaultButton" onclick="openRequestForm([@equipId])" title="Добавить к заявке">+📝</button>@*@equipId*@
+                            <button class="defaultButton" onclick="openRequestForm([@equipId])" title="Добавить к заявке">+📝</button>
+                            <button class="defaultButton" onclick="openEditor(infoType.equipment, sendType.edit, @equipId)" title="Редактировать">✏️</button>
+                            <button class="deleteButton" title="Удалить">🗑️</button>
                         </div>
                     }
                 </div>
@@ -132,7 +134,7 @@
     }
 </div>
 <div id="table-usings">
-    <button class="defaultButton" id="add-button">
+    <button class="defaultButton" onclick="openEditor(infoType.equipment, sendType.add, null)" id="add-button">
         +
     </button>
 </div>

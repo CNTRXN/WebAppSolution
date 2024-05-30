@@ -41,6 +41,11 @@ namespace ModelLib.Convert.Table
         {
             return _tableResults;
         }
+
+        public void SetValues(Dictionary<string, object?> newValues) 
+        {
+            _tableResults = newValues;
+        }
     }
 
     /*public static class TableValueResultExtensions 

@@ -229,5 +229,45 @@ namespace WebAPI.Services.CabinetService
 
             return true;
         }
+
+        public async Task<IEnumerable<CabinetDTO>?> GetCabinetByUser(int userId) 
+        {
+            var foundedCabinets = await context.Cabinets.Where(c => c.ResponsiblePersonId == userId).ToListAsync();
+
+            if (foundedCabinets == null)
+                return null;
+
+            List<CabinetDTO> cabinets = [];
+
+            foundedCabinets.ForEach(async elem => 
+            {
+                var responsiblePerson = await context.Users
+                    .Where(u => u.Id == elem.ResponsiblePersonId)
+                    .Select(u => new UserDTO()
+                    {
+                        Id = u.Id,
+                        Birthday = u.Birthday,
+                        Name = u.Name,
+                        Patronymic = u.Patronymic,
+                        Surname = u.Surname,
+                        Permission = context.Permissions.First(p => p.Id == u.Id)
+                    })
+                    .FirstOrDefaultAsync();
+
+                cabinets.Add(new()
+                {
+                    Id = elem.Id,
+                    Floor = elem.Floor,
+                    Height = elem.Height,
+                    Length = elem.Length,
+                    Num = elem.Num,
+                    PlanNum = elem.PlanNum,
+                    Width = elem.Width,
+                    ResponsiblePerson = responsiblePerson
+                });
+            });
+
+            return cabinets;
+        }
     }
 }

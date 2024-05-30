@@ -424,8 +424,9 @@
 
 .tableItem {
     position: relative;
+    min-height: 50px;
     width: 100%;
-    height: 50px;
+    height: auto; 
 }
 
     .tableItem:hover {
@@ -437,19 +438,33 @@
     }
 
     .tableItem > p {
+        max-height: 50px;
+        overflow: hidden;
     }
+
+    .tableItem > div {
+        position: relative;
+        top: 50%;
+        transform: translate(0%, -50%);
+    }
+
+div.table-prop-name {
+    padding: 0;
+}
 
 .table-prop-name {
     display: inline-block;
     border: none;
     margin-right: -.30em;
+    margin-top: 10px;
     transition: all 0.2ms ease-in-out;
     text-align: center;
 }
 
     .table-prop-name > button {
+        display: inline-block;
         height: 30px;
-        width: 50px;
+        width: 40px;
         cursor: pointer;
     }
 

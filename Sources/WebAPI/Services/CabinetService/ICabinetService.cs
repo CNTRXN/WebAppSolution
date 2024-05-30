@@ -7,6 +7,7 @@ namespace WebAPI.Services.CabinetService
     {
         Task<IEnumerable<CabinetDTO>> GetCabinets();
         Task<CabinetDTO> GetCabinet(int id);
+        Task<IEnumerable<CabinetDTO>?> GetCabinetByUser(int userId);
         Task<Cabinet?> AddCabinet(NewCabinetDTO newCabinet);
         Task<IEnumerable<EquipmentDTO>> GetCabinetEquipments(int cabId);
         Task<int> AddEquipmentsToCabinet(int cabId, IEnumerable<int> equipmentsIds);

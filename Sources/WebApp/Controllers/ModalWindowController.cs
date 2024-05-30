@@ -166,13 +166,13 @@ namespace WebApp.Controllers
                     3 => "UpdateUserDTO",
                     _ => string.Empty
                 },
-                DataValue = infoTypeCode switch 
+                DataValue = itemId != null ? infoTypeCode switch 
                 {
                     1 => await AppSettings.Api.Client.GetFromJsonAsync<CabinetDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get/id={itemId}")),
                     2 => await AppSettings.Api.Client.GetFromJsonAsync<EquipmentDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, $"get/id={itemId}")),
                     3 => await AppSettings.Api.Client.GetFromJsonAsync<UpdateUserDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, $"get-detail={itemId}")),
                     _ => null
-                },
+                } : null,
                 SendType = sendType switch 
                 {
                     1 => SendType.New,

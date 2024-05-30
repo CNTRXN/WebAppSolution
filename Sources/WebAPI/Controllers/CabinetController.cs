@@ -24,7 +24,16 @@ namespace WebAPI.Controllers
             return Ok(cabinets);
         }
 
-        //
+        [HttpGet("cabinets-by-user={userId}")]
+        public async Task<IActionResult> GetCabinetsByUser([FromRoute] int userId) 
+        {
+            var cabinets = await cabinetService.GetCabinetByUser(userId);
+
+            if (cabinets == null)
+                return NotFound($"В БД Кабинетов с пользователем '{userId}'");
+
+            return Ok(cabinets);
+        }
 
         //Контроллер для получения кабинета по id записи
         [HttpGet("get/id={id}")]
