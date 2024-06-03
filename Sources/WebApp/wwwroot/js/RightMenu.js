@@ -1,4 +1,8 @@
 ﻿$(window).on("load", () => {
+    const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/chat")
+        .build();
+
     var rightMenu = document.getElementById("rightMenu");
 
     var open = false;
@@ -26,6 +30,11 @@
         $('#newRequests').on("click", () => {
             alert('!nr');
         });
+
+    hubConnection.on("", () => {
+
+    });
+
 
     function openRightMenu() {
         if ($("#" + rightMenu.id).width() == 0) {

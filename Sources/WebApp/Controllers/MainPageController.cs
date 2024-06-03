@@ -10,6 +10,7 @@ namespace WebApp.Controllers
         {
             if (!(HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated))
                 return Redirect("../auth");
+                
                 //return Redirect("../test-page");
 
             int? userId = null;
@@ -17,7 +18,8 @@ namespace WebApp.Controllers
                 userId = int.Parse(userIdAsString);
 
             //return Redirect($"../profile={userId}");
-            return Redirect($"../cabinets");
+            //return Redirect($"../cabinets");
+            return Redirect("../cabinets/my");
         }
     }
 }

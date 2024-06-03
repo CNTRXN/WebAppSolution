@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ModelLib.DTO;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using WebApp.Models.PageModels;
 using WebApp.Settings;
 
@@ -17,6 +18,27 @@ namespace WebApp.Controllers
             var cabs = await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "all")); //"api/Cabinet/all");
 
             return View(cabs);
+        }
+
+        [HttpGet("cabinets/my")]
+        public async Task<ActionResult> ShowMyCabinets()
+        {
+            int userId = HttpContext.User.Claims
+                .Where(c => c.Type == ClaimTypes.Sid)
+                .Select(c => int.Parse(c.Value))
+                .FirstOrDefault();
+
+            var cabs = await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"cabinets-by-user={userId}"));
+
+            return View("CabList", cabs);
+        }
+
+        [HttpGet("cabinets/user={userId}")]
+        public async Task<ActionResult> ShowCabinetsByUsers([FromRoute] int userId) 
+        {
+            var cabs = await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"cabinets-by-user={userId}"));
+            
+            return View("CabList", cabs);
         }
 
         //Action для загрузки страницы с информацией об кабинете

@@ -103,14 +103,6 @@
                                             {
                                                 currentValue = (int)res?.GetType().GetProperties()[0].GetValue(res, null);
                                             }
-                                            // var res = result[property.Key];
-
-                                            // if (res?.GetType().Name is string typeName)
-                                            // {
-                                            //     int? currentValue = (int)res?.GetType().GetProperties()[0].GetValue(res, null);
-
-                                                
-                                            // }
 
                                             var selections = await GetEditFormSelectionValues(typeName);
                                             if (selections != null)

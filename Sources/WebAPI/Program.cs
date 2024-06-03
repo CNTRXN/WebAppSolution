@@ -4,6 +4,7 @@ using WebAPI.DataContext;
 using WebAPI.Services.CabinetService;
 using WebAPI.Services.EquipmentService;
 using WebAPI.Services.FileService;
+using WebAPI.Services.Notification;
 using WebAPI.Services.PermissionService;
 using WebAPI.Services.RequestService;
 using WebAPI.Services.RequestStatusesService;
@@ -52,6 +53,8 @@ namespace WebAPI
             builder.Services.AddTransient<IRequestStatusService, RequestStatusService>();
             builder.Services.AddTransient<IFileService, FileService>();
 
+            builder.Services.AddSignalR();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -71,6 +74,7 @@ namespace WebAPI
             });
 
             app.MapControllers();
+            //app.MapHub<NotificationService>("");
 
             app.Run();
         }

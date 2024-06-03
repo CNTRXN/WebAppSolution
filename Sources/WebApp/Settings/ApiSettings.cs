@@ -13,8 +13,8 @@
     }
     public class ApiSettings
     {
-        public static string ApiUrl { get; } = "http://localhost:5215/";
-
+        public static string s_apiUrl { get; } = "http://localhost:5215/";
+        public string ApiUrl => s_apiUrl;
         public string ApiCabinetRoute { get; } = "api/Cabinet/";
         public string ApiEquipmentRoute { get; } = "api/Equipment/";
         public string ApiEquipmentTypeRoute { get; } = "api/EquipmentType/";
@@ -26,7 +26,7 @@
 
         public HttpClient Client { get; } = new()
         {
-            BaseAddress = new Uri(ApiUrl)
+            BaseAddress = new Uri(s_apiUrl)
         };
 
         public string ApiRequestUrl(ApiRequestType apiRequestType, string route)
