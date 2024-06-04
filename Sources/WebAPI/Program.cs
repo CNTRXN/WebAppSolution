@@ -40,7 +40,10 @@ namespace WebAPI
                 options.AddPolicy(name: MyPolicy,
                     policy =>
                     {
-                        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                        policy.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .SetIsOriginAllowed(origin => true)
+                            .AllowAnyMethod();
                     });
             });
 
@@ -74,7 +77,7 @@ namespace WebAPI
             });
 
             app.MapControllers();
-            //app.MapHub<NotificationService>("");
+            app.MapHub<NotificationService>("/notification");
 
             app.Run();
         }

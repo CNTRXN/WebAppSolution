@@ -9,6 +9,7 @@
     {
         userModel = new
         {
+            Id = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value,
             Name = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
             Surname = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value,
             PermissionName = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
@@ -20,6 +21,7 @@
 }
 
 <div id="rightMenu">
+    <input type="hidden" id="userId" value="@userModel?.Id"/>
     <div id="rmMiniProfile">
         <div>
             <div id="rmUpSector">
@@ -45,7 +47,7 @@
 
                     <div class="hidden-elem buttons-container">
                         <button class="rightMenuButton2" id="rmEditProfile">Редактировать</button>
-                        <button class="rightMenuButton2" id="rmExitProfile" onclick="window.location = '../logout'">Выйти</button>
+                        <button class="rightMenuButton2" id="rmExitProfile">Выйти</button>
                     </div>
                 }
                 else

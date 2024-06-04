@@ -1,7 +1,16 @@
 ﻿$(window).on("load", () => {
-    const hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("/chat")
-        .build();
+    const cookie = getCookie();
+    const apiUrl = "http://localhost:5215";//cookie.apiUrl;
+
+    //console.log(apiUrl);
+
+    //TODO: fix that
+
+    var userId = null;
+    if (document.querySelector('#userId'))
+        userId = $('#userId').val();
+
+    
 
     var rightMenu = document.getElementById("rightMenu");
 
@@ -31,10 +40,30 @@
             alert('!nr');
         });
 
-    hubConnection.on("", () => {
+    if (userId != null) {
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl(apiUrl + "/notification?user=" + userId, {
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets
+            })
+            .withAutomaticReconnect()
+            .build();
 
-    });
+        /*hubConnection.on("", () => {
 
+        });*/
+
+        hubConnection.start();
+
+        $("#rmExitProfile").on("click", () => {
+            console.log("logout");
+            hubConnection.stop();
+
+            window.location = '../logout';
+        });
+    }
+
+    
 
     function openRightMenu() {
         if ($("#" + rightMenu.id).width() == 0) {
@@ -72,3 +101,12 @@
         }
     }
 });
+
+
+function getCookie() {
+    return document.cookie.split('; ').reduce((acc, item) => {
+        const [name, value] = item.split('=')
+        acc[name] = value
+        return acc
+    }, {})
+}

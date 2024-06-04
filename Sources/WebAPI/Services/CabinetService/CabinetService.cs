@@ -232,6 +232,9 @@ namespace WebAPI.Services.CabinetService
 
         public async Task<IEnumerable<CabinetDTO>?> GetCabinetByUser(int userId) 
         {
+            if (userId == 0)
+                return null;
+
             var foundedCabinets = await context.Cabinets.Where(c => c.ResponsiblePersonId == userId).ToListAsync();
 
             if (foundedCabinets == null)
@@ -239,9 +242,12 @@ namespace WebAPI.Services.CabinetService
 
             List<CabinetDTO> cabinets = [];
 
-            foundedCabinets.ForEach(async elem => 
+            if (foundedCabinets.Count == 0)
+                return cabinets;
+
+            foundedCabinets.ForEach(elem => 
             {
-                var responsiblePerson = await context.Users
+                var responsiblePerson = context.Users
                     .Where(u => u.Id == elem.ResponsiblePersonId)
                     .Select(u => new UserDTO()
                     {
@@ -252,7 +258,7 @@ namespace WebAPI.Services.CabinetService
                         Surname = u.Surname,
                         Permission = context.Permissions.First(p => p.Id == u.Id)
                     })
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefault();
 
                 cabinets.Add(new()
                 {

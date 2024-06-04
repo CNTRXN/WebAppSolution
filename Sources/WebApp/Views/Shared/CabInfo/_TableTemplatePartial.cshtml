@@ -29,9 +29,7 @@
         <p id="tableTitle">
             @equipmentMeta.TableName
         </p>
-        <form method="post" @* action="/equip-search-@Model.Cabinet.Id" *@>
-            <input type="search" id="search-data" name="searchField" placeholder="Поиск..." value="@Model.SearchQuery" />
-        </form>
+        <input type="search" id="search-data" name="searchField" placeholder="Поиск..." />
     </div>
     <div id="tableHeader">
         @{

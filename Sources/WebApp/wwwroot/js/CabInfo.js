@@ -1,5 +1,3 @@
-//import { downloadFile } from "./js/Files";
-
 const imageType = Object.freeze({ "page": 1, "form": 2 });
 const allSkeleton = document.querySelectorAll('.skeleton');
 
@@ -10,7 +8,6 @@ $(window).on("load", () => {
     var cookie = getCookie();
 
     GetFormImages(parseInt(cookie.cabid), imageType.page);
-    //#5555FF
 
     var buttonsContainer = document.getElementById("cab-select-info-buttons").childNodes;
     var buttons = [];
@@ -19,7 +16,7 @@ $(window).on("load", () => {
 
     for (var i = 0; i < buttonsContainer.length; i++) {
         var element = buttonsContainer[i];
-        if (element.tagName == "BUTTON") {
+        if (element.tagName == "BUTTON" && element.classList == "cab-select-info-button") {
             buttons.push(element);
             if (i > 0) {
                 $(element).css("color", "#5555FF");
@@ -77,8 +74,6 @@ $(window).on("load", () => {
                 "cabId": parseInt(cookie.cabid)
             },
             success: function (response) {
-                // При успешном получении ответа, обновляем содержимое контейнера с partial view
-                /*$(document.body).insertAfter(response);*/
                 $('body').append(response);
 
                 registerEditInfoFormSector(parseInt(cookie.cabid));
@@ -94,7 +89,7 @@ $(window).on("load", () => {
     });
 
     $("#to-test-table").on("click", () => {
-        showCabinetData('/show-test');
+        showCabinetData('/show-test', "test");
     });
 
     //Показать заявки кабинета (от. прав доступа Мастер, Админ) 
@@ -103,7 +98,8 @@ $(window).on("load", () => {
             showRequests();
         });
 
-    function showCabinetData(_url) {
+    function showCabinetData(_url, type = "equipment") {
+
         $.ajax({
             url: _url,
             type: 'GET',
@@ -113,16 +109,53 @@ $(window).on("load", () => {
                 "cabId": parseInt(cookie.cabid)
             },
             success: function (response) {
-                // При успешном получении ответа, обновляем содержимое контейнера с partial view
                 $("#main-table").html(response);
+
+                searchEquipment(type);
             },
             error: function () {
                 console.log('error load');
             }
         });
+
+        function searchEquipment(type) {
+            if (document.querySelector('#search-data')) {
+                var searchField = document.querySelector('#search-data');
+
+                searchField.addEventListener("focus", () => {
+                    searchField.addEventListener("keyup", enterDown);
+                });
+
+                searchField.addEventListener("blur", () => {
+                    searchField.removeEventListener("keyup", enterDown);
+                });
+
+                function enterDown(evt) {
+                    if (evt.code === 'Enter') {
+                        $.ajax({
+                            url: "/equip-search",
+                            type: 'POST',
+                            dataType: "html",
+                            headers: {
+                                "Access-Control-Allow-Origin": "true",
+                                "searchField": searchField.value,
+                                "cabId": parseInt(cookie.cabid),
+                                "type": type
+                            },
+                            success: (resp) => {
+                                $("#main-table").html(resp);
+
+                                searchEquipment(type);
+                            },
+                            error: (err) => {
+                                console.log('search error');
+                            }
+                        });
+                    }
+                }
+            }
+        }
     }
-
-
 
     function showRequests() {
         $.ajax({
@@ -137,17 +170,6 @@ $(window).on("load", () => {
                 $("#main-table").html(response);
 
                 registerCabinetRequestsSector();
-
-                //var requestCategories = document.querySelectorAll('.request-categories');
-                //var requestCategoriesItems = requestCategories.querySelectorAll('.request-categories-item');
-                //var requestChangeStatus = requestCategoriesItems.querySelectorAll('.request-change-status');
-
-
-                /*Array.from(requestChangeStatus).forEach(elem => {
-                    $(elem).on("change", () => {
-                        console.log(elem);
-                    });
-                });*/
             },
             error: function () {
                 console.log('error load');
@@ -159,7 +181,6 @@ $(window).on("load", () => {
 let registerEditInfoFormSector = (cabId) => {
     let responsiblePerson = null;
     const editForm = document.querySelector('#edit-cab-info');
-    //const editContainer = editForm.querySelector('#edit-cab-info-form-container');
 
     $('#close-edit-cab-info-form').on("click", () => {
         editForm.remove();
@@ -285,7 +306,6 @@ let registerCabinetRequestsSector = () => {
 }
 var GetFormImages = function(id, type) {
     const showFormButton = document.getElementById("show-image-form-button").content.cloneNode(true);
-    //const imageTemplate = document.getElementById("file-template");
 
     const imagePageList = document.getElementById("cab-photos");
     const img = imagePageList.querySelectorAll('.file-container');
@@ -303,20 +323,19 @@ var GetFormImages = function(id, type) {
                     var i = 0;
 
                     data.some((element, index, arr) => {
-                        if (index < 3) {
-                            $(img[index]).css('background-image', 'url(' + element + ')');
-
-                            let downloadButton = img[index].querySelector('button');
-
-                            $(downloadButton).on("click", () => {
-                                console.log(index);
-                                downloadFile(element, index);
-                            });
-                        }
-                        else {
-                            i = index;
+                        if (index > 3)
                             return true;
-                        }
+
+                        $(img[index]).css('background-image', 'url(' + element + ')');
+
+                        let downloadButton = img[index].getElementsByTagName('button')[0];
+
+                        $(downloadButton).on("click", () => {
+                            console.log(index);
+                            downloadFile(element, index);
+                        });
+
+                        i++;
                     });
 
                     for (; i < img.length; i++) {
@@ -369,8 +388,6 @@ var GetFormImages = function(id, type) {
             });
             break;
     }
-
-    console.clear();
 }
 
 function getCookie() {

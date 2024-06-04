@@ -3,26 +3,43 @@ using ModelLib.Model;
 
 namespace WebAPI.Services.Notification
 {
-    public class NotificationService : Hub
+    public sealed class NotificationService : Hub
     {
-        private List<CurrentConnectionInfo> ConnectedUsers { get; set; } = new();
+        private static List<CurrentConnectionInfo> ConnectedUsers { get; set; } = new();
         
         public override Task OnConnectedAsync()
         {
             var httpContext = Context.GetHttpContext();
 
+            Console.WriteLine("connect method");
+
             if (httpContext is HttpContext context)
             {
-                string userId = context.Request.Headers["user-id"].ToString();
+                //string userId = context.Request.Headers["user-id"].ToString();
+
+                string userId = context.Request.Query["user"];
 
                 Console.WriteLine($"User {userId} has joined");
 
-                ConnectedUsers.Add(new()
+                if(!ConnectedUsers.Any(cu => cu.UserId == userId))
                 {
-                    ConnectedAt = DateTime.Now,
-                    UserId = userId,
-                    ConnectionId = Context.ConnectionId
-                });
+                    ConnectedUsers.Add(new()
+                    {
+                        ConnectedAt = DateTime.Now,
+                        UserId = userId,
+                        ConnectionId = Context.ConnectionId
+                    });
+                }
+                else 
+                {
+                    var foundedUser = ConnectedUsers.FirstOrDefault(cu => cu.UserId == userId);
+                    if(foundedUser != null) 
+                    {
+                        int index = ConnectedUsers.IndexOf(foundedUser);
+
+                        ConnectedUsers[index].ConnectionId = Context.ConnectionId;
+                    }
+                }
             }
             else 
             {
@@ -34,7 +51,9 @@ namespace WebAPI.Services.Notification
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {
-            var removeUser = ConnectedUsers.Where(c => c.ConnectionId == Context.ConnectionId).FirstOrDefault();
+            var removeUser = ConnectedUsers
+                .Where(c => c.ConnectionId == Context.ConnectionId)
+                .FirstOrDefault();
 
             if (removeUser != null)
             {

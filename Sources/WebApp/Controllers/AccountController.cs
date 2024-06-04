@@ -56,7 +56,9 @@ namespace WebApp.Controllers
 
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-                        HttpContext.Response.Cookies.Append("api-url", AppSettings.Api.ApiUrl);
+                        
+
+                        HttpContext.Response.Cookies.Append("apiUrl", AppSettings.Api.ApiUrl);
                     }
                 }
                 else 

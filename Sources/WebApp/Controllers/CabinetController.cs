@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModelLib.DTO;
+using ModelLib.Model;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using WebApp.Models.PageModels;
@@ -54,28 +55,30 @@ namespace WebApp.Controllers
         }
 
         //Action для поиска оборудования в кабинете
-        [HttpPost("equip-search-{id}")]
+        [HttpPost("equip-search")]
         [Authorize]
-        public async Task<ActionResult> SearchEquipment(string searchField, [FromRoute] int id)
+        public async Task<ActionResult> SearchEquipment([FromHeader] string searchField, [FromHeader] int cabId, [FromHeader] string type)
         {
-            var cabinetInfo = await GetCabinetInfo(id);
-            cabinetInfo.SelectedList = "Equipment";
+            var cabinetInfo = await GetCabinetInfo(cabId);
 
-            /*Equipment[] copy = new Equipment[tableData.Count];
-            tableData.CopyTo(copy, 0);
-
-            var searched = copy.ToList();
-
-            searchField ??= string.Empty;*/
-
-            if (searchField.Length > 0)
+            var searchData = type switch
             {
-                if (cabinetInfo.SelectedList == "Equipment")
-                    cabinetInfo.Equipments = cabinetInfo.Equipments.Where(c =>
-                        c.Name.Contains(searchField) ||
-                        c.Description.Contains(searchField)
-                    ).ToList();
-            }
+                "equipment" => (await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get-equip/cabid={cabId}")))?.Cast<dynamic>().ToList(),
+                _ => []
+            };
+
+            cabinetInfo.Equipments = searchData ?? [];
+
+            if (searchField != null)
+                if (searchField.Length > 0)
+                {
+                    if (type == "equipment") {
+                        cabinetInfo.Equipments = searchData?.Where(c =>
+                            c.Name.Contains(searchField) ||
+                            c.Description.Contains(searchField)
+                        ).Cast<dynamic>().ToList() ?? [];
+                    }
+                }
 
             return PartialView("CabInfo/_TableTemplatePartial", cabinetInfo);
         }
