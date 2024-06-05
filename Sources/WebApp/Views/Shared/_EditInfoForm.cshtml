@@ -115,7 +115,7 @@
                                                     int id = 0;
                                                     string name = string.Empty;
 
-                                                    if (type is UserDTO user)
+                                                    if (selection is ModelLib.Model.User user)
                                                     {
                                                         id = user.Id;
                                                         name = $"{user.Surname} {user.Name} {user.Patronymic}";
@@ -190,7 +190,7 @@
         {
             "EquipmentType" => (await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentType>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.EquipmentType, "all")))?.Cast<dynamic>().ToList(),
             "Permission" => (await AppSettings.Api.Client.GetFromJsonAsync<List<Permission>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Permission, "all")))?.Cast<dynamic>().ToList(),
-            "UserDTO" => (await AppSettings.Api.Client.GetFromJsonAsync<List<User>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "all")))?.Cast<dynamic>().ToList(),
+            "ResponsiblePerson" => (await AppSettings.Api.Client.GetFromJsonAsync<List<User>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "all")))?.Cast<dynamic>().ToList(),
             _ => null
         };
 

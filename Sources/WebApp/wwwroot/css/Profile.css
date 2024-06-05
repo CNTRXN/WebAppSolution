@@ -81,8 +81,17 @@
 
     display: grid;
     grid-row: 1;
-    grid-template-rows: 80px 50px;
+    grid-template-rows: 80px 50px 50px;
     grid-template-columns: repeat(3, 1fr);
+}
+
+.profileUserNSP_PERM > #editProfile {
+    grid-row: 3;
+    grid-column: 2;
+    margin-block: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
 }
 
 #profileUserNSP {
@@ -104,3 +113,33 @@
     text-align: center;
     font-weight: bold;
 }
+
+.profileUserInfo {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+}
+
+#userCabinets {
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: 1fr 1fr;
+}
+
+    #userCabinets > #cabientInfotitle {
+        grid-column: 1;
+        position: relative;
+        top: 50%;
+        transform: translate(0%, -50%);
+        margin-left: 20px;
+    }
+
+    #userCabinets > .toCabinet {
+        width: 100px;
+        height: 25px;
+        grid-column: 2;
+        position: relative;
+        top: 50%;
+        transform: translate(0%, -50%);
+        margin: 0;
+    }

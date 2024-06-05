@@ -64,7 +64,7 @@ $(window).on("load", () => {
     });
 
     //Редактирование информации
-    $("#cab-info-edit").on("click", () => {
+    /*$("#cab-info-edit").on("click", () => {
         $.ajax({
             url: "/show-cabinet-edit-form",
             type: 'GET',
@@ -82,7 +82,7 @@ $(window).on("load", () => {
                 console.log('error load');
             }
         });
-    });
+    });*/
 
     $("#to-equipments").on("click", (e) => {
         showCabinetData('/show-equipments');

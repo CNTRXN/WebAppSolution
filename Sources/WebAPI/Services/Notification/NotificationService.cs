@@ -15,8 +15,6 @@ namespace WebAPI.Services.Notification
 
             if (httpContext is HttpContext context)
             {
-                //string userId = context.Request.Headers["user-id"].ToString();
-
                 string userId = context.Request.Query["user"];
 
                 Console.WriteLine($"User {userId} has joined");

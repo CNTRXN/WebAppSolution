@@ -32,12 +32,13 @@ namespace WebApp.Controllers
 
             try
             {
-                var response = await AppSettings.Api.Client.GetAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "get"));//"api/User/get");
+                var response = await AppSettings.Api.Client
+                    .GetAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "get"));
 
                 if (response.IsSuccessStatusCode)
                 {
-                    //AppStatics.User = await response.Content.ReadFromJsonAsync<UserDTO>();
-                    var receivedUser = await response.Content.ReadFromJsonAsync<UserDTO>();
+                    var receivedUser = await response.Content
+                        .ReadFromJsonAsync<UserDTO>();
 
                     if (receivedUser is UserDTO user)
                     {
@@ -56,8 +57,6 @@ namespace WebApp.Controllers
 
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-                        
-
                         HttpContext.Response.Cookies.Append("apiUrl", AppSettings.Api.ApiUrl);
                     }
                 }
@@ -68,8 +67,7 @@ namespace WebApp.Controllers
             }
             catch 
             {
-                errorMessage = "Ошибка на сервере";
-                
+                errorMessage = "Ошибка на сервере"; 
             }
 
             if (!string.IsNullOrEmpty(errorMessage)) 
@@ -93,7 +91,6 @@ namespace WebApp.Controllers
                 errorMessage = "Пароли не совпадают";
             }
 
-            //Если нет ошибок
             if (!string.IsNullOrEmpty(errorMessage)) 
             {
                 try
@@ -111,7 +108,8 @@ namespace WebApp.Controllers
 
                     Console.WriteLine(newUser.Name);
 
-                    var response = await AppSettings.Api.Client.PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "registration"), newUser);//"api/User/registration", newUser);
+                    var response = await AppSettings.Api.Client
+                        .PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "registration"), newUser);
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {

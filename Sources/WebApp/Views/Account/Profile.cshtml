@@ -26,14 +26,6 @@
             <img id="profile_image" />
         </div>
 
-
-        @{
-            if(isCurrentUser)
-            {
-                <p>Is Current User</p>
-            }
-        }
-
         <div id="profileContent">
             <div class="profileUserNSP_PERM">
                 <div id="profileUserNSP">
@@ -43,8 +35,41 @@
                 </div>
 
                 <p class="profileUserNSPText_Prim" id="profile_userPrimission">@Model.Permission.Name</p>
+
+                @{
+
+                    if (isCurrentUser || Context.User.IsInRole("Admin"))
+                    {
+                        <button class="defaultButton" id="editProfile" onclick="openEditor(infoType.user, sendType.edit, @Model.Id)">Редактировать</button>
+                    }
+                }
+               
+            </div>
+            <div class="profileUserInfo">
+                <div id="userCabinets">
+                    <p id="cabientInfotitle">Кабинеты пользователя</p>
+                    @{
+                        var cabinets = await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"cabinets-by-user={Model.Id}"));
+
+                        if (cabinets != null)
+                        {
+                            foreach (var cabinet in cabinets)
+                            {
+                                <button class="defaultButton toCabinet" onclick="window.location = '../cabinets/cabientId=@cabinet.Id'">
+                                    №@cabinet.Num
+                                </button>
+                            }
+                        }
+                        else
+                        {
+                            <p>Кабинеты не найдены</p>
+                        }
+                    }
+                    
+                </div>
             </div>
         </div>
+
     </div>
 }
 
@@ -56,6 +81,8 @@
     <link href="~/css/RightMenu.css" rel="stylesheet" type="text/css" />
     <link href="~/css/Tools.css" rel="stylesheet" type="text/css" />
     <link href="~/css/ElementsStyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/InfoEditor.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/InfoEditor.js" type="text/javascript"></script>
     <script src="~/js/signalr.js"></script>
     <script src="~/js/jquery.signalR.min.js"></script>
 }

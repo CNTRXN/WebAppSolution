@@ -55,10 +55,6 @@
                     <p class="cab-text-info-sign">№</p>
                     <p id="planNum">@cabinet.PlanNum</p>
                 </div>
-                @* <div title="Группа">
-                    <p class="cab-text-info-sign">G</p>
-                    <p id="group">@cabinet.Group</p>
-                </div> *@
                 <div title="Этаж">
                     <p class="cab-text-info-sign">F</p>
                     <p id="floor">@cabinet.Floor</p>
@@ -103,9 +99,16 @@
                 } 
             </div>
             <div id="cab-info-buttons">
-                <button class="defaultButton" title="edit-cab-info" id="cab-info-edit">
-                    ✎
-                </button>
+                @{
+                    string currentUserId = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid) is Claim claimId ? claimId.Value : "0";
+                    if (respPerson != null && respPerson.Id.ToString() == currentUserId)
+                    {
+                        <button class="defaultButton" title="Редактировать" id="cab-info-edit" onclick="openEditor(infoType.cabinet, sendType.edit, @Model.Cabinet.Id)">
+                            ✎
+                        </button>
+                    }
+
+                }
             </div>
         </div>
 
@@ -127,8 +130,6 @@
         <div id="cab-select-info">
             <div id="cab-select-info-buttons">
                 <button class="cab-select-info-button" id="to-equipments">Оборудование</button>
-                <button class="cab-select-info-button" id="to-test-table">Test1</button>
-                <button class="cab-select-info-button">Test2</button>
 
                 @{
                     if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
@@ -141,7 +142,7 @@
                 } 
 
                 <div id="cab-select-info-button-bg"></div>
-                <button class="defaultButton" id="openrequestformbtn" onclick="openRequestForm([0])">Создать заявку</button>
+                <button class="defaultButton" id="openrequestformbtn" onclick="openEditor(infoType.cabinet, sendType.edit, @Model.Cabinet.Id)">Создать заявку</button>
             </div>
             
         </div>

@@ -48,4 +48,12 @@ let registerEditForm = () => {
             selectedItem.val(selectContainer.val());
         });
     });
+
+    var addEditContainer = document.getElementById('add-edit-container');
+
+    var closeButton = document.getElementById('close-add-edit-form');
+
+    $(closeButton).on("click", () => {
+        $(addEditContainer).remove();
+    });
 }
