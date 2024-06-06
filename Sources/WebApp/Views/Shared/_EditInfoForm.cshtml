@@ -13,11 +13,13 @@
 @{
     dynamic userModel = new { };
     var userIsAuth = Context.User.Identity != null && Context.User.Identity.IsAuthenticated;
+    bool isAdmin = Context.User.IsInRole("Admin");
 
     if (userIsAuth)
     {
         userModel = new
         {
+            Id = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value,
             Name = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
             Surname = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value,
             PermissionName = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
@@ -79,6 +81,7 @@
                     <input value="@result["Id"]" name="Id" type="hidden" required/>
                     <input value="@Model.SendType" name="sendType" type="hidden" required />
 
+
                     var formProperties = meta.GetFormPropName();
 
                     foreach (var property in formProperties)
@@ -89,21 +92,32 @@
 
                         if (meta.HasAttribute<SelectedValue>(property.Key))
                         {
+                            string typeName = property.Key;
+                            int? currentValue = null;
+                            var res = result[property.Key];
+
+                            if (res != null)
+                                currentValue = (int)res?.GetType().GetProperties()[0].GetValue(res, null);
+
+                            if(!isAdmin)
+                            {
+                                if (typeName == "ResponsiblePerson")
+                                {
+                                    bool currentUserIsRespPerson = currentValue.ToString() == userModel.Id;
+
+                                    if (currentUserIsRespPerson)
+                                    {
+                                        <input type="hidden" name="@property.Key" value="@currentValue" />
+                                        continue;
+                                    }
+                                }
+                            }
+
                             <div class="add-edit-select-container">
                                 <p class="add-edit-row-title">@property.Value</p>
                                 <div class="custom-select">
                                     <select name="@property.Key" required>
                                         @{
-                                            string typeName = property.Key;
-                                            int? currentValue = null;
-
-                                            var res = result[property.Key];
-
-                                            if (res != null)
-                                            {
-                                                currentValue = (int)res?.GetType().GetProperties()[0].GetValue(res, null);
-                                            }
-
                                             var selections = await GetEditFormSelectionValues(typeName);
                                             if (selections != null)
                                             {
@@ -145,8 +159,10 @@
                         }
                         else
                         {
-                            if (result[property.Key] is DateTime dateTime) 
+                            if (result[property.Key] is DateTime || meta.HasAttribute<DateValue>(property.Key))
                             {
+                                DateTime dateTime = Convert.ToDateTime(result[property.Key]);
+
                                 <div class="add-edit-input-value-container">
                                     <p class="add-edit-row-title">@property.Value</p>
                                     <input type="date" name="@property.Key" class="add-edit-row-input-value" value="@dateTime.ToString("yyyy-MM-dd")" required>

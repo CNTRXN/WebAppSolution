@@ -14,18 +14,23 @@
 
 @section CabinetInfoScripts {
     <link href="~/css/Tools.css" rel="stylesheet" type="text/css" />
-    <link href="~/css/CabList.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/Table.css" rel="stylesheet" type="text/css" />
     <script src="~/js/jquery-3.7.1.min.js" type="text/javascript"></script>
     <link href="~/css/RightMenu.css" rel="stylesheet" type="text/css" />
     <script src="~/js/RightMenu.js" type="text/javascript"></script>
     <script src="~/js/signalr.js"></script>
     <script src="~/js/jquery.signalR.min.js"></script>
+    <script src="~/js/InfoEditor.js" type="text/javascript"></script>
+    <link href="~/css/InfoEditor.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/ElementsStyle.css" rel="stylesheet" type="text/css" />
 }
 
 @section CabTable {
     <table>
         <tr>
-            @meta.TableName
+            <th class="header" colspan="100%">
+                @meta.TableName
+            </th>
         </tr>
         <tr>
             @{
@@ -117,6 +122,13 @@
                     </td>
                 </tr>
             }   
-        }      
+        }     
+        <tr>
+            <th class="footer" colspan="100%">
+                <button class="defaultButton" onclick="openEditor(infoType.cabinet, sendType.new, null)">Добавить кабинет</button>
+            </th>
+        </tr>
     </table>
+
+    
 }

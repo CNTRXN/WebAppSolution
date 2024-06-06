@@ -18,9 +18,6 @@
         case "Equipment":
             equipmentMeta.Assign<EquipmentDTO>();
             break;
-        // case "TestData":
-        //     equipmentMeta.Assign<TestData>();
-        //     break;
     }
 }
 
@@ -79,9 +76,6 @@
                         if (equipmentMeta.Type == typeof(EquipmentDTO))
                             data = equipmentMeta.GetValues<EquipmentDTO>(eqiup, withNotInclude: true);
 
-                        // if (equipmentMeta.Type == typeof(TestData))
-                        //     data = equipmentMeta.GetValues<TestData>(eqiup);
-
                         int equipId = 0;
 
                         foreach (var prop in eqiup.GetType().GetProperties())
@@ -132,6 +126,10 @@
     }
 </div>
 <div id="table-usings">
+    @{
+        //TODO: Передалать кнопку с добавления оборудования на прикрепление
+        //TODO: Сделать список с оборудованием
+    }
     <button class="defaultButton" onclick="openEditor(infoType.equipment, sendType.add, null)" id="add-button">
         +
     </button>

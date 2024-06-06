@@ -18,7 +18,7 @@ namespace ModelLib.DTO
         public string Surname { get; set; }
         [AlternativeName("Отчество")]
         public string? Patronymic { get; set; }
-        [Required, AlternativeName("День рождения")]
+        [Required, DateValue, AlternativeName("День рождения")]
         public DateTime Birthday { get; set; }
         [Required, AlternativeName("Логин")]
         public string Login { get; set; }

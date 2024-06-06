@@ -149,7 +149,7 @@
         width: 0;
     }
 
-    #cab-select-info-buttons > button {
+    #cab-select-info-buttons > .cab-select-info-button {
         width: 90%;
         height: 80%;
         margin-left: 5%;
@@ -159,6 +159,13 @@
         background-color: transparent;
         border: none;
         cursor: pointer;
+    }
+
+    #cab-select-info-buttons > .defaultButton {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
 #cab-select-info-button-bg {
@@ -700,7 +707,6 @@ div.table-prop-name {
     grid-column: 3;
     grid-row-start: 1;
     grid-row-end: 3;
-    background-color: rebeccapurple;
     width: 130px;
     display: grid;
     grid-template-columns: 1fr;

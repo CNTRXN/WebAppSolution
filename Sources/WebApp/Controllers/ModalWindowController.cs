@@ -114,16 +114,7 @@ namespace WebApp.Controllers
                 }, "images", image.FileName);
             }
 
-            /*var response = await AppStatics.ApiClient.PostAsync("api/Request/repair", multipartContent);
-
-            if (response.IsSuccessStatusCode)
-            {
-                Console.WriteLine("request send");
-            }
-            else
-            {
-                Console.WriteLine("error");
-            }*/
+            await AppSettings.Api.Client.PostAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Request, "repair"), multipartContent);
 
             return Redirect("/");
         }

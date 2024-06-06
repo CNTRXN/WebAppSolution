@@ -12,7 +12,9 @@ namespace WebApp.Controllers
         [HttpGet("users-list")]
         public async Task<ActionResult> UsersList() 
         {
-            return View();
+            List<UserDTO> users = (await AppSettings.Api.Client.GetFromJsonAsync<List<UserDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "all"))) ?? [];
+
+            return View(users);
         }
 
         [HttpPost("send-data-user")]
@@ -32,19 +34,13 @@ namespace WebApp.Controllers
                 Surname = userData.Surname
             };
 
-            await AppSettings.Api.Client.PutAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "update"), updateUser);
+            if(sendType == SendType.Edit)
+                await AppSettings.Api.Client.PutAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "update"), updateUser);
 
-            /*Console.WriteLine(sendType.ToString());
+            if(sendType == SendType.New)
+                await AppSettings.Api.Client.PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "registration"), updateUser);
 
-            Console.WriteLine($"" +
-                $"{userData.Id}\n" +
-                $"{userData.Name}\n" +
-                $"{userData.Surname}\n" +
-                $"{userData.Patronymic}\n" +
-                $"{userData.Birthday}\n" +
-                $"{userData.Permission.Id}");*/
-
-            return Ok();
+            return Redirect("../users-list");
         }
     }
 }

@@ -19,17 +19,19 @@ namespace WebAPI.Services.UserService
             {
                 Password = newUser.Password,
                 Name = newUser.Name,
-                Birthday = newUser.Birthday,
+                Birthday = newUser.Birthday.ToUniversalTime(),
                 Surname = newUser.Surname,
                 Patronymic = newUser.Patronymic,
                 Login = newUser.Login,
                 PermissionId = newUser.PermissionId,
             };
 
-            var addedUser = await context.Users.AddAsync(newUserData);
+            await context.Users.AddAsync(newUserData);
             await context.SaveChangesAsync();
 
-            return addedUser.Entity;
+            var added = await context.Users.FirstOrDefaultAsync(u => u.Id == newUserData.Id);
+
+            return added;
         }
 
         public async Task<bool> DeleteUser(int id)
@@ -126,9 +128,21 @@ namespace WebAPI.Services.UserService
             return user;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<IEnumerable<UserDTO>> GetUsers()
         {
-            return await context.Users.ToListAsync();
+            var users = await context.Users
+                .Select(u => new UserDTO()
+                {
+                    Id = u.Id,
+                    Birthday = u.Birthday,
+                    Name = u.Name,
+                    Surname = u.Surname,
+                    Patronymic = u.Patronymic,
+                    Permission = context.Permissions.First(p => p.Id == u.PermissionId)
+                })
+                .ToListAsync();
+
+            return users;
         }
 
         public async Task<UpdateUserDTO?> GetDetailUserInfo(int id) 

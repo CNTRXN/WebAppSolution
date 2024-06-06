@@ -30,7 +30,7 @@ namespace WebAPI.Tests
         [Test]
         public async Task GetUser_Return_OK() 
         {
-            var usersList = _fixture.CreateMany<User>(4);
+            var usersList = _fixture.CreateMany<UserDTO>(4);
 
             _userRepoMock.Setup(repo => repo.GetUsers().Result).Returns(usersList);
 

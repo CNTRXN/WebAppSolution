@@ -60,7 +60,7 @@ namespace WebAPI.Controllers
         }
 
         //Добавление оборудования к кабинету
-        [HttpPost("add-equip-to-cab/cabid={cabId:int}")]
+        [HttpPost("add-equip-to-cab/cabid={cabId}")]
         public async Task<IActionResult> AddEquipmentsToCabinet([FromRoute] int cabId, [FromBody] List<int> equipIdAndCount) 
         {
             var cabinet = await cabinetService.GetCabinet(cabId);

@@ -11,6 +11,26 @@
     box-shadow: 0px 5px 15px -4px rgba(34, 60, 80, 0.4);
 }
 
+tr.header {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+tr.footer {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    height: 50px;
+}
+
+    .footer > button {
+        height: 30px;
+        width: auto;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
 th {
     border-bottom: 1px solid #bfbfbf;
     background-color: #e5e5e5;
@@ -19,7 +39,6 @@ th {
     padding-left: 10px;
     padding-right: 10px;
     user-select: none;
-
     max-width: 150px
 }
 
@@ -40,27 +59,27 @@ td {
     max-width: 150px
 }
 
-    td > button {
-        min-height: 40px;
-        margin-top: 5px;
-        cursor: pointer;
-        border: none;
-        border-radius: 10px;
-        user-select: none;
-        font-size: 12pt;
+button {
+    min-height: 40px;
+    margin-top: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    user-select: none;
+    font-size: 12pt;
 
-        background-color: #f0f0f0;
-        color: #5555FF;
-        transition: all 0.05s ease-in-out;
-    }
+    background-color: #f0f0f0;
+    color: #5555FF;
+    transition: all 0.05s ease-in-out;
+}
 
-        td > button:hover {
-            background-color: #9C9CFF;
-            color: #f0f0f0;
-        }
+button:hover {
+    background-color: #9C9CFF;
+    color: #f0f0f0;
+}
 
-        td > button:active {
-            background-color: #4a47d0;
-            color: #f0f0f0;
-            transform: scale(0.95);
-        }
+button:active {
+    background-color: #4a47d0;
+    color: #f0f0f0;
+    transform: scale(0.95);
+}

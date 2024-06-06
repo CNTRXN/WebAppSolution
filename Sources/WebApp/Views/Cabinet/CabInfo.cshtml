@@ -1,7 +1,4 @@
-﻿@{
-    //TODO Перенести атрибуты в ModelLib, что бы можно было использовать одну модель данных
-}
-@using ModelLib.DTO;
+﻿@using ModelLib.DTO;
 @using WebApp.Settings;
 @using WebApp.Models;
 @using System.Collections;
@@ -23,6 +20,13 @@
     var respPerson = cabinet.ResponsiblePerson;
 
     Context.Response.Cookies.Append("cabid", cabinet.Id.ToString());
+
+    string currentUserId = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid) is Claim claim ? claim.Value : "0";
+
+    bool isCurrentUserIsRespPerson = respPerson is UserDTO user ? user.Id.ToString() == currentUserId : false;
+    bool isPermissionIsMaster = Context.User.IsInRole("Master");
+    bool isPermissionIsAdmin = Context.User.IsInRole("Admin");
+    bool isPermissionHigherThenUser = !Context.User.IsInRole("User");
 }
 
 @section CabInfoScripts {
@@ -100,14 +104,12 @@
             </div>
             <div id="cab-info-buttons">
                 @{
-                    string currentUserId = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid) is Claim claimId ? claimId.Value : "0";
-                    if (respPerson != null && respPerson.Id.ToString() == currentUserId)
+                    if (isCurrentUserIsRespPerson || isPermissionIsAdmin)
                     {
                         <button class="defaultButton" title="Редактировать" id="cab-info-edit" onclick="openEditor(infoType.cabinet, sendType.edit, @Model.Cabinet.Id)">
                             ✎
                         </button>
                     }
-
                 }
             </div>
         </div>
@@ -134,9 +136,9 @@
                 @{
                     if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
                     {
-                        if (Context.User.IsInRole("Master"))
+                        if (isPermissionHigherThenUser)
                         {
-                            <button class="cab-select-info-button" id="show-cabinet-requests">Заявки для кабинета</button>
+                            <button class="cab-select-info-button" id="show-cabinet-requests">Заявки кабинета</button>
                         }
                     }
                 } 
@@ -147,30 +149,12 @@
             
         </div>
 
-        <!--test-->
         <div id="table-data-view">
             <div id="main-table">
-                @* @await Html.PartialAsync("_TableTemplatePartial", Model) *@
+
             </div>
         </div>
-
     </div>
-
-    @* <div id="show-image-list">
-        <div id="black-screen-img-list"></div>
-        <div id="image-list-form">
-            <div id="image-list-meta">
-                <p id="image-list-meta-name">
-                    Фотографии
-                </p>
-                <button id="image-list-close" class="defaultButton">
-                    X
-                </button>
-            </div>
-            <div id="image-list">
-            </div>
-        </div>
-    </div> *@
 
     <template id="show-image-form-button">
         <button class="defaultButton" type="button" id="open-image-form" title="show-more-photos">

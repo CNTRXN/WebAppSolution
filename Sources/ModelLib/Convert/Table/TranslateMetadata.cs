@@ -344,15 +344,16 @@ namespace ModelLib.Convert.Table
 
             if (foundResult != null) 
             {
-                if (foundResult is IEnumerable listResult) 
+                if (foundResult is IEnumerable<object> listResult) 
                 {
-                    foreach (var item in listResult) 
+                    /*foreach (var item in listResult) 
                     {
                         if (item.ToString() == value.ToString())
                             isEquals = true;
 
                         break;
-                    }
+                    }*/
+                    isEquals = listResult.Contains(value);
                 }
             }
 

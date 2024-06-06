@@ -46,7 +46,7 @@ namespace WebAPI.Services.RequestService
             {
                 Title = newRequest.Title,
                 Description = newRequest.Description,
-                CreatedDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc),
+                CreatedDate = DateTime.Now.ToUniversalTime(),
                 RequestStatusId = 1,
                 RequestTypeId = 1,
                 CabId = cabinet.Id,

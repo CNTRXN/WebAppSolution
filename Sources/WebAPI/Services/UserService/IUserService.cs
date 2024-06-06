@@ -5,7 +5,7 @@ namespace WebAPI.Services.UserService
 {
     public interface IUserService
     {
-        Task<IEnumerable<User>> GetUsers();
+        Task<IEnumerable<UserDTO>> GetUsers();
         Task<UserDTO?> GetUser(int id);
         Task<UserDTO?> GetUser(string login, string password);
         Task<UpdateUserDTO?> GetDetailUserInfo(int id);

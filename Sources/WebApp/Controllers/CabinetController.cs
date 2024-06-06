@@ -6,6 +6,7 @@ using System.Net.Http.Json;
 using System.Security.Claims;
 using WebApp.Models.PageModels;
 using WebApp.Settings;
+using ModelLib.Debug;
 
 namespace WebApp.Controllers
 {
@@ -16,7 +17,7 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<ActionResult> CabList()
         {
-            var cabs = await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "all")); //"api/Cabinet/all");
+            List<CabinetDTO> cabs = (await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "all"))) ?? [];
 
             return View(cabs);
         }
@@ -47,10 +48,6 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<ActionResult> CabInfo([FromRoute] int id)
         {
-            //Cabinet? cabinet = await apiHttpClient.GetFromJsonAsync<Cabinet>($"api/Cabinet/get/id={id}");
-
-            //Сделать запрос к списку оборудования
-
             return View(await GetCabinetInfo(id));
         }
 
@@ -138,13 +135,37 @@ namespace WebApp.Controllers
 
         [HttpPost("send-data-cabinet")]
         [Authorize]
-        public async Task<ActionResult> SendEditedCabinet([FromForm] CabinetDTO equipment, [FromForm] int EquipmentType, [FromForm] SendType sendType)
+        public async Task<ActionResult> SendEditedCabinet([FromForm] CabinetDTO cabinet, [FromForm] int ResponsiblePerson, [FromForm] SendType sendType)
         {
-            Console.WriteLine($"{equipment.Id}");
+            cabinet.ResponsiblePerson = new()
+            {
+                Id = ResponsiblePerson
+            };
 
-            return Ok();
+            var cabinetID = Request.Cookies["cabid"];
+
+            AppSettings.Api.Client.DefaultRequestHeaders.Clear();
+            AppSettings.Api.Client.DefaultRequestHeaders.Add("id", cabinetID);
+
+            NewCabinetDTO cabinetData = new()
+            {
+                ResponsiblePersonId = cabinet.ResponsiblePerson.Id,
+                Floor = cabinet.Floor,
+                Height = cabinet.Height,
+                Length = cabinet.Length,
+                Num = cabinet.Num,
+                PlanNum = cabinet.PlanNum,
+                Width = cabinet.Width
+            };
+
+            if (sendType == SendType.Edit)
+                await AppSettings.Api.Client.PutAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "update"), cabinetData);
+
+            if (sendType == SendType.New)
+                await AppSettings.Api.Client.PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "new"), cabinetData);
+
+            return Redirect($"/cabinets/cabientId={cabinetID}");
         }
-
 
         [HttpPost("send-data-equipment")]
         [Authorize]
@@ -155,14 +176,12 @@ namespace WebApp.Controllers
                 Id = EquipmentType
             };
 
-            Console.WriteLine(sendType.ToString());
-
             var cabinetID = Request.Cookies["cabid"];
 
             AppSettings.Api.Client.DefaultRequestHeaders.Clear();
             AppSettings.Api.Client.DefaultRequestHeaders.Add("id", equipment.Id.ToString());
 
-            NewEquipmentDTO updateEquipment = new()
+            NewEquipmentDTO equipmentData = new()
             {
                 Description = equipment.Description,
                 InventoryNumber = equipment.InventoryNumber,
@@ -171,11 +190,13 @@ namespace WebApp.Controllers
             };
 
             if(sendType == SendType.Edit)
-                await AppSettings.Api.Client.PutAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, "update"), updateEquipment);
+                await AppSettings.Api.Client.PutAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, "update"), equipmentData);
+
+            if (sendType == SendType.New)
+                await AppSettings.Api.Client.PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, "new"), equipmentData);
 
             return Redirect($"/cabinets/cabientId={cabinetID}");
         }
-
 
 
         private static async Task<CabInfoPage> GetCabinetInfo(int cabId) 

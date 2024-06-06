@@ -91,7 +91,7 @@ namespace WebApp.Controllers
                 errorMessage = "Пароли не совпадают";
             }
 
-            if (!string.IsNullOrEmpty(errorMessage)) 
+            if (string.IsNullOrEmpty(errorMessage)) 
             {
                 try
                 {
@@ -130,14 +130,14 @@ namespace WebApp.Controllers
             {
                 TempData["errorMessage"] = errorMessage;
 
-                return View("LogAndReg");
+                return View("AuthAndReg");
             }
             else if (!string.IsNullOrEmpty(succesfulMessage))
             {
                 TempData["succesfulMessage"] = succesfulMessage;
             }
 
-            return View("LogAndReg");
+            return View("AuthAndReg");
         }
 
         [HttpGet("profile={id}")]
