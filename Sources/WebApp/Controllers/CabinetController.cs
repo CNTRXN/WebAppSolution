@@ -61,6 +61,8 @@ namespace WebApp.Controllers
         {
             var cabinetInfo = await GetCabinetInfo(cabId);
 
+            cabinetInfo.SearchQuery = searchField;
+
             var searchData = type switch
             {
                 "equipment" => (await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get-equip/cabid={cabId}")))?.Cast<dynamic>().ToList(),
@@ -75,7 +77,8 @@ namespace WebApp.Controllers
                     if (type == "equipment") {
                         cabinetInfo.Equipments = searchData?.Where(c =>
                             c.Name.Contains(searchField) ||
-                            c.Description.Contains(searchField)
+                            c.Description.Contains(searchField) ||
+                            c.InventoryNumber.Contains(searchField)
                         ).Cast<dynamic>().ToList() ?? [];
                     }
                 }
@@ -133,6 +136,16 @@ namespace WebApp.Controllers
             return PartialView("CabInfo/_CabinetRequestsPartial", requests);
         }
 
+        [HttpPost("send-data-cabinet")]
+        [Authorize]
+        public async Task<ActionResult> SendEditedCabinet([FromForm] CabinetDTO equipment, [FromForm] int EquipmentType, [FromForm] SendType sendType)
+        {
+            Console.WriteLine($"{equipment.Id}");
+
+            return Ok();
+        }
+
+
         [HttpPost("send-data-equipment")]
         [Authorize]
         public async Task<ActionResult> SendEditedEquipment([FromForm] EquipmentDTO equipment, [FromForm] int EquipmentType, [FromForm] SendType sendType) 
@@ -144,12 +157,7 @@ namespace WebApp.Controllers
 
             Console.WriteLine(sendType.ToString());
 
-            /*Console.WriteLine($"" +
-               $"{equipment.Id}\n" +
-               $"{equipment.Name}\n" +
-               $"{equipment.Description}\n" +
-               $"{equipment.InventoryNumber}\n" +
-               $"{equipment.EquipmentType.Id}");*/
+            var cabinetID = Request.Cookies["cabid"];
 
             AppSettings.Api.Client.DefaultRequestHeaders.Clear();
             AppSettings.Api.Client.DefaultRequestHeaders.Add("id", equipment.Id.ToString());
@@ -162,9 +170,10 @@ namespace WebApp.Controllers
                 TypeId = EquipmentType
             };
 
-            await AppSettings.Api.Client.PutAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, "update"), updateEquipment);
+            if(sendType == SendType.Edit)
+                await AppSettings.Api.Client.PutAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, "update"), updateEquipment);
 
-            return Ok();
+            return Redirect($"/cabinets/cabientId={cabinetID}");
         }
 
 

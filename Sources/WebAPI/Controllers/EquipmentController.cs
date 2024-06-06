@@ -2,7 +2,6 @@
 using ModelLib.Model;
 using ModelLib.DTO;
 using WebAPI.Services.EquipmentService;
-using ModelLib.Debug;
 
 namespace WebAPI.Controllers
 {

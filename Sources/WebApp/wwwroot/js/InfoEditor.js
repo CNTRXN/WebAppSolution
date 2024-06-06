@@ -24,8 +24,6 @@ function openEditor(info_type, send_type, item_id = null) {
             "sendType": send_type
         },
         success: function (response) {
-            // При успешном получении ответа, обновляем содержимое контейнера с partial view
-            /*$(document.body).insertAfter(response);*/
             $('body').append(response);
 
             registerEditForm();

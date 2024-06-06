@@ -316,8 +316,6 @@ var setSelectedContainer = (containerOnChange, type, value, it = invokeType.star
             });
             break;
         case ContainerType.equipment:
-            //let selectedElem = containerOnChange.querySelectorAll('.delete');
-            //!!!!
             if (it == invokeType.new) {
                 var createdEquipmentTemplate = createObject(objectType.selected, ContainerType.equipment);
 

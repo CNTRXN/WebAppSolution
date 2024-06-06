@@ -152,7 +152,7 @@ namespace WebApp.Controllers
         //Форма добавления/изменения информации
         #region Форма добавления/изменения информации
         [HttpGet("show-editor-form")]
-        [Authorize(Roles = "Master, Admin")]
+        [Authorize]
         public async Task<ActionResult> ShowAddEditForm([FromHeader] int infoTypeCode, [FromHeader] int? itemId, [FromHeader] int sendType) 
         {
             Console.WriteLine($"code: {infoTypeCode}\nid: {itemId}");
