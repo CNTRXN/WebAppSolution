@@ -286,8 +286,9 @@ var setSelectedContainer = (containerOnChange, type, value, it = invokeType.star
 
             var valueElem = createdCabTemplate.querySelector('input');
             if (!$(valueElem).val()) {
-                if (value != null)
-                    $(valueElem).val(value)
+                if (value != null) {
+                    $(valueElem).val(value);
+                }
             }
 
             var deleteCabinetButton = createdCabTemplate.querySelector(".delete");
@@ -319,10 +320,21 @@ var setSelectedContainer = (containerOnChange, type, value, it = invokeType.star
             if (it == invokeType.new) {
                 var createdEquipmentTemplate = createObject(objectType.selected, ContainerType.equipment);
 
+                var selectedObjectForm = document.getElementById('select-object');
+                var options = selectedObjectForm.querySelectorAll('option');
+
                 var valueElem = createdEquipmentTemplate.querySelector('input');
                 if ($(valueElem).val()) {
-                    if (value != null)
+                    if (value != null) {
                         $(valueElem).val(value)
+                        options.forEach(elem => {
+                            if (elem.value == value) {
+                                var textContentElement = valueElem.parentElement.querySelector('.single-element-content');
+                                textContentElement.textContent = elem.text;
+                            }
+                            //TODO: Сделать так что бы добавленные не повторялись в спсике
+                        });
+                    }
                 }
 
                 containerOnChange.insertBefore(createdEquipmentTemplate, containerOnChange.firstElementChild);
