@@ -11,12 +11,13 @@
 
 @{
     TranslateMetadata<IMetaData> equipmentMeta = new();
-
+    string type = string.Empty;
 
     switch (Model.SelectedList)
     {
         case "Equipment":
             equipmentMeta.Assign<EquipmentDTO>();
+            type = "equipment";
             break;
     }
 }
@@ -130,7 +131,10 @@
         //TODO: Передалать кнопку с добавления оборудования на прикрепление
         //TODO: Сделать список с оборудованием
     }
-    <button class="defaultButton" onclick="openEditor(infoType.equipment, sendType.add, null)" id="add-button">
+    @* <button class="defaultButton" onclick="openEditor(infoType.equipment, sendType.add, null)" id="add-button">
         +
+    </button> *@
+    <button class="defaultButton" id="attaching-button">
+        Добавить оборудование к кабинету
     </button>
 </div>

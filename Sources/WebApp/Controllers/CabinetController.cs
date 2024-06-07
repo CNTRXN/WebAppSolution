@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModelLib.DTO;
-using ModelLib.Model;
-using System.Net.Http.Json;
 using System.Security.Claims;
+using System.Text.Json;
 using WebApp.Models.PageModels;
 using WebApp.Settings;
-using ModelLib.Debug;
 
 namespace WebApp.Controllers
 {
@@ -81,6 +79,25 @@ namespace WebApp.Controllers
                 }
 
             return PartialView("CabInfo/_TableTemplatePartial", cabinetInfo);
+        }
+
+        [HttpGet("attach-equipments-to-cabinet")]
+        [Authorize]
+        public async Task<ActionResult> AttachEquipmentToCabinet([FromHeader] int cabId, [FromQuery] string r_equipmentsIds) 
+        {
+            var formated = r_equipmentsIds.Replace(@"\", "").Replace("\"", "");
+
+            List<int>? equipments = JsonSerializer.Deserialize<List<int>>(formated);
+
+            if(cabId != 0)
+            {
+                if (equipments != null)
+                {
+                    await AppSettings.Api.Client.PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"add-equip-to-cab/cabid={cabId}"), equipments);
+                }
+            }
+            
+            return Redirect($"../cabinets/cabientId={cabId}");
         }
 
         [HttpGet("show-equipments")]

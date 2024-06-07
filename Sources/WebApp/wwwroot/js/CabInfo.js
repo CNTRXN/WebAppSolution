@@ -28,6 +28,11 @@ $(window).on("load", () => {
 
     showCabinetData('/show-equipments');
 
+    /*
+        
+    
+    */
+
     $.each(buttons, function () {
         $(this).on("click", function () {
             var newIndex = Array.from(buttons).indexOf(this) + 1;
@@ -112,6 +117,7 @@ $(window).on("load", () => {
                 $("#main-table").html(response);
 
                 searchEquipment(type);
+                tableButtons(type);
             },
             error: function () {
                 console.log('error load');
@@ -153,6 +159,85 @@ $(window).on("load", () => {
                         });
                     }
                 }
+            }
+        }
+
+        function tableButtons(type) {
+            $("#attaching-button").on("click", () => {
+                if (type == "equipment") {
+                    $.ajax({
+                        url: '/show-select-object',
+                        type: 'GET',
+                        dataType: "html",
+                        headers: {
+                            "Access-Control-Allow-Origin": "true",
+                            "getType": "equipments"
+                        },
+                        success: function (response) {
+                            $("body").append(response);
+                            cssSelectedForm();
+                            
+
+                            //onSelectObject(containerOnChange, ContainerType.equipment, openSelectType.page);
+
+                            onSelectObject();
+
+
+                            $("#close-select-form").on("click", (e) => {
+                                $("#other-form-container").remove();
+                            });
+                        },
+                        error: function () {
+
+                        }
+                    });
+                }
+            });
+
+            function onSelectObject() {
+                var selectedObjects = [];
+                $("#select-object").on("change", (e) => {
+                    $("select option:selected").each(function () {
+                        selectedObjects.push($(this).attr("value"));
+                    });
+
+                    if (selectedObjects.length > 0) {
+                        $("#select-this-object").show();
+                    }
+                    else {
+                        $("#select-this-object").hide();
+                    }
+                });
+
+                $("#select-this-object").on("click", () => {
+                    $.ajax({
+                        url: '/attach-equipments-to-cabinet',
+                        type: 'GET',
+                        contentType: 'application/json',
+                        headers: {
+                            "Access-Control-Allow-Origin": "true",
+                            "cabId": cookie.cabid !== 0 ? parseInt(cookie.cabid) : 0,
+                        },
+                        data: {
+                            "r_equipmentsIds": JSON.stringify(selectedObjects)
+                        },
+                        success: (response) => {
+                            window.location.reload();
+                        },
+                        error: (err) => {
+
+                        }
+                    });
+                });
+            }
+
+            function cssSelectedForm() {
+                $("#other-form-container").css("width", "100%");
+                $("#other-form-container").css("height", "100%");
+                $("#other-form-container").css("position", "fixed");
+                $("#other-form-container").css("top", "0");
+                $("#other-form-container-bg").addClass("black-screen");
+                $("#other-form-container-bg").removeAttr("id");
             }
         }
     }

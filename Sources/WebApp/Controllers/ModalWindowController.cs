@@ -9,6 +9,7 @@ using System.Text.Json;
 using ModelLib.DTO;
 using WebApp.Settings;
 using WebApp.Models.PageModels;
+using ModelLib.Model;
 
 namespace WebApp.Controllers
 {
@@ -65,11 +66,13 @@ namespace WebApp.Controllers
         [Authorize]
         public async Task<ActionResult> ShowSelectObject([FromHeader] int cabId, [FromHeader] string getType)
         {
+
             dynamic? getData = getType switch
             {
-                "cabinets" => cabId != 0 ? await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get/cabid={cabId}"))//$"api/Cabinet/get/cabid={cabId}")
-                    : await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "all")),//$"api/Cabinet/all"),
-                "equipments" => await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get-equip/cabid={cabId}")),//$"api/Cabinet/get-equip/cabid={cabId}"),
+                "cabinets" => cabId != 0 ? await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get/cabid={cabId}"))
+                    : await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "all")),
+                "equipments" => cabId != 0 ? await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get-equip/cabid={cabId}")) 
+                    : await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, $"all")),
                 _ => null
             };
 

@@ -53,7 +53,7 @@ namespace WebAPI.Services.CabinetService
                 {
                     //Проверка: не привязано ли оборудование к какому-нибудь кабинету
                     var equipmentInOtherCabinet = await context.CabinetEquipments
-                        .AnyAsync(ce => ce.EquipmentId == equipment.Id);
+                        .AnyAsync(ce => ce.EquipmentId == equipment.Id && ce.CabinetId != cabId);
 
                     if (!equipmentInOtherCabinet)
                     {

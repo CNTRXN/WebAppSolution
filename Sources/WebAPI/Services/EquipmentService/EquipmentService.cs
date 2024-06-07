@@ -171,9 +171,20 @@ namespace WebAPI.Services.EquipmentService
             return equipments;
         }
 
-        public async Task<IEnumerable<Equipment>> GetEquipments()
+        public async Task<IEnumerable<EquipmentDTO>> GetEquipments()
         {
-            return await context.Equipments.ToListAsync();
+            var equipments = await context.Equipments
+                .Select(e => new EquipmentDTO() 
+                { 
+                    Id = e.Id,
+                    Description = e.Description,
+                    EquipmentType = context.EquipmentTypes.First(et => et.Id == e.TypeId),
+                    InventoryNumber = e.InventoryNumber,
+                    Name = e.Name
+                })
+                .ToListAsync();
+
+            return equipments;
         }
 
         public async Task<bool> UpdateEquipment(int equipmentId, NewEquipmentDTO updateEquipment)

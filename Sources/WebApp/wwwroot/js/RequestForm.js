@@ -13,6 +13,11 @@ var invokeType = Object.freeze({
     new: 1
 });
 
+var openSelectType = Object.freeze({
+    form: 0,
+    page: 1
+});
+
 const oncabinetchange = new Event("cabinetchange");
 const onequipmentchange = new Event("equipmentchange");
 window.onload = () => {
@@ -365,7 +370,7 @@ function onSelectedEquipmentsChanged() {
         addButton.setAttribute('required', '')
 }
 
-function onSelectObject(container, type) {
+function onSelectObject(container, type, formType = openSelectType.form) {
     var selectedObjects = null;
     $("#select-object").on("change", (e) => {
         selectedObjects = [];
@@ -382,16 +387,21 @@ function onSelectObject(container, type) {
     });
 
     $("#select-this-object").on("click", (e) => {
-        Array.from(selectedObjects).forEach(elem => {
-            if (type == ContainerType.cabinet) {
-                setSelectedContainer(container, ContainerType.cabinet, elem);
-            } else if (type == ContainerType.equipment) {
-                setSelectedContainer(container, ContainerType.equipment, elem, invokeType.new);
-            }
-        });
+        if (formType == openSelectType.form) {
+            Array.from(selectedObjects).forEach(elem => {
+                if (type == ContainerType.cabinet) {
+                    setSelectedContainer(container, ContainerType.cabinet, elem);
+                } else if (type == ContainerType.equipment) {
+                    setSelectedContainer(container, ContainerType.equipment, elem, invokeType.new);
+                }
+            });
 
-        if (type == ContainerType.equipment)
-            onSelectedEquipmentsChanged();
+            if (type == ContainerType.equipment)
+                onSelectedEquipmentsChanged();
+        }
+        else if (formType == openSelectType.page) {
+            console.log("page");
+        }
 
         $("#other-form-container").remove();
     });

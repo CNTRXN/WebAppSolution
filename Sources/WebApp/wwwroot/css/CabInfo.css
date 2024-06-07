@@ -413,10 +413,22 @@
 }
 
 #add-button {
-    width: 175px;
-    height: 40px;
     font-size: 20pt;
-    position: absolute;
+}
+
+#attaching-button {
+    font-size: 16pt;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#add-button, #attaching-button {
+    min-width: 175px;
+    max-height: 40px;
+    
+    position: relative;
     left: 50%;
     margin: 0;
     margin-right: -50%;
