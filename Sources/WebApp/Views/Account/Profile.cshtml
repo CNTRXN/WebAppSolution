@@ -16,6 +16,8 @@
             userId = int.Parse(userIdAsString);
     }
 
+    Context.Response.Cookies.Append("userid", Model.Id.ToString());
+
     bool isCurrentUser = (userId != null && userId == Model.Id) && isAuth;
 }
 

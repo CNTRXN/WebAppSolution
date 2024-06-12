@@ -2,12 +2,14 @@
 using ModelLib.Model;
 using ModelLib.DTO;
 using WebAPI.Services.EquipmentService;
+using WebAPI.Services.Notification;
+using Microsoft.AspNetCore.SignalR;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EquipmentController(IEquipmentService equipmentService) : ControllerBase
+    public class EquipmentController(IEquipmentService equipmentService, IHubContext<NotificationService> hubContext) : ControllerBase
     {
 
         [HttpGet("all")]
@@ -51,6 +53,17 @@ namespace WebAPI.Controllers
             if (addedCount == null)
                 return BadRequest("Не удалось добавить записи");
 
+            var senderId = HttpContext.Request.Cookies["sender-id"];
+            var connectionId = NotificationService.ConnectedUsers
+                .Where(cu => cu.UserId == senderId)
+                .Select(cu => cu.ConnectionId)
+                .FirstOrDefault();
+
+            if (connectionId != null)
+            {
+                await hubContext.Clients.Client(connectionId).SendAsync("UpdatePage");
+            }
+
             return Ok($"Добавлено {addedCount} записи");
         }
 
@@ -62,6 +75,17 @@ namespace WebAPI.Controllers
             if (deletedEquipments == null)
                 return BadRequest("Не удалось удалить записи");
 
+            var senderId = HttpContext.Request.Cookies["sender-id"];
+            var connectionId = NotificationService.ConnectedUsers
+                .Where(cu => cu.UserId == senderId)
+                .Select(cu => cu.ConnectionId)
+                .FirstOrDefault();
+
+            if (connectionId != null)
+            {
+                await hubContext.Clients.Client(connectionId).SendAsync("UpdatePage");
+            }
+
             return Ok($"Удалено {deletedEquipments} записи");
         }
 
@@ -72,6 +96,17 @@ namespace WebAPI.Controllers
 
             if (!updateEquipmentResult)
                 return BadRequest("Не удалось обновить запись");
+
+            var senderId = HttpContext.Request.Cookies["sender-id"];
+            var connectionId = NotificationService.ConnectedUsers
+                .Where(cu => cu.UserId == senderId)
+                .Select(cu => cu.ConnectionId)
+                .FirstOrDefault();
+
+            if (connectionId != null)
+            {
+                await hubContext.Clients.Client(connectionId).SendAsync("UpdatePage");
+            }
 
             //ApiDebug.ConsoleOutput(updateEquipment);
 

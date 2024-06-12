@@ -132,7 +132,6 @@
         <div id="cab-select-info">
             <div id="cab-select-info-buttons">
                 <button class="cab-select-info-button" id="to-equipments">Оборудование</button>
-
                 @{
                     if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
                     {
@@ -140,11 +139,17 @@
                         {
                             <button class="cab-select-info-button" id="show-cabinet-requests">Заявки кабинета</button>
                         }
+
+
+                    }
+
+                    <div id="cab-select-info-button-bg"></div>
+
+                    if (isCurrentUserIsRespPerson)
+                    {
+                        <button class="defaultButton" id="openrequestformbtn" onclick="openRequestForm()">Создать заявку</button>
                     }
                 } 
-
-                <div id="cab-select-info-button-bg"></div>
-                <button class="defaultButton" id="openrequestformbtn" onclick="openRequestForm()">Создать заявку</button>
             </div>
             
         </div>

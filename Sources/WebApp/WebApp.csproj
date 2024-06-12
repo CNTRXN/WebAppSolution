@@ -19,7 +19,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\NotAuth.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Settings\TranslateNames.cs~RF4f9ff20.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\NotAuth.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +37,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\css\Main.css" />
+    <None Include="wwwroot\js\NotAuth.js" />
   </ItemGroup>
 
   <ItemGroup>

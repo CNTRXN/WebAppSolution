@@ -69,10 +69,10 @@ namespace WebAPI.DataContext
                 .HasIndex(c => c.PlanNum)
                 .IsUnique();
 
-            modelBuilder
+           /* modelBuilder
                 .Entity<Cabinet>()
                 .HasIndex(c => c.ResponsiblePersonId)
-                .IsUnique();
+                .IsUnique();*/
 
             modelBuilder
                 .Entity<Cabinet>()

@@ -1,4 +1,6 @@
-﻿namespace WebApp.Settings
+﻿using System.Net;
+
+namespace WebApp.Settings
 {
     public enum ApiRequestType
     {
@@ -13,7 +15,8 @@
     }
     public class ApiSettings
     {
-        public static string s_apiUrl { get; } = "http://localhost:5215/";
+        //public static string s_apiUrl { get; } = "http://localhost:5215/";
+        public static string s_apiUrl { get; } = "https://localhost:5002/";
         public string ApiUrl => s_apiUrl;
         public string ApiCabinetRoute { get; } = "api/Cabinet/";
         public string ApiEquipmentRoute { get; } = "api/Equipment/";
@@ -23,11 +26,44 @@
         public string ApiRequestStatusRoute { get; } = "api/RequestStatus/";
         public string ApiRequestTypeRoute { get; } = "api/RequestType/";
         public string ApiUserRoute { get; } = "api/User/";
-
-        public HttpClient Client { get; } = new()
+   
+        private readonly static CookieContainer cookiesContainer = new();
+        private readonly static HttpClientHandler clientHandler = new()
         {
-            BaseAddress = new Uri(s_apiUrl)
+            CookieContainer = cookiesContainer
         };
+        private static Uri _baseAddress { get; } = new Uri(s_apiUrl);
+        public HttpClient Client { get; } = new(clientHandler)
+        {
+            BaseAddress = _baseAddress
+        };
+
+        public void SetCookies(Dictionary<string, string> cookies) 
+        {
+            foreach (var item in cookies)
+            {
+                cookiesContainer.Add(_baseAddress, new Cookie() 
+                {
+                    Name = item.Key,
+                    Value = item.Value,
+                });
+            }
+        }
+
+        public void SetHeaders(Dictionary<string, string> headers) 
+        {
+            Client.DefaultRequestHeaders.Clear();
+
+            foreach (var item in headers) 
+            {
+                Client.DefaultRequestHeaders.Add(item.Key, item.Value);
+            }
+        }
+
+        public void ClearHeaders() 
+        {
+            Client.DefaultRequestHeaders.Clear();
+        }
 
         public string ApiRequestUrl(ApiRequestType apiRequestType, string route)
         {

@@ -24,7 +24,7 @@ namespace WebAPI.Services.CabinetService
                 Height = newCabinet.Height,
                 Length = newCabinet.Length,
                 Width = newCabinet.Width,
-                ResponsiblePersonId = newCabinet.ResponsiblePersonId
+                ResponsiblePersonId = newCabinet.ResponsiblePersonId,
             };
 
             await context.AddAsync(addedCabinet);

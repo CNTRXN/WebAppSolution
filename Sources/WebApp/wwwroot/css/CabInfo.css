@@ -725,15 +725,6 @@ div.table-prop-name {
     grid-template-rows: repeat(2, 1fr);
 }
 
-.request-control-button > select {
-    grid-row: 2;
-    height: 30px;
-    width: 100px;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
 /*#endregion*/
 
 
@@ -939,5 +930,15 @@ div.table-prop-name {
 
 #change-responsible-person-form-selection:focus {
     outline: none;
+}
+
+.request-change-status {
+    grid-row: 2;
+    height: 30px;
+    width: 100px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 /*#endregion*/

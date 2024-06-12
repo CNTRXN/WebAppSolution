@@ -4,18 +4,21 @@ using ModelLib.DTO;
 using System.Security.Claims;
 using System.Text.Json;
 using WebApp.Models.PageModels;
+using WebApp.Extensions;
 using WebApp.Settings;
 
 namespace WebApp.Controllers
 {
     public class CabinetController : Controller
     {
-        //Action для загрузки страницы кабинетов
+        #region Action для показа кабинетов
         [HttpGet("cabinets")]
         [Authorize]
         public async Task<ActionResult> CabList()
         {
             List<CabinetDTO> cabs = (await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "all"))) ?? [];
+
+            HttpContext.ClearAllIdentityCookie();
 
             return View(cabs);
         }
@@ -30,6 +33,8 @@ namespace WebApp.Controllers
 
             var cabs = await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"cabinets-by-user={userId}"));
 
+            HttpContext.ClearAllIdentityCookie();
+
             return View("CabList", cabs);
         }
 
@@ -37,16 +42,23 @@ namespace WebApp.Controllers
         public async Task<ActionResult> ShowCabinetsByUsers([FromRoute] int userId) 
         {
             var cabs = await AppSettings.Api.Client.GetFromJsonAsync<List<CabinetDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"cabinets-by-user={userId}"));
-            
+
+            HttpContext.ClearAllIdentityCookie();
+
             return View("CabList", cabs);
         }
+        #endregion
 
         //Action для загрузки страницы с информацией об кабинете
         [HttpGet("cabinets/cabientId={id}")]
         [Authorize]
         public async Task<ActionResult> CabInfo([FromRoute] int id)
         {
-            return View(await GetCabinetInfo(id));
+            var cabinetInfo = await GetCabinetInfo(id);
+
+            HttpContext.DeleteCookieByName("userid");
+
+            return View(cabinetInfo);
         }
 
         //Action для поиска оборудования в кабинете
@@ -83,7 +95,7 @@ namespace WebApp.Controllers
 
         [HttpGet("attach-equipments-to-cabinet")]
         [Authorize]
-        public async Task<ActionResult> AttachEquipmentToCabinet([FromHeader] int cabId, [FromQuery] string r_equipmentsIds) 
+        public async Task AttachEquipmentToCabinet([FromHeader] int cabId, [FromQuery] string r_equipmentsIds) 
         {
             var formated = r_equipmentsIds.Replace(@"\", "").Replace("\"", "");
 
@@ -93,66 +105,43 @@ namespace WebApp.Controllers
             {
                 if (equipments != null)
                 {
+                    var senderId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
+                    AppSettings.Api.SetCookies(new Dictionary<string, string>()
+                    {
+                        { "sender-id", senderId ?? string.Empty }
+                    });
+
                     await AppSettings.Api.Client.PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"add-equip-to-cab/cabid={cabId}"), equipments);
                 }
             }
-            
-            return Redirect($"../cabinets/cabientId={cabId}");
         }
 
         [HttpGet("show-equipments")]
         [Authorize]
         public async Task<ActionResult> ShowEquipments([FromHeader] int cabId)
         {
-            List<EquipmentDTO>? equipment = await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get-equip/cabid={cabId}"));//$"api/Cabinet/get-equip/cabid={cabId}");
+            var cabinetInfo = await GetCabinetInfo(cabId);
 
-            return PartialView("CabInfo/_TableTemplatePartial", new CabInfoPage()
-            {
-                Equipments = equipment?.Cast<dynamic>().ToList() ?? [],
-                SelectedList = "Equipment"
-            });
+            List<EquipmentDTO>? equipment = await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get-equip/cabid={cabId}"));
+
+            cabinetInfo.Equipments = equipment?.Cast<dynamic>().ToList() ?? [];
+            cabinetInfo.SelectedList = "Equipment";
+
+            return PartialView("CabInfo/_TableTemplatePartial", cabinetInfo);
         }
-
-        /*[HttpGet("show-test")]
-        [Authorize]
-        public async Task<ActionResult> ShowTestTable() 
-        {
-            var testTable = new List<WebApp.Models.TableModels.TestData>() 
-            {
-                new()
-                {
-                    Id = 1,
-                    Request = 2343,
-                    From = new
-                    {
-                        Name = "TestName"
-                    }
-                }
-            };
-
-            return PartialView("CabInfo/_TableTemplatePartial", new CabInfoPage()
-            {
-                Equipments = testTable.Cast<dynamic>().ToList() ?? [],
-                SelectedList = "TestData"
-            });
-        }*/
 
         [HttpGet("show-cabinet-requests")]
         [Authorize(Roles = "Master, Admin")]
         public async Task<ActionResult> ShowCabinetRequests([FromHeader] int cabId) 
         {
-            Console.WriteLine(cabId);
-
-            //http://localhost:5215/api/Request/requests/cabid=1
-            List<RequestDTO>? requests = await AppSettings.Api.Client.GetFromJsonAsync<List<RequestDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Request, $"requests/cabid={cabId}")); //$"api/Request/requests/cabid={cabId}");
-
+            List<RequestDTO>? requests = await AppSettings.Api.Client.GetFromJsonAsync<List<RequestDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Request, $"requests/cabid={cabId}"));
 
             return PartialView("CabInfo/_CabinetRequestsPartial", requests);
         }
 
         [HttpPost("send-data-cabinet")]
         [Authorize]
-        public async Task<ActionResult> SendEditedCabinet([FromForm] CabinetDTO cabinet, [FromForm] int ResponsiblePerson, [FromForm] SendType sendType)
+        public async Task SendEditedCabinet([FromForm] CabinetDTO cabinet, [FromForm] int ResponsiblePerson, [FromForm] SendType sendType)
         {
             cabinet.ResponsiblePerson = new()
             {
@@ -175,18 +164,22 @@ namespace WebApp.Controllers
                 Width = cabinet.Width
             };
 
+            var senderId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
+            AppSettings.Api.SetCookies(new Dictionary<string, string>()
+            {
+                { "sender-id", senderId ?? string.Empty }
+            });
+
             if (sendType == SendType.Edit)
                 await AppSettings.Api.Client.PutAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "update"), cabinetData);
 
             if (sendType == SendType.New)
                 await AppSettings.Api.Client.PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, "new"), cabinetData);
-
-            return Redirect($"/cabinets/cabientId={cabinetID}");
         }
 
         [HttpPost("send-data-equipment")]
         [Authorize]
-        public async Task<ActionResult> SendEditedEquipment([FromForm] EquipmentDTO equipment, [FromForm] int EquipmentType, [FromForm] SendType sendType) 
+        public async Task SendEditedEquipment([FromForm] EquipmentDTO equipment, [FromForm] int EquipmentType, [FromForm] SendType sendType) 
         {
             equipment.EquipmentType = new()
             {
@@ -206,25 +199,27 @@ namespace WebApp.Controllers
                 TypeId = EquipmentType
             };
 
-            if(sendType == SendType.Edit)
+            var senderId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
+            AppSettings.Api.SetCookies(new Dictionary<string, string>()
+            {
+                { "sender-id", senderId ?? string.Empty }
+            });
+
+            if (sendType == SendType.Edit)
                 await AppSettings.Api.Client.PutAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, "update"), equipmentData);
 
             if (sendType == SendType.New)
                 await AppSettings.Api.Client.PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, "new"), equipmentData);
-
-            return Redirect($"/cabinets/cabientId={cabinetID}");
         }
 
 
         private static async Task<CabInfoPage> GetCabinetInfo(int cabId) 
         {
-            var cabinet = await AppSettings.Api.Client.GetFromJsonAsync<CabinetDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get/id={cabId}"));//$"api/Cabinet/get/id={cabId}");
-            //List<EquipmentDTO>? equipment = await apiHttpClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Cabinet/get-equip/id={cabId}");
+            var cabinet = await AppSettings.Api.Client.GetFromJsonAsync<CabinetDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Cabinet, $"get/id={cabId}"));
 
             return new CabInfoPage()
             {
                 Cabinet = cabinet ?? new(),
-                //Equipments = equipment.Cast<dynamic>().ToList()
             };
         }
     }

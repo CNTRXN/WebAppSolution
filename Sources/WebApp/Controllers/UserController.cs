@@ -20,8 +20,10 @@ namespace WebApp.Controllers
         [HttpPost("send-data-user")]
         public async Task<ActionResult> SendEditedUser([FromForm] UpdateUserDTO userData, [FromForm] int Id, [FromForm] int Permission, [FromForm] SendType sendType) 
         {
-            AppSettings.Api.Client.DefaultRequestHeaders.Clear();
-            AppSettings.Api.Client.DefaultRequestHeaders.Add("id", Id.ToString());
+            AppSettings.Api.SetHeaders(new Dictionary<string, string>() 
+            {
+                { "Id", Id.ToString() }
+            });
 
             NewUserDTO updateUser = new()
             {

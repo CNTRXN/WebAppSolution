@@ -6,6 +6,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using WebApp.Extensions;
 using EncryptLib;
 
 namespace WebApp.Controllers
@@ -19,14 +20,21 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Authorization(string Login, string Password) 
+        public async Task<ActionResult> Authorization(string Login, string Password) 
         {
             var tempLogin = await Encrypting.Encrypt(Login);
             var tempPassword = await Encrypting.Encrypt(Password);
 
-            AppSettings.Api.Client.DefaultRequestHeaders.Clear();
+            /*AppSettings.Api.Client.DefaultRequestHeaders.Clear();
             AppSettings.Api.Client.DefaultRequestHeaders.Add("login", Convert.ToBase64String(tempLogin));
-            AppSettings.Api.Client.DefaultRequestHeaders.Add("password", Convert.ToBase64String(tempPassword));
+            AppSettings.Api.Client.DefaultRequestHeaders.Add("password", Convert.ToBase64String(tempPassword));*/
+
+            AppSettings.Api.SetHeaders(new() 
+            {
+                { "login", Convert.ToBase64String(tempLogin) },
+                { "password", Convert.ToBase64String(tempPassword) }
+            });
+
 
             string errorMessage = string.Empty;
 
@@ -70,14 +78,7 @@ namespace WebApp.Controllers
                 errorMessage = "Ошибка на сервере"; 
             }
 
-            if (!string.IsNullOrEmpty(errorMessage)) 
-            {
-                TempData["errorMessage"] = errorMessage;
-
-                return View("AuthAndReg");
-            }
-
-            return await Task.FromResult<IActionResult>(RedirectToAction("Main", "MainPage"));
+            return Redirect("../");
         }
 
         [HttpPost("registration")]
@@ -143,6 +144,8 @@ namespace WebApp.Controllers
         [HttpGet("profile={id}")]
         public async Task<IActionResult> Profile([FromRoute] int id) 
         {
+            HttpContext.DeleteCookieByName("cabid");
+
             var user = new UserDTO();
 
             try

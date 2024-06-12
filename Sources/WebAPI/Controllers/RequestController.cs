@@ -3,12 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using WebAPI.Services.FileService;
 using WebAPI.Services.RequestService;
 using ModelLib.DTO;
+using ModelLib.Model;
+using Microsoft.AspNetCore.SignalR;
+using WebAPI.Services.Notification;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RequestController(IRequestService requestService) : ControllerBase
+    public class RequestController(IRequestService requestService, IHubContext<NotificationService> hubContext) : ControllerBase
     {
         [HttpGet("all")]
         public async Task<IActionResult> GetAllRequests() 
@@ -48,6 +51,20 @@ namespace WebAPI.Controllers
 
             if (request == null)
                 return BadRequest();
+
+            return Ok();
+        }
+
+        //Обновление заявки
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateRequest([FromHeader] int id, [FromBody] Request requestNewData) 
+        {
+            var request = await requestService.UpdateRequest(id, requestNewData);
+
+            if (!request)
+                return BadRequest();
+
+            //var senderId = HttpContext.Request.Cookies["sender-id"];
 
             return Ok();
         }

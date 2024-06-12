@@ -1,6 +1,6 @@
 ﻿$(window).on("load", () => {
     const cookie = getCookie();
-    const apiUrl = "http://localhost:5215";//cookie.apiUrl;
+    const apiUrl = "https://localhost:5002";//cookie.apiUrl;
 
     //console.log(apiUrl);
 
@@ -49,9 +49,17 @@
             .withAutomaticReconnect()
             .build();
 
-        /*hubConnection.on("", () => {
+        hubConnection.on("ReciveNotification", (message) => {
+            console.log(message);
+        });
 
-        });*/
+        hubConnection.on("UpdatePage", () => {
+            window.location.reload();
+        });
+
+        hubConnection.on("error", (msg) => {
+            alert(msg);
+        });
 
         hubConnection.start();
 

@@ -5,8 +5,9 @@ namespace WebAPI.Services.Notification
 {
     public sealed class NotificationService : Hub
     {
-        private static List<CurrentConnectionInfo> ConnectedUsers { get; set; } = new();
+        public static List<CurrentConnectionInfo> ConnectedUsers { get; private set; } = new();
         
+
         public override Task OnConnectedAsync()
         {
             var httpContext = Context.GetHttpContext();
@@ -17,9 +18,8 @@ namespace WebAPI.Services.Notification
             {
                 string userId = context.Request.Query["user"];
 
-                Console.WriteLine($"User {userId} has joined");
 
-                if(!ConnectedUsers.Any(cu => cu.UserId == userId))
+                if (!ConnectedUsers.Any(cu => cu.UserId == userId))
                 {
                     ConnectedUsers.Add(new()
                     {
@@ -27,6 +27,10 @@ namespace WebAPI.Services.Notification
                         UserId = userId,
                         ConnectionId = Context.ConnectionId
                     });
+
+                    Console.WriteLine($"User {userId} has joined");
+
+                    Clients.Client(Context.ConnectionId).SendAsync("ReciveNotification", "Привет");
                 }
                 else 
                 {

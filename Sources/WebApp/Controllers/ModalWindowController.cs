@@ -37,25 +37,14 @@ namespace WebApp.Controllers
             List<EquipmentDTO>? equipments = null;
             if (cabId != 0)
             {
-                AppSettings.Api.Client.DefaultRequestHeaders.Clear();
+                AppSettings.Api.ClearHeaders();//Client.DefaultRequestHeaders.Clear();
 
-                //var json = await JsonSerializer.SerializeAsync();
-
-                //AppStatics.ApiClient.DefaultRequestHeaders.Add("", "");
-                //equipments = equipmentId != 0 ? await AppStatics.ApiClient.GetFromJsonAsync<List<EquipmentDTO>>($"api/Equipment/get/id={equipmentId}") : null;
                 if(equipmentIds != null)
                 {
-                    /*var queryString = string.Join("&", equipmentIds
-                        .Select(x => $"{Uri.EscapeDataString(x)}={Uri.EscapeDataString(x.Value)}"));*/
                     var queryString = string.Join("&", equipmentIds
                         .Select(x => $"ids={x}"));
 
-                    equipments = await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, $"get/byids?{queryString}"));//$"api/Equipment/get/byids?{queryString}");
-                    /*foreach (var equipId in equipmentIds)
-                    {
-                    
-
-                    }*/
+                    equipments = await AppSettings.Api.Client.GetFromJsonAsync<List<EquipmentDTO>>(AppSettings.Api.ApiRequestUrl(ApiRequestType.Equipment, $"get/byids?{queryString}"));
                 }
             }
 

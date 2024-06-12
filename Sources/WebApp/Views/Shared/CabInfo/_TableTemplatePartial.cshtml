@@ -6,6 +6,7 @@
 @using ModelLib.Convert.Table;
 @using ModelLib.DTO;
 @using ModelLib.Convert.Attributes;
+@using System.Security.Claims;
 
 @model CabInfoPage;
 
@@ -20,6 +21,12 @@
             type = "equipment";
             break;
     }
+
+    var userId = Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
+
+    string id = userId != null ? userId : string.Empty;
+
+    bool isCurrentUserIsResponsiblePerson = Model.Cabinet.ResponsiblePerson is UserDTO resp ? resp.Id.ToString() == id : false;
 }
 
 <div id="table-meta-data">
@@ -111,9 +118,20 @@
                             j++;
                         }
                         <div class="table-prop-name" style="width: @itemHeaderWidth%">
-                            <button class="defaultButton" onclick="openRequestForm([@equipId])" title="Добавить к заявке">+📝</button>
-                            <button class="defaultButton" onclick="openEditor(infoType.equipment, sendType.edit, @equipId)" title="Редактировать">✏️</button>
-                            <button class="deleteButton" title="Удалить">🗑️</button>
+                            @{
+                                if (isCurrentUserIsResponsiblePerson)
+                                {
+                                    <button class="defaultButton" onclick="openRequestForm([@equipId])" title="Добавить к заявке">+📝</button>
+                                }
+                                
+
+                                if (!Context.User.IsInRole("User"))
+                                {
+                                    <button class="defaultButton" onclick="openRequestForm([@equipId])" title="Добавить к заявке">+📝</button>
+                                    <button class="defaultButton" onclick="openEditor(infoType.equipment, sendType.edit, @equipId)" title="Редактировать">✏️</button>
+                                    <button class="deleteButton" title="Удалить">🔗</button>
+                                }
+                            }
                         </div>
                     }
                 </div>
@@ -128,13 +146,11 @@
 </div>
 <div id="table-usings">
     @{
-        //TODO: Передалать кнопку с добавления оборудования на прикрепление
-        //TODO: Сделать список с оборудованием
+        if (!Context.User.IsInRole("User"))
+        {
+            <button class="defaultButton" id="attaching-button">
+                Добавить оборудование к кабинету
+            </button>
+        }
     }
-    @* <button class="defaultButton" onclick="openEditor(infoType.equipment, sendType.add, null)" id="add-button">
-        +
-    </button> *@
-    <button class="defaultButton" id="attaching-button">
-        Добавить оборудование к кабинету
-    </button>
 </div>

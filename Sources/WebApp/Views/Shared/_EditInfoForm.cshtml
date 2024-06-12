@@ -78,21 +78,26 @@
             @{
                 if (result != null)
                 {
-                    <input value="@result["Id"]" name="Id" type="hidden" required/>
-                    <input value="@Model.SendType" name="sendType" type="hidden" required />
+                    var modelId = result["Id"] ?? Context.GetValueFromCookie("userid", "cabid");
 
+                    <input value="@modelId" name="Id" type="hidden" required />
+                    <input value="@Model.SendType" name="sendType" type="hidden" required />
 
                     var formProperties = meta.GetFormPropName();
 
                     foreach (var property in formProperties)
                     {
                         if (meta.HasAttribute<ShowPermission>(property.Key))
-                            if (!meta.CompareAttributesValues<ShowPermission>(property.Key, "Permissions", userModel.PermissionName))
+                        {
+                            bool isCurrentUserOnEditForm = property.Key == "Permission" ? modelId?.Equals(userModel.Id) ?? false : false;
+
+                            if (!meta.CompareAttributesValues<ShowPermission>(property.Key, "Permissions", userModel.PermissionName) || isCurrentUserOnEditForm)
                                 continue;
+                        }
 
                         if (meta.HasAttribute<SelectedValue>(property.Key))
                         {
-                            string typeName = property.Key;
+                            string propName = property.Key;
                             int? currentValue = null;
                             var res = result[property.Key];
 
@@ -101,7 +106,7 @@
 
                             if(!isAdmin)
                             {
-                                if (typeName == "ResponsiblePerson")
+                                if (propName == "ResponsiblePerson")
                                 {
                                     bool currentUserIsRespPerson = currentValue.ToString() == userModel.Id;
 
@@ -116,9 +121,9 @@
                             <div class="add-edit-select-container">
                                 <p class="add-edit-row-title">@property.Value</p>
                                 <div class="custom-select">
-                                    <select name="@property.Key" required>
+                                    <select class="selecte-value-info-edit" name="@property.Key" required>
                                         @{
-                                            var selections = await GetEditFormSelectionValues(typeName);
+                                            var selections = await GetEditFormSelectionValues(propName);
                                             if (selections != null)
                                             {
                                                 foreach (var selection in selections)
@@ -173,6 +178,8 @@
                                 <div class="add-edit-input-value-container">
                                     <p class="add-edit-row-title">@property.Value</p>
                                     @{
+                                        //string type = string.Empty;
+
                                         if (meta.HasAttribute<RequiredAttribute>(property.Key))
                                         {
                                             <input type="text" name="@property.Key" class="add-edit-row-input-value" value="@result[property.Key]" required />

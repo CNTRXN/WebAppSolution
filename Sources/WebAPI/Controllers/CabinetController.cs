@@ -3,6 +3,10 @@ using ModelLib.Model;
 using ModelLib.DTO;
 using WebAPI.Services.CabinetService;
 using WebAPI.Services.FileService;
+using Microsoft.AspNetCore.SignalR;
+using WebAPI.Services.Notification;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,7 +14,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CabinetController(ICabinetService cabinetService, IFileService fileService) : ControllerBase
+    public class CabinetController(ICabinetService cabinetService, IFileService fileService, IHubContext<NotificationService> hubContext) : ControllerBase
     {
         //Контроллер для получения всех записей кабинета
         [HttpGet("all")]
@@ -70,8 +74,26 @@ namespace WebAPI.Controllers
 
             var addedRows = await cabinetService.AddEquipmentsToCabinet(cabinet.Id, equipIdAndCount);
 
+            var senderId = HttpContext.Request.Cookies["sender-id"];
+            var connectionId = NotificationService.ConnectedUsers
+                .Where(cu => cu.UserId == senderId)
+                .Select(cu => cu.ConnectionId)
+                .FirstOrDefault();
+
             if (addedRows == 0)
+            {
+                if (connectionId != null)
+                {
+                    await hubContext.Clients.Client(connectionId).SendAsync("error", $"Не удалось добавить '{equipIdAndCount.Count}' оборудования к кабинету");
+                }
+
                 return BadRequest($"Не удалось добавить '{equipIdAndCount.Count}' оборудования к кабинету");
+            }
+
+            if (connectionId != null)
+            {
+                await hubContext.Clients.Client(connectionId).SendAsync("UpdatePage");
+            }
 
             return Ok($"'{addedRows}' строчек добавлено к кабинету");
         }
@@ -85,6 +107,17 @@ namespace WebAPI.Controllers
             if (cabinet == null)
                 return BadRequest("Кабинет уже существует");
 
+            var senderId = HttpContext.Request.Cookies["sender-id"];
+            var connectionId = NotificationService.ConnectedUsers
+                .Where(cu => cu.UserId == senderId)
+                .Select(cu => cu.ConnectionId)
+                .FirstOrDefault();
+
+            if(connectionId != null) 
+            {
+                await hubContext.Clients.Client(connectionId).SendAsync("UpdatePage");
+            }
+
             return Ok(cabinet);
         }
 
@@ -97,6 +130,17 @@ namespace WebAPI.Controllers
             if (!cabinet)
                 return BadRequest($"Кабинета с '{id}' не существует");
 
+            var senderId = HttpContext.Request.Cookies["sender-id"];
+            var connectionId = NotificationService.ConnectedUsers
+                .Where(cu => cu.UserId == senderId)
+                .Select(cu => cu.ConnectionId)
+                .FirstOrDefault();
+
+            if (connectionId != null)
+            {
+                await hubContext.Clients.Client(connectionId).SendAsync("UpdatePage");
+            }
+
             return Ok("Кабинет удалён");
         }
 
@@ -107,6 +151,17 @@ namespace WebAPI.Controllers
 
             if(!updateCabinetResult)
                 return BadRequest($"Ошибка обновления записи");
+
+            var senderId = HttpContext.Request.Cookies["sender-id"];
+            var connectionId = NotificationService.ConnectedUsers
+                .Where(cu => cu.UserId == senderId)
+                .Select(cu => cu.ConnectionId)
+                .FirstOrDefault();
+
+            if (connectionId != null)
+            {
+                await hubContext.Clients.Client(connectionId).SendAsync("UpdatePage");
+            }
 
             return Ok("Запись успешно удалена");
         }
@@ -127,7 +182,7 @@ namespace WebAPI.Controllers
             {
                 var repUrl = img.Replace("\\", @"/");
 
-                Urls.Add($"http://{HttpContext.Request.Host.Value}/{repUrl}");
+                Urls.Add($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}/{repUrl}");
             }
 
             return Ok(Urls);

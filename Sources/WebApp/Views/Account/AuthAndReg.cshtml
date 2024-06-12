@@ -17,24 +17,11 @@
     <script src="~/js/RightMenu.js" type="text/javascript"></script>
     <script src="~/js/signalr.js"></script>
     <script src="~/js/jquery.signalR.min.js"></script>
+    @* <script src="~/js/NotAuth.js"></script> *@
 }
 
 @section LogAndRegForm 
 {
-    @{
-        if (!string.IsNullOrEmpty(error))
-        {
-            <script>
-                alert('@error');
-            </script>
-        }
-        else if (!string.IsNullOrEmpty(succesful))
-        {
-            <script>
-                alert('@succesful');
-            </script>
-        }
-    }
     <div id="log-reg-form">
         <div id="log-reg-form-buttons">
             <button id="to-sign-in">Вход</button>

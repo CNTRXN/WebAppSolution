@@ -10,6 +10,8 @@
 
     TranslateMetadata<IMetaData> meta = new();
     meta.Assign<CabinetDTO>();
+
+    bool isAdmin = Context.User.IsInRole("Admin");
 }
 
 @section CabinetInfoScripts {
@@ -124,9 +126,14 @@
             }   
         }     
         <tr>
-            <th class="footer" colspan="100%">
-                <button class="defaultButton" onclick="openEditor(infoType.cabinet, sendType.new, null)">Добавить кабинет</button>
-            </th>
+            @{
+                if (isAdmin)
+                {
+                    <th class="footer" colspan="100%">
+                        <button class="defaultButton" onclick="openEditor(infoType.cabinet, sendType.new, null)">Добавить кабинет</button>
+                    </th>
+                }
+            }
         </tr>
     </table>
 

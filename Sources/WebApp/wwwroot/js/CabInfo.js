@@ -399,7 +399,7 @@ var GetFormImages = function(id, type) {
         case imageType.page:
             $.ajax({
                 type: "GET",
-                url: "http://localhost:5215/api/Cabinet/image/getImagesByCab=" + id,
+                url: "https://localhost:5002/api/Cabinet/image/getImagesByCab=" + id,
                 dataType: "json",
                 headers: {
                     "Access-Control-Allow-Origin": "true"
