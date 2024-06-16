@@ -1,10 +1,7 @@
 ﻿$(window).on("load", () => {
     const cookie = getCookie();
-    const apiUrl = "https://localhost:5002";//cookie.apiUrl;
-
-    //console.log(apiUrl);
-
-    //TODO: fix that
+    //const apiUrl = "https://localhost:5002";
+    const apiUrl = "wss://api.infotech-college.ru";
 
     var userId = null;
     if (document.querySelector('#userId'))

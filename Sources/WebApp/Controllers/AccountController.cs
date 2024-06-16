@@ -22,21 +22,47 @@ namespace WebApp.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Authorization(string Login, string Password) 
         {
+            string errorMessage = string.Empty;
+            //bool[] errorsLocation = [];
+
+            if (Login == null && Password == null)
+            {
+                TempData["LoginError"] = true;
+                TempData["PasswordError"] = true;
+
+                errorMessage = "Пароль и логин не введены";
+            }
+            else if (Login == null && Password?.Length > 0)
+            {
+                TempData["LoginError"] = true;
+                TempData["PasswordError"] = null;
+
+                errorMessage = "Логин не введён";
+            }
+            else if (Login?.Length > 0 && Password == null)
+            {
+                TempData["LoginError"] = null;
+                TempData["PasswordError"] = true;
+
+                errorMessage = "Пароль не введён";
+            }
+
+            if(errorMessage.Length > 0)
+            {
+                TempData["ErrorMessage"] = errorMessage;
+
+                return Redirect("../auth");
+            }
+
+
             var tempLogin = await Encrypting.Encrypt(Login);
             var tempPassword = await Encrypting.Encrypt(Password);
-
-            /*AppSettings.Api.Client.DefaultRequestHeaders.Clear();
-            AppSettings.Api.Client.DefaultRequestHeaders.Add("login", Convert.ToBase64String(tempLogin));
-            AppSettings.Api.Client.DefaultRequestHeaders.Add("password", Convert.ToBase64String(tempPassword));*/
 
             AppSettings.Api.SetHeaders(new() 
             {
                 { "login", Convert.ToBase64String(tempLogin) },
                 { "password", Convert.ToBase64String(tempPassword) }
             });
-
-
-            string errorMessage = string.Empty;
 
             try
             {
@@ -75,7 +101,12 @@ namespace WebApp.Controllers
             }
             catch 
             {
-                errorMessage = "Ошибка на сервере"; 
+                errorMessage = "Ошибка на сервере";
+            }
+
+            if (errorMessage.Length > 0)
+            {
+                TempData["ErrorMessage"] = errorMessage;
             }
 
             return Redirect("../");
@@ -138,7 +169,7 @@ namespace WebApp.Controllers
                 TempData["succesfulMessage"] = succesfulMessage;
             }
 
-            return View("AuthAndReg");
+            return Redirect("../");
         }
 
         [HttpGet("profile={id}")]
@@ -150,7 +181,7 @@ namespace WebApp.Controllers
 
             try
             {
-                var result = await AppSettings.Api.Client.GetFromJsonAsync<UserDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, $"get/id={id}"));//"api/User/get/id=" + id);
+                var result = await AppSettings.Api.Client.GetFromJsonAsync<UserDTO>(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, $"get/id={id}"));
 
                 if (result != null) 
                 {
@@ -170,6 +201,12 @@ namespace WebApp.Controllers
         public async Task<IActionResult> ShowMyRequests([FromRoute] int profileId) 
         {
             return Ok();
+        }
+
+
+        private bool[] GetLoginAndPasswordError(bool loginError, bool passwordError) 
+        {
+            return [loginError, passwordError];
         }
     }
 }

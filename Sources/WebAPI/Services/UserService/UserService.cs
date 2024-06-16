@@ -57,7 +57,7 @@ namespace WebAPI.Services.UserService
                 return false;
 
             foundedUser.Password = updateUser.Password;
-            foundedUser.Birthday = updateUser.Birthday;
+            foundedUser.Birthday = updateUser.Birthday.ToUniversalTime();
             foundedUser.Name = updateUser.Name;
             foundedUser.Surname = updateUser.Surname;
             foundedUser.Patronymic = updateUser.Patronymic;
@@ -66,10 +66,8 @@ namespace WebAPI.Services.UserService
             {
                 var permissionIsExist = await context.Permissions.AnyAsync(p => p.Id == updateUser.PermissionId);
 
-                if (!permissionIsExist)
-                    return false;
-
-                foundedUser.PermissionId = updateUser.PermissionId;
+                if (permissionIsExist)
+                    foundedUser.PermissionId = updateUser.PermissionId;
             }
 
             context.Users.Update(foundedUser);

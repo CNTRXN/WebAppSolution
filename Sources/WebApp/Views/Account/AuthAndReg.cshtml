@@ -3,13 +3,10 @@
 @{
     Layout = "_AuthAndReg";
 
-    //var result = (Model.IsStartModel) ? null : ViewData["AuthAndReg_Model"] as AuthAndRegResult;
-
-    var error = TempData["errorMessage"] as string;
-    var succesful = TempData["succesfulMessage"] as string;
 }
 
 @section AuthPageScripts {
+    <link href="~/css/ElementsStyle.css" rel="stylesheet" type="text/css" />
     <script src="~/js/jquery-3.7.1.min.js" type="text/javascript"></script>
     <link href="~/css/LogAndReg.css" rel="stylesheet" type="text/css" />
     <script src="~/js/LogAndReg.js"></script>
@@ -33,10 +30,33 @@
             <div id="log-reg-forms">
                 <form id="login" method="post" action="/login">
                     <div>
-                        <p>Логин</p>
-                        <input type="text" name="Login"/>
-                        <p>Пароль</p>
-                        <input type="password" name="Password" />
+                        @{
+                            <p>Логин</p>
+                            if (TempData["LoginError"] != null)
+                            {
+                                <input class="errorInput" type="text" name="Login" />
+                            }
+                            else
+                            {
+                                <input type="text" name="Login" />
+                            }
+                            <p>Пароль</p>
+                            if (TempData["PasswordError"] != null)
+                            {
+                                <input class="errorInput" type="password" name="Password" />
+                            }
+                            else
+                            {
+                                <input type="password" name="Password" />
+                            }
+
+                            if (TempData["ErrorMessage"] != null)
+                            {
+                                <div id="error-login-message">
+                                    <p>@TempData["ErrorMessage"]</p>
+                                </div>
+                            }
+                        }
                     </div>
 
                     <input type="submit" value="Войти" />
@@ -64,4 +84,16 @@
             </div>
         </div>
     </div>
+
+    @{
+        //Отчистка ошибок
+        if (TempData.Any(td => td.Key == "ErrorMessage"))
+            TempData.Remove("ErrorMessage");
+
+        if (TempData.Any(td => td.Key == "LoginError"))
+            TempData.Remove("LoginError");
+
+        if (TempData.Any(td => td.Key == "PasswordError"))
+            TempData.Remove("PasswordError");
+    }
 }

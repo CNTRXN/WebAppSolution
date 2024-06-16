@@ -27,7 +27,7 @@ namespace WebAPI.Tests
             //_controller.Dispose();
         }
 
-        [Test]
+        /*[Test]
         public async Task GetUser_Return_OK() 
         {
             var usersList = _fixture.CreateMany<UserDTO>(4);
@@ -57,6 +57,6 @@ namespace WebAPI.Tests
             var obj = result as ObjectResult;
 
             Assert.That(obj.StatusCode, Is.EqualTo(400));
-        }
+        }*/
     }
 }

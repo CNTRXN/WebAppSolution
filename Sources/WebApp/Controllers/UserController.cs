@@ -18,11 +18,16 @@ namespace WebApp.Controllers
         }
 
         [HttpPost("send-data-user")]
-        public async Task<ActionResult> SendEditedUser([FromForm] UpdateUserDTO userData, [FromForm] int Id, [FromForm] int Permission, [FromForm] SendType sendType) 
+        public async Task SendEditedUser([FromForm] UpdateUserDTO userData, [FromForm] int Id, [FromForm] int Permission, [FromForm] SendType sendType) 
         {
-            AppSettings.Api.SetHeaders(new Dictionary<string, string>() 
+            AppSettings.Api.SetHeaders(new() 
             {
                 { "Id", Id.ToString() }
+            });
+
+            AppSettings.Api.SetCookies(new() 
+            {
+                { "sender-id", Id.ToString() }
             });
 
             NewUserDTO updateUser = new()
@@ -42,7 +47,7 @@ namespace WebApp.Controllers
             if(sendType == SendType.New)
                 await AppSettings.Api.Client.PostAsJsonAsync(AppSettings.Api.ApiRequestUrl(ApiRequestType.User, "registration"), updateUser);
 
-            return Redirect("../users-list");
+            //return Redirect("../users-list");
         }
     }
 }

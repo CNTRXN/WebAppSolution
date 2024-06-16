@@ -7,12 +7,14 @@ using ModelLib.DTO;
 using EncryptLib;
 using System.Text;
 using WebAPI.Services.UserService;
+using Microsoft.AspNetCore.SignalR;
+using WebAPI.Services.Notification;
 
 namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController(IUserService userService) : ControllerBase
+    public class UserController(IUserService userService, IHubContext<NotificationService> hubContext) : ControllerBase
     {
         [HttpGet("all")]
         public async Task<IActionResult> GetAllUsers()
@@ -88,8 +90,19 @@ namespace WebAPI.Controllers
         {
             var updateUserResult = await userService.UpdateUser(id, updateUser);
 
+            var senderId = HttpContext.Request.Cookies["sender-id"];
+            var connectionId = NotificationService.ConnectedUsers
+                .Where(cu => cu.UserId == senderId)
+                .Select(cu => cu.ConnectionId)
+                .FirstOrDefault();
+
             if (!updateUserResult)
                 return BadRequest("Ошибка обновления записи");
+
+            if (connectionId != null)
+            {
+                await hubContext.Clients.Client(connectionId).SendAsync("UpdatePage");
+            }
 
             return Ok("Запись успешно обновлена");
         }

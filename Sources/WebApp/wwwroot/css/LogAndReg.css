@@ -139,3 +139,23 @@ form {
 #login {
     margin-top: 20%;
 }
+
+#error-login-message {
+    height: 60px;
+    width: 175px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    margin-top: 10px;
+    background-color: rgb(252, 175, 175);
+    border-radius: 10px;
+}
+
+    #error-login-message > p {
+        text-align: center;
+        position: relative;
+        top: 50%;
+        transform: translate(0%, -50%);
+        color: red;
+        font-weight: bold;
+    }

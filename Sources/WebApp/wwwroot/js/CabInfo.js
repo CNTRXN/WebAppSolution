@@ -3,6 +3,7 @@ const allSkeleton = document.querySelectorAll('.skeleton');
 
 var isEditMode = false;
 const anim_time = 300;
+const apiUrl = "https://api.infotech-college.ru";
 
 $(window).on("load", () => {
     var cookie = getCookie();
@@ -399,7 +400,7 @@ var GetFormImages = function(id, type) {
         case imageType.page:
             $.ajax({
                 type: "GET",
-                url: "https://localhost:5002/api/Cabinet/image/getImagesByCab=" + id,
+                url: apiUrl + "/api/Cabinet/image/getImagesByCab=" + id,
                 dataType: "json",
                 headers: {
                     "Access-Control-Allow-Origin": "true"

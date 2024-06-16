@@ -16,7 +16,8 @@ namespace WebApp.Settings
     public class ApiSettings
     {
         //public static string s_apiUrl { get; } = "http://localhost:5215/";
-        public static string s_apiUrl { get; } = "https://localhost:5002/";
+        //public static string s_apiUrl { get; } = "https://localhost:5002/";
+        public static string s_apiUrl { get; } = "https://api.infotech-college.ru";
         public string ApiUrl => s_apiUrl;
         public string ApiCabinetRoute { get; } = "api/Cabinet/";
         public string ApiEquipmentRoute { get; } = "api/Equipment/";
